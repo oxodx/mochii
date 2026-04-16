@@ -16,9 +16,15 @@
     <ClInclude Include="src\Mochii\EntryPoint.h">
       <Filter>Mochii</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochii\Log.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp">
+      <Filter>Mochii</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochii\Log.cpp">
       <Filter>Mochii</Filter>
     </ClCompile>
   </ItemGroup>

@@ -23,13 +23,14 @@ project "Mochii"
 	}
 
 	includedirs {
-		"%{prj.name}/vendor/spdlog/include;"
+		"vendor/spdlog/include;"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+		buildoptions { "/utf-8" }
 
 		defines {
 			"MI_PLATFORM_WINDOWS",
@@ -66,8 +67,8 @@ project "Sandbox"
 	}
 
 	includedirs {
-		"%{prj.name}/vendor/spdlog/include;",
-		"Mochii/src"
+		"Mochii/src",
+		"vendor/spdlog/include"
 	}
 
 	libdirs {
@@ -82,6 +83,7 @@ project "Sandbox"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+		buildoptions { "/utf-8" }
 
 		defines {
 			"MI_PLATFORM_WINDOWS"
