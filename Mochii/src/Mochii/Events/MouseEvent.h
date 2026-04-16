@@ -1,6 +1,5 @@
 #pragma once
 #include "Event.h"
-#include <sstream>
 
 namespace Mochii {
 	class MOCHII_API MouseMovedEvent : public Event {

@@ -1,7 +1,6 @@
 #pragma once
-#include <memory>
+#include "mzpch.h"
 #include "Core.h"
-#include <iostream>
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 

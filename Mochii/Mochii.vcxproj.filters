@@ -34,6 +34,7 @@
     <ClInclude Include="src\Mochii\Log.h">
       <Filter>Mochii</Filter>
     </ClInclude>
+    <ClInclude Include="src\mzpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp">
@@ -42,5 +43,6 @@
     <ClCompile Include="src\Mochii\Log.cpp">
       <Filter>Mochii</Filter>
     </ClCompile>
+    <ClCompile Include="src\mzpch.cpp" />
   </ItemGroup>
 </Project>

@@ -1,3 +1,4 @@
+#include "mzpch.h"
 #include "Application.h"
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Mochii/Log.h"

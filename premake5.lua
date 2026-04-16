@@ -17,6 +17,9 @@ project "Mochii"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "mzpch.h"
+	pchsource "Mochii/src/mzpch.cpp"
+
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"

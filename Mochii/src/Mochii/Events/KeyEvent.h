@@ -1,6 +1,5 @@
 #pragma once
 #include "Event.h"
-#include <sstream>
 
 namespace Mochii {
 	class MOCHII_API KeyEvent : public Event {

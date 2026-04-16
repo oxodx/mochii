@@ -1,6 +1,6 @@
 #pragma once
+#include "mzpch.h"
 #include "Event.h"
-#include <sstream>
 
 namespace Mochii {
 	class MOCHII_API WindowResizeEvent : public Event {
