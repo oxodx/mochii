@@ -23,6 +23,7 @@ project "Mochii"
 	}
 
 	includedirs {
+		"%{prj.name}/src;",
 		"vendor/spdlog/include;"
 	}
 
