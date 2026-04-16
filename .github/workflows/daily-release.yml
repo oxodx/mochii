@@ -21,16 +21,32 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v3
+    - name: Install Visual Studio 2026 Build Tools
+      shell: pwsh
+      run: |
+        Write-Host "Installing VS 2026 Build Tools..."
+        choco install visualstudio2026buildtools `
+          --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --includeRecommended --quiet" `
+          -y --ignore-package-exit-codes=3010
+        Write-Host "VS 2026 Build Tools installation completed"
 
-    - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+    - name: Verify VS 2026 Installation
+      shell: pwsh
+      run: |
+        $vs2026Path = "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\Tools\VsDevCmd.bat"
+        if (Test-Path $vs2026Path) {
+          Write-Host "VS 2026 Build Tools found at: $vs2026Path"
+        } else {
+          Write-Host "VS 2026 Build Tools not found at expected location"
+          exit 1
+        }
 
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+    - name: Build with VS 2026
+      shell: cmd
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\Tools\VsDevCmd.bat"
+        echo Building solution with VS 2026 (MSBuild 18)...
+        msbuild /m /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=x64 ${{ env.SOLUTION_FILE_PATH }}
 
     - name: Create and push tag
       id: create_tag
@@ -57,9 +73,8 @@ jobs:
       with:
         tag_name: ${{ steps.create_tag.outputs.tag }}
         name: Daily Release ${{ steps.create_tag.outputs.tag }}
-        body: Automated daily release.
+        body: Automated daily release built with VS2026.
         draft: false
         prerelease: true
-        generate_release_notes: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
