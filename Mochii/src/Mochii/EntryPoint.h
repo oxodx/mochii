@@ -8,8 +8,8 @@ extern Mochii::Application* Mochii::CreateApplication();
 
 int main(int argc, char** argv) {
 	Mochii::Log::Init();
-	Mochii::Log::GetCoreLogger()->warn("Initialized Log!");
-	Mochii::Log::GetClientLogger()->info("Hello!");
+	MI_CORE_WARN("Initialized Log!");
+	MI_INFO("Hello!");
 	
 	auto app = Mochii::CreateApplication();
 	app->Run();
