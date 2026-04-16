@@ -9,6 +9,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include "Mochii/Log.h"
 
 #ifdef MI_PLATFORM_WINDOWS
 	#include <Windows.h>

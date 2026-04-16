@@ -7,6 +7,9 @@
     <Filter Include="Mochii\Events">
       <UniqueIdentifier>{2211BC36-8ED1-376D-570C-81EAC38B7C49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mochii\Platform">
+      <UniqueIdentifier>{12E922F2-7E74-90B6-8785-13ABF38FECB6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mochii.h" />
@@ -34,6 +37,12 @@
     <ClInclude Include="src\Mochii\Log.h">
       <Filter>Mochii</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochii\Platform\WindowsWindow.h">
+      <Filter>Mochii\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochii\Window.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
     <ClInclude Include="src\mzpch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +51,9 @@
     </ClCompile>
     <ClCompile Include="src\Mochii\Log.cpp">
       <Filter>Mochii</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochii\Platform\WindowsWindow.cpp">
+      <Filter>Mochii\Platform</Filter>
     </ClCompile>
     <ClCompile Include="src\mzpch.cpp" />
   </ItemGroup>
