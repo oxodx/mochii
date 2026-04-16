@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Mochii">
+      <UniqueIdentifier>{FEEE8CC3-EA90-B799-D34B-CBEDBF8C3EEA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Mochii.h" />
+    <ClInclude Include="src\Mochii\Application.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochii\Core.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochii\EntryPoint.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Mochii\Application.cpp">
+      <Filter>Mochii</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
