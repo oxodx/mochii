@@ -1,0 +1,3 @@
+[submodule "Mochii/vendor/spdlog"]
+	path = Mochii/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
