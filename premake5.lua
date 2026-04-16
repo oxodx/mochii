@@ -1,4 +1,5 @@
 workspace "Mochii"
+	startproject "Sandbox"
 	architecture "x64"
 
 	configurations {
@@ -7,9 +8,12 @@ workspace "Mochii"
 		"Dist"
 	}
 
-	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-startproject "Sandbox"
+IncludeDir = {}
+IncludeDir["Glad"] = "Mochii/vendor/Glad/include"
+
+include "Mochii/vendor/Glad"
 
 project "GLFW"
 	location "GLFW"
@@ -92,11 +96,13 @@ project "Mochii"
 	includedirs {
 		"Mochii/src;",
 		"vendor/spdlog/include;",
-		"Mochii/vendor/glfw/include;"
+		"Mochii/vendor/glfw/include;",
+		"%{IncludeDir.Glad};"
 	}
 
 	links {
 		"GLFW",
+		"Glad",
 		"opengl32"
 	}
 
@@ -108,7 +114,8 @@ project "Mochii"
 
 		defines {
 			"MI_PLATFORM_WINDOWS",
-			"MI_BUILD_DLL"
+			"MI_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands {

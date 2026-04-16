@@ -3,6 +3,8 @@
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Mochii/Events/MouseEvent.h"
 #include "Mochii/Events/KeyEvent.h"
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace Mochii {
 	static bool _GLFWInitialized = false;
@@ -41,6 +43,8 @@ namespace Mochii {
 
 		_Window = glfwCreateWindow((int)props.Width, (int)props.Height, _Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(_Window);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		MI_CORE_ASSERT(status, "Failed to initialize Glad!");
 		glfwSetWindowUserPointer(_Window, &_Data);
 		SetVSync(true);
 

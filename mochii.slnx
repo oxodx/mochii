@@ -5,10 +5,12 @@
     <BuildType Name="Release" />
     <Platform Name="x64" />
   </Configurations>
+  <Project Path="Mochii\vendor\Glad\Glad.vcxproj" Id="BDD6857C-A90D-870D-52FA-6C103E10030F">
+  </Project>
   <Project Path="GLFW\GLFW.vcxproj" Id="154B857C-0182-860D-AA6E-6C109684020F">
   </Project>
   <Project Path="Mochii\Mochii.vcxproj" Id="FEEE8CC3-EA90-B799-D34B-CBEDBF8C3EEA">
   </Project>
-  <Project Path="Sandbox\Sandbox.vcxproj" Id="F4C124E3-60A1-A37E-69B9-2E55D5170AE0">
+  <Project Path="Sandbox\Sandbox.vcxproj" Id="F4C124E3-60A1-A37E-69B9-2E55D5170AE0" DefaultStartup="true">
   </Project>
 </Solution>

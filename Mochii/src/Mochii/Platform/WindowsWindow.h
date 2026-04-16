@@ -1,6 +1,7 @@
 #pragma once
 #include "Mochii/Window.h"
-#include <GLFW/glfw3.h>
+
+struct GLFWwindow;
 
 namespace Mochii {
 	class WindowsWindow : public Window {
