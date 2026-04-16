@@ -34,6 +34,12 @@
     <ClInclude Include="src\Mochii\Events\MouseEvent.h">
       <Filter>Mochii\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochii\Layer.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochii\LayerStack.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mochii\Log.h">
       <Filter>Mochii</Filter>
     </ClInclude>
@@ -47,6 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp">
+      <Filter>Mochii</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochii\Layer.cpp">
+      <Filter>Mochii</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochii\LayerStack.cpp">
       <Filter>Mochii</Filter>
     </ClCompile>
     <ClCompile Include="src\Mochii\Log.cpp">

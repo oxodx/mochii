@@ -1,3 +1,4 @@
+#include "mzpch.h"
 #include "Log.h"
 
 namespace Mochii {

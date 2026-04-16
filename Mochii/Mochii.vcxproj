@@ -84,7 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -113,7 +113,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -143,7 +143,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -169,6 +169,8 @@
     <ClInclude Include="src\Mochii\Events\Event.h" />
     <ClInclude Include="src\Mochii\Events\KeyEvent.h" />
     <ClInclude Include="src\Mochii\Events\MouseEvent.h" />
+    <ClInclude Include="src\Mochii\Layer.h" />
+    <ClInclude Include="src\Mochii\LayerStack.h" />
     <ClInclude Include="src\Mochii\Log.h" />
     <ClInclude Include="src\Mochii\Platform\WindowsWindow.h" />
     <ClInclude Include="src\Mochii\Window.h" />
@@ -176,6 +178,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp" />
+    <ClCompile Include="src\Mochii\Layer.cpp" />
+    <ClCompile Include="src\Mochii\LayerStack.cpp" />
     <ClCompile Include="src\Mochii\Log.cpp" />
     <ClCompile Include="src\Mochii\Platform\WindowsWindow.cpp" />
     <ClCompile Include="src\mzpch.cpp">

@@ -15,17 +15,33 @@ namespace Mochii {
 
 	}
 
+	void Application::PushLayer(Layer* layer) {
+		_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* layer) {
+		_LayerStack.PushOverlay(layer);
+	}
+
 	void Application::OnEvent(Event& e) {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
 
-		MI_CORE_TRACE("{}", e.ToString());
+		for (auto it = _LayerStack.end(); it != _LayerStack.begin();) {
+			(*--it)->OnEvent(e);
+			if (e.Handled)
+				break;
+		}
 	}
 
 	void Application::Run() {
 		while (_Running) {
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for (Layer* layer : _LayerStack)
+				layer->OnUpdate();
+
 			_Window->OnUpdate();
 		}
 	}

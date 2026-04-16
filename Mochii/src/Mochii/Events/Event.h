@@ -27,8 +27,9 @@ namespace Mochii {
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 	class MOCHII_API Event {
-		friend class EventDispatcher;
 	public:
+		bool Handled = false;
+
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
@@ -37,8 +38,6 @@ namespace Mochii {
 		inline bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags()& category;
 		}
-	protected:
-		bool _Handled = false;
 	};
 
 	class EventDispatcher {
@@ -51,7 +50,7 @@ namespace Mochii {
 		template<typename T>
 		bool Dispatch(EventFn<T> func) {
 			if (_Event.GetEventType() == T::GetStaticType()) {
-				_Event._Handled = func(*(T*)&_Event);
+				_Event.Handled = func(*(T*)&_Event);
 				return true;
 			}
 			return false;
