@@ -22,7 +22,7 @@ jobs:
         fetch-depth: 0
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v3
 
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -42,10 +42,10 @@ jobs:
         git config user.name $env:GITHUB_ACTOR
         git config user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
         git remote set-url origin $env:REPO_URL
-        git fetch --prune
-        $exists = (& git ls-remote --tags origin refs/tags/$tag) -ne $null -and (& git ls-remote --tags origin refs/tags/$tag).Trim().Length -gt 0
+        git fetch --prune --tags
+        $exists = git rev-parse --verify --quiet refs/tags/$tag
         if ($exists) {
-          Write-Host "Tag $tag already exists on remote. Skipping creation."
+          Write-Host "Tag $tag already exists. Skipping creation."
         } else {
           git tag -a $tag -m "Daily release $tag"
           git push origin $tag
@@ -53,12 +53,13 @@ jobs:
         echo "tag=$tag" >> $env:GITHUB_OUTPUT
 
     - name: Create GitHub release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.create_tag.outputs.tag }}
-        release_name: Daily Release ${{ steps.create_tag.outputs.tag }}
+        name: Daily Release ${{ steps.create_tag.outputs.tag }}
         body: Automated daily release.
         draft: false
         prerelease: true
+        generate_release_notes: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
