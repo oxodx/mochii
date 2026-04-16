@@ -51,7 +51,7 @@ namespace Mochii {
 		template<typename T>
 		bool Dispatch(EventFn<T> func) {
 			if (_Event.GetEventType() == T::GetStaticType()) {
-				_Event.m_Handled = func(*(T*)&_Event);
+				_Event._Handled = func(*(T*)&_Event);
 				return true;
 			}
 			return false;
