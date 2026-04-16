@@ -9,6 +9,8 @@ workspace "Mochii"
 
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+startproject "Sandbox"
+
 project "GLFW"
 	location "GLFW"
 	kind "StaticLib"
