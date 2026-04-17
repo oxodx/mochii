@@ -49,7 +49,7 @@
     <ClInclude Include="src\Mochii\Log.h">
       <Filter>Mochii</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mochii\Platform\WindowsWindow.h">
+    <ClInclude Include="src\Mochii\Platform\Windows\WindowsWindow.h">
       <Filter>Mochii\Platform</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochii\Window.h">
@@ -73,7 +73,7 @@
     <ClCompile Include="src\Mochii\Log.cpp">
       <Filter>Mochii</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mochii\Platform\WindowsWindow.cpp">
+    <ClCompile Include="src\Mochii\Platform\Windows\WindowsWindow.cpp">
       <Filter>Mochii\Platform</Filter>
     </ClCompile>
     <ClCompile Include="src\mzpch.cpp" />

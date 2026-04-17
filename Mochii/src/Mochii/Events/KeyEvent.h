@@ -4,35 +4,34 @@
 namespace Mochii {
 	class MOCHII_API KeyEvent : public Event {
 	public:
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline int GetKeyCode() const { return _KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
 		KeyEvent(int keycode)
-			: m_KeyCode(keycode) {
+			: _KeyCode(keycode) {
 		}
 
-		int m_KeyCode;
+		int _KeyCode;
 	};
 
 	class MOCHII_API KeyPressedEvent : public KeyEvent {
 	public:
 		KeyPressedEvent(int keycode, int repeatCount)
-			: KeyEvent(keycode), m_RepeatCount(repeatCount) {
+			: KeyEvent(keycode), _RepeatCount(repeatCount) {
 		}
 
-		inline int GetRepeatCount() const { return m_RepeatCount; }
+		inline int GetRepeatCount() const { return _RepeatCount; }
 
-		std::string ToString() const override
-		{
+		std::string ToString() const override {
 			std::stringstream ss;
-			ss << "KeyPressedEvent: " << m_KeyCode << " (" << m_RepeatCount << " repeats)";
+			ss << "KeyPressedEvent: " << _KeyCode << " (" << _RepeatCount << " repeats)";
 			return ss.str();
 		}
 
 		EVENT_CLASS_TYPE(KeyPressed)
 	private:
-		int m_RepeatCount;
+		int _RepeatCount;
 	};
 
 	class MOCHII_API KeyReleasedEvent : public KeyEvent {
@@ -41,13 +40,26 @@ namespace Mochii {
 			: KeyEvent(keycode) {
 		}
 
-		std::string ToString() const override
-		{
+		std::string ToString() const override {
 			std::stringstream ss;
-			ss << "KeyReleasedEvent: " << m_KeyCode;
+			ss << "KeyReleasedEvent: " << _KeyCode;
 			return ss.str();
 		}
 
 		EVENT_CLASS_TYPE(KeyReleased)
+	};
+
+	class MOCHII_API KeyTypedEvent : public KeyEvent {
+	public:
+		KeyTypedEvent(int keycode)
+			: KeyEvent(keycode) { }
+
+		std::string ToString() const override {
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << _KeyCode;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped);
 	};
 }
