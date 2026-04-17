@@ -17,6 +17,8 @@ namespace Mochii {
 		_Window = std::unique_ptr<Window>(Window::Create());
 		_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
+		Renderer::Init();
+
 		_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(_ImGuiLayer);
 	}
