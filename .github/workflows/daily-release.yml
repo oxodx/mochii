@@ -36,7 +36,7 @@ jobs:
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
         Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
         Write-Host "Installing premake..."
-        scoop install main/premake
+        scoop install premake5
         Write-Host "premake installation completed"
 
     - name: Verify VS 2026 Installation
@@ -54,7 +54,7 @@ jobs:
       shell: pwsh
       run: |
         Write-Host "Running premake5..."
-        & $env:USERPROFILE\scoop\shims\premake5.cmd vs2026
+        premake5 vs2026
         
         Write-Host "Setting up VS 2026 and building..."
         $vsDevCmd = "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\Tools\VsDevCmd.bat"
