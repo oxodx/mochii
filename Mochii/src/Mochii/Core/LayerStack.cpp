@@ -7,8 +7,10 @@ namespace Mochii {
 	}
 
 	LayerStack::~LayerStack() {
-		for (Layer* layer : layers_)
+		for (Layer* layer : layers_) {
+			layer->OnDetach();
 			delete layer;
+		}
 	}
 
 	void LayerStack::PushLayer(Layer* layer) {

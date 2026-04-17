@@ -82,7 +82,6 @@ project "Mochii"
 		buildoptions { "/utf-8", "/FS" }
 
 		defines {
-			"MI_PLATFORM_WINDOWS",
 			"MI_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
@@ -139,10 +138,6 @@ project "Sandbox"
 	filter "system:windows"
 		systemversion "latest"
 		buildoptions { "/utf-8" }
-
-		defines {
-			"MI_PLATFORM_WINDOWS"
-		}
 
 	filter "configurations:Debug"
 		defines "MI_DEBUG"
