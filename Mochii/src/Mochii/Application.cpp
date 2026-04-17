@@ -126,12 +126,10 @@ namespace Mochii {
 
 	void Application::PushLayer(Layer* layer) {
 		_LayerStack.PushLayer(layer);
-		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer) {
 		_LayerStack.PushOverlay(layer);
-		layer->OnAttach();
 	}
 
 	void Application::OnEvent(Event& e) {

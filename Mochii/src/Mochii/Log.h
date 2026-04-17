@@ -18,15 +18,15 @@ namespace Mochii {
 }
 
 // Core log macros
-#define MI_CORE_TRACE(...)	::Mochii::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define MI_CORE_INFO(...)	::Mochii::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define MI_CORE_WARN(...)	::Mochii::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define MI_CORE_ERROR(...)	::Mochii::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define MI_CORE_FATAL(...)	::Mochii::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#define MI_CORE_TRACE(...)		::Mochii::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define MI_CORE_INFO(...)		::Mochii::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define MI_CORE_WARN(...)		::Mochii::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define MI_CORE_ERROR(...)		::Mochii::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define MI_CORE_CRITICAL(...)	::Mochii::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Client log macros
-#define MI_TRACE(...)		::Mochii::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define MI_INFO(...)		::Mochii::Log::GetClientLogger()->info(__VA_ARGS__)
-#define MI_WARN(...)		::Mochii::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define MI_ERROR(...)		::Mochii::Log::GetClientLogger()->error(__VA_ARGS__)
-#define MI_FATAL(...)		::Mochii::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define MI_TRACE(...)			::Mochii::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define MI_INFO(...)			::Mochii::Log::GetClientLogger()->info(__VA_ARGS__)
+#define MI_WARN(...)			::Mochii::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define MI_ERROR(...)			::Mochii::Log::GetClientLogger()->error(__VA_ARGS__)
+#define MI_CRITICAL(...)		::Mochii::Log::GetClientLogger()->critical(__VA_ARGS__)
