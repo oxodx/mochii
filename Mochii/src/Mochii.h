@@ -2,5 +2,8 @@
 #include "Mochii/Application.h"
 #include "Mochii/Layer.h"
 #include "Mochii/Log.h"
+#include "Mochii/Input.h"
+#include "Mochii/KeyCodes.h"
+#include "Mochii/MouseButtonCodes.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
 #include "Mochii/EntryPoint.h"

@@ -46,6 +46,9 @@
     <ClInclude Include="src\Mochii\Input.h">
       <Filter>Mochii</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochii\KeyCodes.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mochii\Layer.h">
       <Filter>Mochii</Filter>
     </ClInclude>
@@ -53,6 +56,9 @@
       <Filter>Mochii</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochii\Log.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochii\MouseButtonCodes.h">
       <Filter>Mochii</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochii\Platform\Windows\WindowsInput.h">

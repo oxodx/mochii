@@ -3,17 +3,17 @@ project "glad"
 	kind "StaticLib"
 	language "C"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
+	targetdir ("../../bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("../../bin/obj/" .. outputdir .. "/%{prj.name}")
 
 	files {
-		"include/glad/glad.h",
-		"include/KHR/khrplatform.h",
-		"src/glad.c"
+		"../../vendor/glad/include/glad/glad.h",
+		"../../vendor/glad/include/KHR/khrplatform.h",
+		"../../vendor/glad/src/glad.c"
 	}
 
 	includedirs {
-		"include"
+		"../../vendor/glad/include"
 	}
 
 	filter "system:windows"

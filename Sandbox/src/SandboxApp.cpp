@@ -6,11 +6,17 @@ public:
 		: Layer("Example") { }
 
 	void OnUpdate() override {
-		MI_INFO("ExampleLayer::Update");
+		if (Mochii::Input::IsKeyPressed(MI_KEY_TAB))
+			MI_TRACE("Tab key is pressed (poll)!");
 	}
 
 	void OnEvent(Mochii::Event& event) override {
-		MI_TRACE("{}", event.ToString());
+		if (event.GetEventType() == Mochii::EventType::KeyPressed) {
+			Mochii::KeyPressedEvent& e = (Mochii::KeyPressedEvent&)event;
+			if (e.GetKeyCode() == MI_KEY_TAB)
+				MI_TRACE("Tab key is pressed (event)!");
+			MI_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 

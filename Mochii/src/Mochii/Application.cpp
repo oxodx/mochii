@@ -1,6 +1,7 @@
 #include "mzpch.h"
 #include "Application.h"
 #include "Mochii/Log.h"
+#include "Input.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 

@@ -3,31 +3,31 @@ project "ImGui"
 	kind "StaticLib"
 	language "C++"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
+	targetdir ("../../bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("../../bin/obj/" .. outputdir .. "/%{prj.name}")
 
 	files {
-		"Mochii/vendor/imgui/imconfig.h",
-		"Mochii/vendor/imgui/imgui.h",
-		"Mochii/vendor/imgui/imgui.cpp",
-		"Mochii/vendor/imgui/imgui_draw.cpp",
-		"Mochii/vendor/imgui/imgui_internal.h",
-		"Mochii/vendor/imgui/imgui_widgets.cpp",
-		"Mochii/vendor/imgui/imgui_tables.cpp",
-		"Mochii/vendor/imgui/imstb_rectpack.h",
-		"Mochii/vendor/imgui/imstb_textedit.h",
-		"Mochii/vendor/imgui/imstb_truetype.h",
-		"Mochii/vendor/imgui/imgui_demo.cpp",
-		"Mochii/vendor/imgui/backends/imgui_impl_glfw.cpp",
-		"Mochii/vendor/imgui/backends/imgui_impl_glfw.h",
-		"Mochii/vendor/imgui/backends/imgui_impl_opengl3.cpp",
-		"Mochii/vendor/imgui/backends/imgui_impl_opengl3.h"
+		"../../vendor/imgui/imconfig.h",
+		"../../vendor/imgui/imgui.h",
+		"../../vendor/imgui/imgui.cpp",
+		"../../vendor/imgui/imgui_draw.cpp",
+		"../../vendor/imgui/imgui_internal.h",
+		"../../vendor/imgui/imgui_widgets.cpp",
+		"../../vendor/imgui/imgui_tables.cpp",
+		"../../vendor/imgui/imstb_rectpack.h",
+		"../../vendor/imgui/imstb_textedit.h",
+		"../../vendor/imgui/imstb_truetype.h",
+		"../../vendor/imgui/imgui_demo.cpp",
+		"../../vendor/imgui/backends/imgui_impl_glfw.cpp",
+		"../../vendor/imgui/backends/imgui_impl_glfw.h",
+		"../../vendor/imgui/backends/imgui_impl_opengl3.cpp",
+		"../../vendor/imgui/backends/imgui_impl_opengl3.h"
 	}
 
 	includedirs {
-		"Mochii/vendor/imgui;",
-		"Mochii/vendor/imgui/backends;",
-		"Mochii/vendor/glfw/include;"
+		"../../vendor/imgui;",
+		"../../vendor/imgui/backends;",
+		"../../vendor/glfw/include;"
 	}
 
 	filter "system:windows"
