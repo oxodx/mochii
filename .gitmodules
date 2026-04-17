@@ -1,9 +1,0 @@
-[submodule "Mochii/vendor/spdlog"]
-	path = Mochii/vendor/spdlog
-	url = https://github.com/gabime/spdlog.git
-[submodule "Mochii/vendor/glfw"]
-	path = Mochii/vendor/glfw
-	url = https://github.com/glfw/glfw.git
-[submodule "Mochii/vendor/imgui"]
-	path = Mochii/vendor/imgui
-	url = https://github.com/ocornut/imgui.git

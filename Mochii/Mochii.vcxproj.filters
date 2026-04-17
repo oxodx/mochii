@@ -43,6 +43,9 @@
     <ClInclude Include="src\Mochii\ImGui\ImGuiLayer.h">
       <Filter>Mochii\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochii\Input.h">
+      <Filter>Mochii</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mochii\Layer.h">
       <Filter>Mochii</Filter>
     </ClInclude>
@@ -52,6 +55,9 @@
     <ClInclude Include="src\Mochii\Log.h">
       <Filter>Mochii</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochii\Platform\Windows\WindowsInput.h">
+      <Filter>Mochii\Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mochii\Platform\Windows\WindowsWindow.h">
       <Filter>Mochii\Platform\Windows</Filter>
     </ClInclude>
@@ -59,8 +65,6 @@
       <Filter>Mochii</Filter>
     </ClInclude>
     <ClInclude Include="src\mzpch.h" />
-    <ClInclude Include="src\Mochii\Input.h" />
-    <ClInclude Include="src\Mochii\Platform\Windows\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp">
@@ -78,10 +82,12 @@
     <ClCompile Include="src\Mochii\Log.cpp">
       <Filter>Mochii</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mochii\Platform\Windows\WindowsInput.cpp">
+      <Filter>Mochii\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Mochii\Platform\Windows\WindowsWindow.cpp">
       <Filter>Mochii\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\mzpch.cpp" />
-    <ClCompile Include="src\Mochii\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

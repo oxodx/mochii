@@ -5,11 +5,11 @@
     <BuildType Name="Release" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="Mochii\vendor\Glad\Glad.vcxproj" Id="BDD6857C-A90D-870D-52FA-6C103E10030F">
+  <Project Path="vendor\glad\glad.vcxproj" Id="DD62977C-C999-980D-7286-7E105E9C140F">
   </Project>
-  <Project Path="GLFW\GLFW.vcxproj" Id="154B857C-0182-860D-AA6E-6C109684020F">
+  <Project Path="vendor\glfw\glfw.vcxproj" Id="9563977C-819A-980D-2A87-7E10169D140F">
   </Project>
-  <Project Path="imgui\ImGui.vcxproj" Id="C0FF640D-2C14-8DBE-F595-301E616989EF">
+  <Project Path="vendor\imgui\ImGui.vcxproj" Id="C0FF640D-2C14-8DBE-F595-301E616989EF">
   </Project>
   <Project Path="Mochii\Mochii.vcxproj" Id="FEEE8CC3-EA90-B799-D34B-CBEDBF8C3EEA">
   </Project>

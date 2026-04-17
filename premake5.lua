@@ -1,3 +1,5 @@
+dofile "./premake/fetch.lua"
+
 workspace "Mochii"
 	startproject "Sandbox"
 	architecture "x64"
@@ -10,112 +12,19 @@ workspace "Mochii"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+fetch("glfw", "https://github.com/glfw/glfw", "3.4", "./vendor/glfw")
+fetch("imgui", "https://github.com/ocornut/imgui", "v1.92.7", "./vendor/imgui")
+fetch("spdlog", "https://github.com/gabime/spdlog", "v1.17.0", "./vendor/spdlog")
+
 IncludeDir = {}
-IncludeDir["Glad"] = "Mochii/vendor/Glad/include"
+IncludeDir["glfw"] = "vendor/glfw/include;"
+IncludeDir["imgui"] = "vendor/imgui;vendor/imgui/backends;"
+IncludeDir["spdlog"] = "vendor/spdlog/include;"
+IncludeDir["glad"] = "vendor/glad/include;"
 
-include "Mochii/vendor/Glad"
-
-project "GLFW"
-	location "GLFW"
-	kind "StaticLib"
-	language "C"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
-
-	files {
-		"Mochii/vendor/glfw/src/null_init.c",
-		"Mochii/vendor/glfw/src/null_joystick.c",
-		"Mochii/vendor/glfw/src/null_monitor.c",
-		"Mochii/vendor/glfw/src/null_window.c",
-		"Mochii/vendor/glfw/include/GLFW/glfw3.h",
-		"Mochii/vendor/glfw/include/GLFW/glfw3native.h",
-		"Mochii/vendor/glfw/src/internal.h",
-		"Mochii/vendor/glfw/src/platform.h",
-		"Mochii/vendor/glfw/src/mappings.h",
-		"Mochii/vendor/glfw/src/context.c",
-		"Mochii/vendor/glfw/src/init.c",
-		"Mochii/vendor/glfw/src/input.c",
-		"Mochii/vendor/glfw/src/monitor.c",
-		"Mochii/vendor/glfw/src/platform.c",
-		"Mochii/vendor/glfw/src/vulkan.c",
-		"Mochii/vendor/glfw/src/window.c",
-		"Mochii/vendor/glfw/src/egl_context.c",
-		"Mochii/vendor/glfw/src/osmesa_context.c"
-	}
-
-	includedirs {
-		"Mochii/vendor/glfw/include;",
-		"Mochii/vendor/glfw/src;"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-		staticruntime "On"
-
-		files {
-			"Mochii/vendor/glfw/src/win32_init.c",
-			"Mochii/vendor/glfw/src/win32_module.c",
-			"Mochii/vendor/glfw/src/win32_joystick.c",
-			"Mochii/vendor/glfw/src/win32_monitor.c",
-			"Mochii/vendor/glfw/src/win32_time.c",
-			"Mochii/vendor/glfw/src/win32_thread.c",
-			"Mochii/vendor/glfw/src/win32_window.c",
-			"Mochii/vendor/glfw/src/wgl_context.c"
-		}
-
-		defines {
-			"_GLFW_WIN32",
-			"_CRT_SECURE_NO_WARNINGS"
-		}
-
-	filter "configurations:Debug"
-		runtime "Debug"
-		symbols "On"
-
-	filter "configurations:Release"
-		runtime "Release"
-		optimize "On"
-
-project "ImGui"
-	location "imgui"
-	kind "StaticLib"
-	language "C++"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
-
-	files {
-		"Mochii/vendor/imgui/imconfig.h",
-		"Mochii/vendor/imgui/imgui.h",
-		"Mochii/vendor/imgui/imgui.cpp",
-		"Mochii/vendor/imgui/imgui_draw.cpp",
-        "Mochii/vendor/imgui/imgui_internal.h",
-        "Mochii/vendor/imgui/imgui_widgets.cpp",
-        "Mochii/vendor/imgui/imgui_tables.cpp",
-        "Mochii/vendor/imgui/imstb_rectpack.h",
-        "Mochii/vendor/imgui/imstb_textedit.h",
-        "Mochii/vendor/imgui/imstb_truetype.h",
-        "Mochii/vendor/imgui/imgui_demo.cpp",
-        "Mochii/vendor/imgui/backends/imgui_impl_glfw.cpp",
-        "Mochii/vendor/imgui/backends/imgui_impl_glfw.h",
-        "Mochii/vendor/imgui/backends/imgui_impl_opengl3.cpp",
-        "Mochii/vendor/imgui/backends/imgui_impl_opengl3.h"
-	}
-
-	includedirs {
-		"Mochii/vendor/imgui;",
-		"Mochii/vendor/imgui/backends;",
-		"Mochii/vendor/glfw/include;"
-	}
-
-	filter "system:windows"
-        systemversion "latest"
-        cppdialect "C++17"
-        staticruntime "On"
-        
-    filter { "system:windows", "configurations:Release" }
-        buildoptions "/MT"
+include "premake/vendor/glfw.lua"
+include "premake/vendor/imgui.lua"
+include "premake/vendor/glad.lua"
 
 project "Mochii"
 	location "Mochii"
@@ -136,17 +45,16 @@ project "Mochii"
 
 	includedirs {
 		"Mochii/src;",
-		"vendor/spdlog/include;",
-		"Mochii/vendor/glfw/include;",
-		"Mochii/vendor/imgui;",
-		"Mochii/vendor/imgui/backends;",
-		"%{IncludeDir.Glad};"
+		"%{IncludeDir.glfw}",
+		"%{IncludeDir.imgui}",
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glad}"
 	}
 
 	links {
 		"GLFW",
-		"Glad",
 		"ImGui",
+		"Glad",
 		"opengl32"
 	}
 
@@ -196,8 +104,8 @@ project "Sandbox"
 
 	includedirs {
 		"Mochii/src",
-		"Mochii/vendor/glfw/include;",
-		"vendor/spdlog/include;"
+		"%{IncludeDir.glfw}",
+		"%{IncludeDir.spdlog}"
 	}
 
 	libdirs {
