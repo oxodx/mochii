@@ -36,7 +36,7 @@ jobs:
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
         Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
         Write-Host "Installing premake..."
-        scoop install premake
+        $premakePath = "$env:USERPROFILE\scoop\apps\premake\current\premake5.exe" & $premakePath vs2026
         Write-Host "premake installation completed"
 
     - name: Verify VS 2026 Installation
