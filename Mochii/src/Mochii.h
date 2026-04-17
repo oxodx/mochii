@@ -6,6 +6,7 @@
 #include "Mochii/Input.h"
 #include "Mochii/KeyCodes.h"
 #include "Mochii/MouseButtonCodes.h"
+#include "Mochii/OrthographicCameraController.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
 #include "Mochii/Renderer/Renderer.h"
 #include "Mochii/Renderer/RenderCommand.h"

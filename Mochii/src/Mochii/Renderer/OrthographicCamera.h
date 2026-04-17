@@ -6,6 +6,8 @@ namespace Mochii {
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
 
+		void SetProjection(float left, float right, float bottom, float top);
+
 		const glm::vec3& GetPosition() const { return _Position; }
 		void SetPosition(const glm::vec3& position) { _Position = position; RecalculateViewMatrix(); }
 

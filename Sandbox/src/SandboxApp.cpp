@@ -7,7 +7,7 @@
 class ExampleLayer : public Mochii::Layer {
 public:
 	ExampleLayer()
-			: Layer("Example"), _Camera(-1.6f, 1.6f, -0.9f, 0.9f), _CameraPosition(0.0f) {
+			: Layer("Example"), _CameraController(1280.0f / 720.0f) {
 		_VertexArray.reset(Mochii::VertexArray::Create());
 
 		float vertices[3 * 7] = {
@@ -128,28 +128,14 @@ public:
 	}
 
 	void OnUpdate(Mochii::Timestep ts) override {
-		if (Mochii::Input::IsKeyPressed(MI_KEY_LEFT))
-			_CameraPosition.x -= _CameraMoveSpeed * ts;
-		else if (Mochii::Input::IsKeyPressed(MI_KEY_RIGHT))
-			_CameraPosition.x += _CameraMoveSpeed * ts;
+		// Update
+		_CameraController.OnUpdate(ts);
 
-		if (Mochii::Input::IsKeyPressed(MI_KEY_UP))
-			_CameraPosition.y += _CameraMoveSpeed * ts;
-		else if (Mochii::Input::IsKeyPressed(MI_KEY_DOWN))
-			_CameraPosition.y -= _CameraMoveSpeed * ts;
-
-		if (Mochii::Input::IsKeyPressed(MI_KEY_A))
-			_CameraRotation += _CameraRotationSpeed * ts;
-		if (Mochii::Input::IsKeyPressed(MI_KEY_D))
-			_CameraRotation -= _CameraRotationSpeed * ts;
-
+		// Render
 		Mochii::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Mochii::RenderCommand::Clear();
 
-		_Camera.SetPosition(_CameraPosition);
-		_Camera.SetRotation(_CameraRotation);
-
-		Mochii::Renderer::BeginScene(_Camera);
+		Mochii::Renderer::BeginScene(_CameraController.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -181,8 +167,8 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(Mochii::Event& event) override {
-	
+	void OnEvent(Mochii::Event& e) override {
+		_CameraController.OnEvent(e);
 	}
 private:
 	Mochii::ShaderLibrary _ShaderLibrary;
@@ -194,13 +180,7 @@ private:
 
 	Mochii::Ref<Mochii::Texture2D> _Texture;
 
-	Mochii::OrthographicCamera _Camera;
-	glm::vec3 _CameraPosition;
-	float _CameraMoveSpeed = 5.0f;
-
-	float _CameraRotation = 0.0f;
-	float _CameraRotationSpeed = 180.0f;
-
+	Mochii::OrthographicCameraController _CameraController;
 	glm::vec3 _SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 
