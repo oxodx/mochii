@@ -30,6 +30,13 @@ jobs:
           -y --ignore-package-exit-codes=3010
         Write-Host "VS 2026 Build Tools installation completed"
 
+    - name: Install premake5
+      shell: pwsh
+      run: |
+        Write-Host "Installing premake5..."
+        choco install premake5 -y
+        Write-Host "premake5 installation completed"
+
     - name: Verify VS 2026 Installation
       shell: pwsh
       run: |
@@ -44,6 +51,7 @@ jobs:
     - name: Build with VS 2026
       shell: cmd
       run: |
+        premake5 vs2026
         call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\Tools\VsDevCmd.bat"
         echo Building solution with VS 2026 (MSBuild 18)...
         msbuild /m /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=x64 ${{ env.SOLUTION_FILE_PATH }}
