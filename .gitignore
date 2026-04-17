@@ -2,7 +2,10 @@
 /vendor/
 /.vs/
 /Sandbox/imgui.ini
-/**/*.*.user
+/**/*.vcxproj.filters
+/**/*.vcxproj.user
+/**/*.vcxproj
+/**/*.slnx
 
 !/vendor/glad/include/
 !/vendor/glad/src/
