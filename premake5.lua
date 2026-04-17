@@ -10,6 +10,10 @@ workspace "Mochii"
 		"Dist"
 	}
 
+	flags {
+		"MultiProcessorCompile"
+	}
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 fetch("glfw", "https://github.com/glfw/glfw", "3.4", "./vendor/glfw")
