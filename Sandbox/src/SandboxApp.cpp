@@ -18,6 +18,7 @@ class Sandbox : public Mochii::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Mochii::ImGuiLayer());
 	}
 
 	~Sandbox() {

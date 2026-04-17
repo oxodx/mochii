@@ -19,12 +19,18 @@ namespace Mochii {
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
+
+		inline Window& GetWindow() { return *_Window; }
+
+		inline static Application& Get() { return *_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> _Window;
 		bool _Running = true;
 		LayerStack _LayerStack;
+
+		static Application* _Instance;
 	};
 
 	Application* CreateApplication();

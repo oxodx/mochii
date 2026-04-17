@@ -1,13 +1,18 @@
 #include "mzpch.h"
 #include "Application.h"
 #include "Mochii/Log.h"
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Mochii {
 	#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+	Application* Application::_Instance = nullptr;
+
 	Application::Application() {
+		MI_CORE_ASSERT(!_Instance, "Application already exists!");
+		_Instance = this;
+
 		_Window = std::unique_ptr<Window>(Window::Create());
 		_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 	}
@@ -18,10 +23,12 @@ namespace Mochii {
 
 	void Application::PushLayer(Layer* layer) {
 		_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer) {
 		_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 	void Application::OnEvent(Event& e) {

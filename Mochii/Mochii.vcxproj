@@ -80,11 +80,11 @@
       <PrecompiledHeaderFile>mzpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>MI_PLATFORM_WINDOWS;MI_BUILD_DLL;GLFW_INCLUDE_NONE;MI_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;;..\vendor\spdlog\include;;vendor\glfw\include;;vendor\Glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;;..\vendor\spdlog\include;;vendor\glfw\include;;vendor\imgui;;vendor\imgui\backends;;vendor\Glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 /MDd %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /FS /MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -106,14 +106,14 @@
       <PrecompiledHeaderFile>mzpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>MI_PLATFORM_WINDOWS;MI_BUILD_DLL;GLFW_INCLUDE_NONE;MI_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;;..\vendor\spdlog\include;;vendor\glfw\include;;vendor\Glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;;..\vendor\spdlog\include;;vendor\glfw\include;;vendor\imgui;;vendor\imgui\backends;;vendor\Glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 /MD %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /FS /MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -136,14 +136,14 @@
       <PrecompiledHeaderFile>mzpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>MI_PLATFORM_WINDOWS;MI_BUILD_DLL;GLFW_INCLUDE_NONE;MI_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;;..\vendor\spdlog\include;;vendor\glfw\include;;vendor\Glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;;..\vendor\spdlog\include;;vendor\glfw\include;;vendor\imgui;;vendor\imgui\backends;;vendor\Glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 /MD %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /FS /MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -169,6 +169,7 @@
     <ClInclude Include="src\Mochii\Events\Event.h" />
     <ClInclude Include="src\Mochii\Events\KeyEvent.h" />
     <ClInclude Include="src\Mochii\Events\MouseEvent.h" />
+    <ClInclude Include="src\Mochii\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Mochii\Layer.h" />
     <ClInclude Include="src\Mochii\LayerStack.h" />
     <ClInclude Include="src\Mochii\Log.h" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp" />
+    <ClCompile Include="src\Mochii\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Mochii\Layer.cpp" />
     <ClCompile Include="src\Mochii\LayerStack.cpp" />
     <ClCompile Include="src\Mochii\Log.cpp" />
@@ -192,6 +194,9 @@
     </ProjectReference>
     <ProjectReference Include="vendor\Glad\Glad.vcxproj">
       <Project>{BDD6857C-A90D-870D-52FA-6C103E10030F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
