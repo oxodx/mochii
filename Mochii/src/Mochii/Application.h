@@ -32,6 +32,8 @@ namespace Mochii {
 		bool _Running = true;
 		LayerStack _LayerStack;
 
+		unsigned int _VertexArray, _VertexBuffer, _IndexBuffer;
+
 		static Application* _Instance;
 	};
 

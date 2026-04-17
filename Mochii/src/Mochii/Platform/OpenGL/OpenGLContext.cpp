@@ -14,6 +14,11 @@ namespace Mochii {
 		glfwMakeContextCurrent(_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		MI_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+		MI_CORE_INFO("OpenGL Info:");
+		MI_CORE_INFO("  Vendor: {}", reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
+		MI_CORE_INFO("  Renderer: {}", reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+		MI_CORE_INFO("  Version: {}", reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 	}
 
 	void OpenGLContext::SwapBuffers() {
