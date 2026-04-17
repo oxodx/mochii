@@ -46,6 +46,9 @@ namespace Mochii {
 	}
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e) {
+		if (e.GetHeight() == 0) {
+			return false;
+		}
 		_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
 		_Camera.SetProjection(-_AspectRatio * _ZoomLevel, _AspectRatio * _ZoomLevel, -_ZoomLevel, _ZoomLevel);
 		return false;

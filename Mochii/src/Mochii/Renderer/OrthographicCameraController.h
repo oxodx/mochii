@@ -16,7 +16,10 @@ namespace Mochii {
 		const OrthographicCamera& GetCamera() const { return _Camera; }
 	
 		float GetZoomLevel() const { return _ZoomLevel; }
-		void SetZoomLevel(float level) { _ZoomLevel = level; }
+		void SetZoomLevel(float level) {
+			_ZoomLevel = level;
+			_Camera.SetProjection(-_AspectRatio * _ZoomLevel, _AspectRatio * _ZoomLevel, -_ZoomLevel, _ZoomLevel);
+		}
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 		bool OnWindowResized(WindowResizeEvent& e);

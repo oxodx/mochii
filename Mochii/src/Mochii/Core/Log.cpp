@@ -2,15 +2,24 @@
 #include "Log.h"
 
 namespace Mochii {
-	std::shared_ptr<spdlog::logger> Log::_CoreLogger;
-	std::shared_ptr<spdlog::logger> Log::_ClientLogger;
+	std::shared_ptr<spdlog::logger> Log::sCoreLogger;
+	std::shared_ptr<spdlog::logger> Log::sClientLogger;
 
 	void Log::Init() {
 		spdlog::set_pattern("%^[%T] %n: %v%$");
-		_CoreLogger = spdlog::stdout_color_mt("MOCHII");
-		_CoreLogger->set_level(spdlog::level::trace);
+		
+		auto coreLogger = spdlog::get("MOCHII");
+		if (!coreLogger) {
+			coreLogger = spdlog::stdout_color_mt("MOCHII");
+		}
+		sCoreLogger = coreLogger;
+		sCoreLogger->set_level(spdlog::level::trace);
 
-		_ClientLogger = spdlog::stdout_color_mt("APP");
-		_ClientLogger->set_level(spdlog::level::trace);
+		auto clientLogger = spdlog::get("APP");
+		if (!clientLogger) {
+			clientLogger = spdlog::stdout_color_mt("APP");
+		}
+		sClientLogger = clientLogger;
+		sClientLogger->set_level(spdlog::level::trace);
 	}
 }

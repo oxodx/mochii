@@ -7,35 +7,39 @@ namespace Mochii {
 	}
 
 	LayerStack::~LayerStack() {
-		for (Layer* layer : _Layers)
+		for (Layer* layer : layers_)
 			delete layer;
 	}
 
 	void LayerStack::PushLayer(Layer* layer) {
-		_Layers.emplace(_Layers.begin() + _LayerInsertIndex, layer);
-		_LayerInsertIndex++;
+		MI_CORE_ASSERT(layer, "PushLayer called with null pointer!");
+		layers_.emplace(layers_.begin() + layerInsertIndex_, layer);
+		layerInsertIndex_++;
 		layer->OnAttach();
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay) {
-		_Layers.emplace_back(overlay);
+		MI_CORE_ASSERT(overlay, "PushOverlay called with null pointer!");
+		layers_.emplace_back(overlay);
 		overlay->OnAttach();
 	}
 
 	void LayerStack::PopLayer(Layer* layer) {
-		auto it = std::find(_Layers.begin(), _Layers.begin() + _LayerInsertIndex, layer);
-		if (it != _Layers.begin() + _LayerInsertIndex) {
+		auto it = std::find(layers_.begin(), layers_.begin() + layerInsertIndex_, layer);
+		if (it != layers_.begin() + layerInsertIndex_) {
 			layer->OnDetach();
-			_Layers.erase(it);
-			_LayerInsertIndex--;
+			layers_.erase(it);
+			layerInsertIndex_--;
+			delete layer;
 		}
 	}
 
 	void LayerStack::PopOverlay(Layer* overlay) {
-		auto it = std::find(_Layers.begin() + _LayerInsertIndex, _Layers.end(), overlay);
-		if (it != _Layers.end()) {
+		auto it = std::find(layers_.begin() + layerInsertIndex_, layers_.end(), overlay);
+		if (it != layers_.end()) {
 			overlay->OnDetach();
-			_Layers.erase(it);
+			layers_.erase(it);
+			delete overlay;
 		}
 	}
 }

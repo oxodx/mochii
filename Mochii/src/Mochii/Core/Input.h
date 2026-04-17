@@ -5,16 +5,32 @@ namespace Mochii {
 	class MOCHII_API Input {
 	protected:
 		Input() = default;
+		virtual ~Input() = default;
 	public:
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
 
-		inline static bool IsKeyPressed(int keycode) { return _Instance->IsKeyPressedImpl(keycode); }
+		inline static bool IsKeyPressed(int keycode) {
+			MI_CORE_ASSERT(_Instance, "Input not initialized!");
+			return _Instance->IsKeyPressedImpl(keycode);
+		}
 
-		inline static bool IsMouseButtonPressed(int button) { return _Instance->IsMouseButtonPressedImpl(button); }
-		inline static std::pair<float, float> GetMousePosition() { return _Instance->GetMousePositionImpl(); }
-		inline static float GetMouseX() { return _Instance->GetMouseXImpl(); }
-		inline static float GetMouseY() { return _Instance->GetMouseYImpl(); }
+		inline static bool IsMouseButtonPressed(int button) {
+			MI_CORE_ASSERT(_Instance, "Input not initialized!");
+			return _Instance->IsMouseButtonPressedImpl(button);
+		}
+		inline static std::pair<float, float> GetMousePosition() {
+			MI_CORE_ASSERT(_Instance, "Input not initialized!");
+			return _Instance->GetMousePositionImpl();
+		}
+		inline static float GetMouseX() {
+			MI_CORE_ASSERT(_Instance, "Input not initialized!");
+			return _Instance->GetMouseXImpl();
+		}
+		inline static float GetMouseY() {
+			MI_CORE_ASSERT(_Instance, "Input not initialized!");
+			return _Instance->GetMouseYImpl();
+		}
 	protected:
 		virtual bool IsKeyPressedImpl(int keycode) = 0;
 

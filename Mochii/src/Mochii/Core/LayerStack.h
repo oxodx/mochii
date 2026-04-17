@@ -1,4 +1,4 @@
-#include "mzpch.h"
+#pragma once
 #include "Mochii/Core/Core.h"
 #include "Layer.h"
 #include <vector>
@@ -14,10 +14,10 @@ namespace Mochii {
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
 
-		std::vector<Layer*>::iterator begin() { return _Layers.begin(); }
-		std::vector<Layer*>::iterator end() { return _Layers.end(); }
+		std::vector<Layer*>::iterator begin() { return layers_.begin(); }
+		std::vector<Layer*>::iterator end() { return layers_.end(); }
 	private:
-		std::vector<Layer*> _Layers;
-		unsigned int _LayerInsertIndex = 0;
+		std::vector<Layer*> layers_;
+		std::size_t layerInsertIndex_ = 0;
 	};
 }

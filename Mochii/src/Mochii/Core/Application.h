@@ -22,7 +22,10 @@ namespace Mochii {
 
 		inline Window& GetWindow() { return *_Window; }
 
-		inline static Application& Get() { return *_Instance; }
+	inline static Application& Get() {
+		MI_CORE_ASSERT(_Instance, "Application not initialized!");
+		return *_Instance;
+	}
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);

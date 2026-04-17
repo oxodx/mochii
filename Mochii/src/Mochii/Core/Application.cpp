@@ -44,6 +44,7 @@ namespace Mochii {
 	}
 
 	void Application::Run() {
+		_LastFrameTime = (float)glfwGetTime();
 		while (_Running) {
 			float time = (float)glfwGetTime();
 			Timestep timestep = time - _LastFrameTime;

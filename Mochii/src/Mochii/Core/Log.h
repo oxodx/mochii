@@ -9,11 +9,11 @@ namespace Mochii {
 	public:
 		static void Init();
 
-		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return _CoreLogger; }
-		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return _ClientLogger;  }
+			inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return sCoreLogger; }
+		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return sClientLogger;  }
 	private:
-		static std::shared_ptr<spdlog::logger> _CoreLogger;
-		static std::shared_ptr<spdlog::logger> _ClientLogger;
+		static std::shared_ptr<spdlog::logger> sCoreLogger;
+		static std::shared_ptr<spdlog::logger> sClientLogger;
 	};
 }
 
