@@ -113,7 +113,8 @@ project "Sandbox"
 		"Mochii/src",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.imgui}",
-		"%{IncludeDir.spdlog}"
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glm}"
 	}
 
 	libdirs {

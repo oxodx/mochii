@@ -4,13 +4,11 @@
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Window.h"
 #include "Mochii/LayerStack.h"
+#include "Mochii/Core/Timestep.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
-#include "Mochii/Renderer/Shader.h"
-#include "Mochii/Renderer/Buffer.h"
-#include "Mochii/Renderer/VertexArray.h"
 
 namespace Mochii {
-	class MOCHII_API Application {
+	class Application {
 	public:
 		Application();
 		virtual ~Application() = default;
@@ -33,11 +31,7 @@ namespace Mochii {
 		bool _Running = true;
 		LayerStack _LayerStack;
 
-		std::shared_ptr<Shader> _Shader;
-		std::shared_ptr<VertexArray> _VertexArray;
-
-		std::shared_ptr<Shader> _BlueShader;
-		std::shared_ptr<VertexArray> _SquareVA;
+		float _LastFrameTime = 0.0f;
 
 		static Application* _Instance;
 	};
