@@ -170,9 +170,11 @@
     <ClInclude Include="src\Mochii\Events\KeyEvent.h" />
     <ClInclude Include="src\Mochii\Events\MouseEvent.h" />
     <ClInclude Include="src\Mochii\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Mochii\Input.h" />
     <ClInclude Include="src\Mochii\Layer.h" />
     <ClInclude Include="src\Mochii\LayerStack.h" />
     <ClInclude Include="src\Mochii\Log.h" />
+    <ClInclude Include="src\Mochii\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Mochii\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Mochii\Window.h" />
     <ClInclude Include="src\mzpch.h" />
@@ -183,6 +185,7 @@
     <ClCompile Include="src\Mochii\Layer.cpp" />
     <ClCompile Include="src\Mochii\LayerStack.cpp" />
     <ClCompile Include="src\Mochii\Log.cpp" />
+    <ClCompile Include="src\Mochii\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Mochii\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\mzpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
