@@ -67,10 +67,6 @@ namespace Mochii {
 		_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 
-	Application::~Application() {
-
-	}
-
 	void Application::PushLayer(Layer* layer) {
 		_LayerStack.PushLayer(layer);
 		layer->OnAttach();
