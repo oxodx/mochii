@@ -2,5 +2,5 @@
 #include "RendererAPI.h"
 
 namespace Mochii {
-	RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
+	RendererAPI::API RendererAPI::_API = RendererAPI::API::OpenGL;
 }
