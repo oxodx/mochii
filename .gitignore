@@ -9,3 +9,5 @@
 
 !/vendor/glad/include/
 !/vendor/glad/src/
+!/vendor/stb_image/*.cpp
+!/vendor/stb_image/*.h
