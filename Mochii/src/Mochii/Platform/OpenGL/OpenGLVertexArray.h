@@ -14,11 +14,12 @@ namespace Mochii {
 		virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
 		virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
 
-		virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const { return m_VertexBuffers; }
-		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const { return m_IndexBuffer; }
+		virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const { return _VertexBuffers; }
+		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const { return _IndexBuffer; }
 	private:
-		uint32_t m_RendererID;
-		std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
-		std::shared_ptr<IndexBuffer> m_IndexBuffer;
+		uint32_t _RendererID;
+		uint32_t _VertexBufferIndex = 0;
+		std::vector<std::shared_ptr<VertexBuffer>> _VertexBuffers;
+		std::shared_ptr<IndexBuffer> _IndexBuffer;
 	};
 }

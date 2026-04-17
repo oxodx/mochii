@@ -23,15 +23,15 @@ namespace Mochii {
 	}
 
 	OpenGLVertexArray::OpenGLVertexArray() {
-		glCreateVertexArrays(1, &m_RendererID);
+		glCreateVertexArrays(1, &_RendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray() {
-		glDeleteVertexArrays(1, &m_RendererID);
+		glDeleteVertexArrays(1, &_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const {
-		glBindVertexArray(m_RendererID);
+		glBindVertexArray(_RendererID);
 	}
 
 	void OpenGLVertexArray::Unbind() const {
@@ -41,29 +41,28 @@ namespace Mochii {
 	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
 		MI_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
-		glBindVertexArray(m_RendererID);
+		glBindVertexArray(_RendererID);
 		vertexBuffer->Bind();
 
-		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
+			glEnableVertexAttribArray(_VertexBufferIndex);
+			glVertexAttribPointer(_VertexBufferIndex,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(const void*)element.Offset);
-			index++;
+				(const void*)(intptr_t)element.Offset);
+			_VertexBufferIndex++;
 		}
 
-		m_VertexBuffers.push_back(vertexBuffer);
+		_VertexBuffers.push_back(vertexBuffer);
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
-		glBindVertexArray(m_RendererID);
+		glBindVertexArray(_RendererID);
 		indexBuffer->Bind();
 
-		m_IndexBuffer = indexBuffer;
+		_IndexBuffer = indexBuffer;
 	}
 }

@@ -24,8 +24,8 @@ namespace Mochii {
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 			: _Count(count) {
 		glCreateBuffers(1, &_RendererID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _RendererID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), (const void*)indices, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, _RendererID);
+		glBufferData(GL_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer() {
