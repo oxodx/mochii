@@ -15,16 +15,19 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 fetch("glfw", "https://github.com/glfw/glfw", "3.4", "./vendor/glfw")
 fetch("imgui", "https://github.com/ocornut/imgui", "v1.92.7", "./vendor/imgui")
 fetch("spdlog", "https://github.com/gabime/spdlog", "v1.17.0", "./vendor/spdlog")
+fetch("glm", "https://github.com/g-truc/glm.git", "1.0.3", "./vendor/glm")
 
 IncludeDir = {}
 IncludeDir["glfw"] = "vendor/glfw/include;"
 IncludeDir["imgui"] = "vendor/imgui;vendor/imgui/backends;"
 IncludeDir["spdlog"] = "vendor/spdlog/include;"
+IncludeDir["glm"] = "vendor/glm;"
 IncludeDir["glad"] = "vendor/glad/include;"
 
 group "Dependencies"
 	include "premake/vendor/glfw.lua"
 	include "premake/vendor/imgui.lua"
+	include "premake/vendor/glm.lua"
 	include "premake/vendor/glad.lua"
 group ""
 
@@ -50,6 +53,7 @@ project "Mochii"
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.glad}"
 	}
 

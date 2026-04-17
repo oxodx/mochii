@@ -14,6 +14,8 @@
     </Project>
     <Project Path="vendor\glfw\glfw.vcxproj" Id="9563977C-819A-980D-2A87-7E10169D140F">
     </Project>
+    <Project Path="vendor\glm\glm.vcxproj" Id="6577880B-D180-887C-5AFC-9E7CC604947C">
+    </Project>
     <Project Path="vendor\imgui\ImGui.vcxproj" Id="C0FF640D-2C14-8DBE-F595-301E616989EF">
     </Project>
   </Folder>

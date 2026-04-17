@@ -362,7 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-/vendor/glad/glad.*
-/vendor/glfw/
-/vendor/imgui/
-/vendor/spdlog/
+/vendor/
+!/vendor/glad/include/
+!/vendor/glad/src/
