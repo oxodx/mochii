@@ -1,9 +1,9 @@
 #pragma once
 #include "Core.h"
-#include "Events/Event.h"
+#include "Mochii/Events/Event.h"
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Window.h"
-#include "Mochii/LayerStack.h"
+#include "Mochii/Core/LayerStack.h"
 #include "Mochii/Core/Timestep.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
 

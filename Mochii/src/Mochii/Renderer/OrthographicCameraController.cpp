@@ -1,7 +1,7 @@
 #include "mzpch.h"
 #include "OrthographicCameraController.h"
-#include "Mochii/Input.h"
-#include "Mochii/KeyCodes.h"
+#include "Mochii/Core/Input.h"
+#include "Mochii/Core/KeyCodes.h"
 
 namespace Mochii {
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)

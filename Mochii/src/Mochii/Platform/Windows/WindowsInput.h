@@ -1,5 +1,5 @@
 #pragma once
-#include "Mochii/Input.h"
+#include "Mochii/Core/Input.h"
 
 namespace Mochii {
 	class WindowsInput : public Input {

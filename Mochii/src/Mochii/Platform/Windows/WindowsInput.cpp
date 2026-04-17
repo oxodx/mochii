@@ -1,6 +1,6 @@
 #include "mzpch.h"
 #include "WindowsInput.h"
-#include "Mochii/Application.h"
+#include "Mochii/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace Mochii {

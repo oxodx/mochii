@@ -1,5 +1,5 @@
 #pragma once
-#include "Mochii/Window.h"
+#include "Mochii/Core/Window.h"
 #include "Mochii/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;
