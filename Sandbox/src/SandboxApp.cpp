@@ -1,4 +1,5 @@
 #include <Mochii.h>
+#include "imgui.h"
 
 class ExampleLayer : public Mochii::Layer {
 public:
@@ -8,6 +9,12 @@ public:
 	void OnUpdate() override {
 		if (Mochii::Input::IsKeyPressed(MI_KEY_TAB))
 			MI_TRACE("Tab key is pressed (poll)!");
+	}
+
+	virtual void OnImGuiRender() override {
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
 	}
 
 	void OnEvent(Mochii::Event& event) override {
@@ -24,7 +31,6 @@ class Sandbox : public Mochii::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Mochii::ImGuiLayer());
 	}
 
 	~Sandbox() {

@@ -16,6 +16,9 @@ namespace Mochii {
 
 		_Window = std::unique_ptr<Window>(Window::Create());
 		_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+
+		_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(_ImGuiLayer);
 	}
 
 	Application::~Application() {
@@ -50,6 +53,11 @@ namespace Mochii {
 
 			for (Layer* layer : _LayerStack)
 				layer->OnUpdate();
+
+			_ImGuiLayer->Begin();
+			for (Layer* layer : _LayerStack)
+				layer->OnImGuiRender();
+			_ImGuiLayer->End();
 
 			_Window->OnUpdate();
 		}

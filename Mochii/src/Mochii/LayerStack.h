@@ -18,6 +18,6 @@ namespace Mochii {
 		std::vector<Layer*>::iterator end() { return _Layers.end(); }
 	private:
 		std::vector<Layer*> _Layers;
-		std::vector<Layer*>::iterator _LayerInsert;
+		unsigned int _LayerInsertIndex = 0;
 	};
 }

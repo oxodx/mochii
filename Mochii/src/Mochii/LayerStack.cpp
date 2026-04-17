@@ -3,7 +3,7 @@
 
 namespace Mochii {
 	LayerStack::LayerStack() {
-		_LayerInsert = _Layers.begin();
+	
 	}
 
 	LayerStack::~LayerStack() {
@@ -12,7 +12,8 @@ namespace Mochii {
 	}
 
 	void LayerStack::PushLayer(Layer* layer) {
-		_LayerInsert = _Layers.emplace(_LayerInsert, layer);
+		_Layers.emplace(_Layers.begin() + _LayerInsertIndex, layer);
+		_LayerInsertIndex++;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay) {
@@ -23,7 +24,7 @@ namespace Mochii {
 		auto it = std::find(_Layers.begin(), _Layers.end(), layer);
 		if (it != _Layers.end()) {
 			_Layers.erase(it);
-			_LayerInsert--;
+			_LayerInsertIndex--;
 		}
 	}
 

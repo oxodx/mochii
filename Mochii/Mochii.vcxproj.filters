@@ -76,6 +76,9 @@
     <ClCompile Include="src\Mochii\Application.cpp">
       <Filter>Mochii</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mochii\ImGui\ImGuiBuild.cpp">
+      <Filter>Mochii\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="src\Mochii\ImGui\ImGuiLayer.cpp">
       <Filter>Mochii\ImGui</Filter>
     </ClCompile>

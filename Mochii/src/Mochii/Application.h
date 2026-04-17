@@ -6,6 +6,7 @@
 #include "Mochii/LayerStack.h"
 #include "Mochii/Events/Event.h"
 #include "Mochii/Events/ApplicationEvent.h"
+#include "Mochii/ImGui/ImGuiLayer.h"
 
 namespace Mochii {
 	class MOCHII_API Application {
@@ -27,6 +28,7 @@ namespace Mochii {
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> _Window;
+		ImGuiLayer* _ImGuiLayer;
 		bool _Running = true;
 		LayerStack _LayerStack;
 

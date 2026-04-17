@@ -13,7 +13,7 @@ workspace "Mochii"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 fetch("glfw", "https://github.com/glfw/glfw", "3.4", "./vendor/glfw")
-fetch("imgui", "https://github.com/ocornut/imgui", "v1.92.7", "./vendor/imgui")
+fetch("imgui", "https://github.com/ocornut/imgui", "docking", "./vendor/imgui")
 fetch("spdlog", "https://github.com/gabime/spdlog", "v1.17.0", "./vendor/spdlog")
 fetch("glm", "https://github.com/g-truc/glm.git", "1.0.3", "./vendor/glm")
 
@@ -33,9 +33,10 @@ group ""
 
 project "Mochii"
 	location "Mochii"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
@@ -46,6 +47,10 @@ project "Mochii"
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
+	}
+	
+	defines {
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs {
@@ -65,7 +70,6 @@ project "Mochii"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 		buildoptions { "/utf-8", "/FS" }
 
@@ -75,30 +79,27 @@ project "Mochii"
 			"GLFW_INCLUDE_NONE"
 		}
 
-		postbuildcommands {
-			('{COPY} "%{cfg.targetdir}%{cfg.targetname}%{cfg.targetext}" "../bin/' .. outputdir .. '/Sandbox/"')
-		}
-
 	filter "configurations:Debug"
 		defines "MI_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "MI_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "MI_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
@@ -111,6 +112,7 @@ project "Sandbox"
 	includedirs {
 		"Mochii/src",
 		"%{IncludeDir.glfw}",
+		"%{IncludeDir.imgui}",
 		"%{IncludeDir.spdlog}"
 	}
 
@@ -120,11 +122,11 @@ project "Sandbox"
 
 	links {
 		"Mochii",
-		"GLFW"
+		"GLFW",
+		"ImGui"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 		buildoptions { "/utf-8" }
 
@@ -135,14 +137,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "MI_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "MI_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "MI_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
