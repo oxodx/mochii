@@ -13,6 +13,9 @@
     <Filter Include="Mochii\Platform">
       <UniqueIdentifier>{12E922F2-7E74-90B6-8785-13ABF38FECB6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mochii\Platform\Windows">
+      <UniqueIdentifier>{4C85C9ED-B8BC-1185-C1C6-75A82D7D387E}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mochii.h" />
@@ -50,7 +53,7 @@
       <Filter>Mochii</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochii\Platform\Windows\WindowsWindow.h">
-      <Filter>Mochii\Platform</Filter>
+      <Filter>Mochii\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochii\Window.h">
       <Filter>Mochii</Filter>
@@ -74,7 +77,7 @@
       <Filter>Mochii</Filter>
     </ClCompile>
     <ClCompile Include="src\Mochii\Platform\Windows\WindowsWindow.cpp">
-      <Filter>Mochii\Platform</Filter>
+      <Filter>Mochii\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\mzpch.cpp" />
   </ItemGroup>

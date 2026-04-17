@@ -121,6 +121,7 @@ project "Mochii"
 	location "Mochii"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
@@ -149,9 +150,8 @@ project "Mochii"
 		"opengl32"
 	}
 
-filter "system:windows"
+	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		buildoptions { "/utf-8", "/FS" }
 
@@ -167,23 +167,24 @@ filter "system:windows"
 
 	filter "configurations:Debug"
 		defines "MI_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "MI_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "MI_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin/obj/" .. outputdir .. "/%{prj.name}")
@@ -210,7 +211,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		buildoptions { "/utf-8" }
 
@@ -220,15 +220,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "MI_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "MI_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "MI_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
