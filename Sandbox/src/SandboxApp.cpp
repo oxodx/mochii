@@ -1,5 +1,6 @@
 #include <Mochii.h>
 #include "imgui.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 class ExampleLayer : public Mochii::Layer {
 public:
@@ -30,10 +31,10 @@ public:
 		_SquareVA.reset(Mochii::VertexArray::Create());
 
 		float squareVertices[3 * 4] = {
-			-0.75f, -0.75f, 0.0f,
-			 0.75f, -0.75f, 0.0f,
-			 0.75f,  0.75f, 0.0f,
-			-0.75f,  0.75f, 0.0f
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.5f,  0.5f, 0.0f,
+			-0.5f,  0.5f, 0.0f
 		};
 
 		std::shared_ptr<Mochii::VertexBuffer> squareVB;
@@ -55,15 +56,15 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Color;
 
-			void main()
-			{
+			void main() {
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -75,8 +76,7 @@ public:
 			in vec3 v_Position;
 			in vec4 v_Color;
 
-			void main()
-			{
+			void main() {
 				color = vec4(v_Position * 0.5 + 0.5, 1.0);
 				color = v_Color;
 			}
@@ -90,13 +90,13 @@ public:
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 
-			void main()
-			{
+			void main() {
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -107,8 +107,7 @@ public:
 
 			in vec3 v_Position;
 
-			void main()
-			{
+			void main() {
 				color = vec4(0.2, 0.3, 0.8, 1.0);
 			}
 		)";
@@ -140,7 +139,16 @@ public:
 
 		Mochii::Renderer::BeginScene(_Camera);
 
-		Mochii::Renderer::Submit(_BlueShader, _SquareVA);
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		for (int y = 0; y < 20; y++) {
+			for (int x = 0; x < 20; x++) {
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				Mochii::Renderer::Submit(_BlueShader, _SquareVA, transform);
+			}
+		}
+
 		Mochii::Renderer::Submit(_Shader, _VertexArray);
 
 		Mochii::Renderer::EndScene();
