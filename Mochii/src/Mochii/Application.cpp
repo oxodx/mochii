@@ -34,6 +34,7 @@ namespace Mochii {
 	void Application::OnEvent(Event& e) {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResize));
 
 		for (auto it = _LayerStack.end(); it != _LayerStack.begin();) {
 			(*--it)->OnEvent(e);
@@ -48,8 +49,10 @@ namespace Mochii {
 			Timestep timestep = time - _LastFrameTime;
 			_LastFrameTime = time;
 
-			for (Layer* layer : _LayerStack)
-				layer->OnUpdate(timestep);
+			if (!_Minimized) {
+				for (Layer* layer : _LayerStack)
+					layer->OnUpdate(timestep);
+			}
 
 			_ImGuiLayer->Begin();
 			for (Layer* layer : _LayerStack)
@@ -63,5 +66,17 @@ namespace Mochii {
 	bool Application::OnWindowClose(WindowCloseEvent& e) {
 		_Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e) {
+		if (e.GetWidth() == 0 || e.GetHeight() == 0) {
+			_Minimized = true;
+			return false;
+		}
+
+		_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 }
