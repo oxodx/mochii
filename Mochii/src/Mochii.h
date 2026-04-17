@@ -11,6 +11,7 @@
 #include "Mochii/Renderer/RenderCommand.h"
 #include "Mochii/Renderer/Buffer.h"
 #include "Mochii/Renderer/Shader.h"
+#include "Mochii/Renderer/Texture.h"
 #include "Mochii/Renderer/VertexArray.h"
 #include "Mochii/Renderer/OrthographicCamera.h"
 #include "Mochii/EntryPoint.h"

@@ -22,6 +22,7 @@ IncludeDir["glfw"] = "vendor/glfw/include;"
 IncludeDir["imgui"] = "vendor/imgui;vendor/imgui/backends;"
 IncludeDir["spdlog"] = "vendor/spdlog/include;"
 IncludeDir["glm"] = "vendor/glm;"
+IncludeDir["stb_image"] = "vendor/stb_image;"
 IncludeDir["glad"] = "vendor/glad/include;"
 
 group "Dependencies"
@@ -29,6 +30,7 @@ group "Dependencies"
 	include "premake/vendor/imgui.lua"
 	include "premake/vendor/glm.lua"
 	include "premake/vendor/glad.lua"
+	include "premake/vendor/stb_image.lua"
 group ""
 
 project "Mochii"
@@ -59,13 +61,15 @@ project "Mochii"
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.glad}"
 	}
 
 	links {
-		"GLFW",
-		"ImGui",
-		"Glad",
+		"glfw",
+		"imgui",
+		"glad",
+		"stb_image",
 		"opengl32"
 	}
 
@@ -114,6 +118,7 @@ project "Sandbox"
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.glm}"
 	}
 
@@ -122,9 +127,9 @@ project "Sandbox"
 	}
 
 	links {
-		"Mochii",
-		"GLFW",
-		"ImGui"
+		"mochii",
+		"glfw",
+		"imgui"
 	}
 
 	filter "system:windows"
