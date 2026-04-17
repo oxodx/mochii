@@ -171,6 +171,7 @@
     <ClInclude Include="src\Mochii\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Mochii\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Mochii\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Mochii\Renderer\Shader.h" />
     <ClInclude Include="src\Mochii\Window.h" />
     <ClInclude Include="src\mzpch.h" />
   </ItemGroup>
@@ -184,6 +185,7 @@
     <ClCompile Include="src\Mochii\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Mochii\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Mochii\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Mochii\Renderer\Shader.cpp" />
     <ClCompile Include="src\mzpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

@@ -7,6 +7,7 @@
 #include "Mochii/Events/Event.h"
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
+#include "Mochii/Renderer/Shader.h"
 
 namespace Mochii {
 	class MOCHII_API Application {
@@ -33,6 +34,7 @@ namespace Mochii {
 		LayerStack _LayerStack;
 
 		unsigned int _VertexArray, _VertexBuffer, _IndexBuffer;
+		std::unique_ptr<Shader> _Shader;
 
 		static Application* _Instance;
 	};

@@ -73,6 +73,7 @@
     <ClInclude Include="src\mzpch.h" />
     <ClInclude Include="src\Mochii\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Mochii\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Mochii\Renderer\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp">
@@ -101,5 +102,6 @@
     </ClCompile>
     <ClCompile Include="src\mzpch.cpp" />
     <ClCompile Include="src\Mochii\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Mochii\Renderer\Shader.cpp" />
   </ItemGroup>
 </Project>
