@@ -74,6 +74,9 @@
     <ClInclude Include="src\Mochii\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Mochii\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Mochii\Renderer\Shader.h" />
+    <ClInclude Include="src\Mochii\Renderer\Renderer.h" />
+    <ClInclude Include="src\Mochii\Renderer\Buffer.h" />
+    <ClInclude Include="src\Mochii\Platform\OpenGL\OpenGLBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp">
@@ -103,5 +106,8 @@
     <ClCompile Include="src\mzpch.cpp" />
     <ClCompile Include="src\Mochii\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Mochii\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Mochii\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Mochii\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Mochii\Platform\OpenGL\OpenGLBuffer.cpp" />
   </ItemGroup>
 </Project>

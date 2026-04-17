@@ -8,6 +8,7 @@
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
 #include "Mochii/Renderer/Shader.h"
+#include "Mochii/Renderer/Buffer.h"
 
 namespace Mochii {
 	class MOCHII_API Application {
@@ -33,8 +34,10 @@ namespace Mochii {
 		bool _Running = true;
 		LayerStack _LayerStack;
 
-		unsigned int _VertexArray, _VertexBuffer, _IndexBuffer;
+		unsigned int _VertexArray;
 		std::unique_ptr<Shader> _Shader;
+		std::unique_ptr<VertexBuffer> _VertexBuffer;
+		std::unique_ptr<IndexBuffer> _IndexBuffer;
 
 		static Application* _Instance;
 	};
