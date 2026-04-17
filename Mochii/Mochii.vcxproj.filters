@@ -71,6 +71,8 @@
       <Filter>Mochii</Filter>
     </ClInclude>
     <ClInclude Include="src\mzpch.h" />
+    <ClInclude Include="src\Mochii\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Mochii\Platform\OpenGL\OpenGLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochii\Application.cpp">
@@ -98,5 +100,6 @@
       <Filter>Mochii\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\mzpch.cpp" />
+    <ClCompile Include="src\Mochii\Platform\OpenGL\OpenGLContext.cpp" />
   </ItemGroup>
 </Project>

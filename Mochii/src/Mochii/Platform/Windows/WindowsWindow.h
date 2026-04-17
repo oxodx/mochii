@@ -1,5 +1,6 @@
 #pragma once
 #include "Mochii/Window.h"
+#include "Mochii/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;
 
@@ -25,6 +26,7 @@ namespace Mochii {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* _Window;
+		GraphicsContext* _Context;
 
 		struct WindowData {
 			std::string Title;
