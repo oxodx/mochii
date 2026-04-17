@@ -51,12 +51,14 @@ jobs:
         }
 
     - name: Build with VS 2026
-      shell: cmd
+      shell: pwsh
       run: |
-        premake5 vs2026
-        call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\Tools\VsDevCmd.bat"
-        echo Building solution with VS 2026 (MSBuild 18)...
-        msbuild /m /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=x64 ${{ env.SOLUTION_FILE_PATH }}
+        Write-Host "Running premake5..."
+        & $env:USERPROFILE\scoop\shims\premake5.cmd vs2026
+        
+        Write-Host "Setting up VS 2026 and building..."
+        $vsDevCmd = "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\Tools\VsDevCmd.bat"
+        & cmd /c """$vsDevCmd"" && msbuild /m /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=x64 ${{ env.SOLUTION_FILE_PATH }}"
 
     - name: Create and push tag
       id: create_tag
