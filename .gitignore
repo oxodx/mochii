@@ -1,5 +1,6 @@
-/bin/
 /vendor/
+/build/
+/bin/
 /.vs/
 /Sandbox/imgui.ini
 /**/*.vcxproj.filters
