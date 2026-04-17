@@ -30,15 +30,11 @@ jobs:
           -y --ignore-package-exit-codes=3010
         Write-Host "VS 2026 Build Tools installation completed"
 
-    - name: Install scoop
+    - name: Install scoop and premake
       shell: pwsh
       run: |
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
         Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-
-    - name: Install premake
-      shell: pwsh
-      run: |
         Write-Host "Installing premake..."
         scoop install main/premake
         Write-Host "premake installation completed"
