@@ -85,7 +85,7 @@ public:
 			}
 		)";
 
-		_Shader.reset(Mochii::Shader::Create(vertexSrc, fragmentSrc));
+		_Shader = Mochii::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
 
 		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
@@ -117,14 +117,14 @@ public:
 			}
 		)";
 
-		_FlatColorShader.reset(Mochii::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
+		_FlatColorShader = Mochii::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
 
-		_TextureShader.reset(Mochii::Shader::Create("assets/shaders/Texture.glsl"));
+		auto textureShader = _ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		_Texture = Mochii::Texture2D::Create("assets/textures/Checkerboard.png");
 
-		std::dynamic_pointer_cast<Mochii::OpenGLShader>(_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Mochii::OpenGLShader>(_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Mochii::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Mochii::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Mochii::Timestep ts) override {
@@ -164,8 +164,10 @@ public:
 			}
 		}
 
+		auto textureShader = _ShaderLibrary.Get("Texture");
+
 		_Texture->Bind();
-		Mochii::Renderer::Submit(_TextureShader, _SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Mochii::Renderer::Submit(textureShader, _SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		// Triangle
 		// Hazel::Renderer::Submit(m_Shader, m_VertexArray);
@@ -183,10 +185,11 @@ public:
 	
 	}
 private:
+	Mochii::ShaderLibrary _ShaderLibrary;
 	Mochii::Ref<Mochii::Shader> _Shader;
 	Mochii::Ref<Mochii::VertexArray> _VertexArray;
 
-	Mochii::Ref<Mochii::Shader> _FlatColorShader, _TextureShader;
+	Mochii::Ref<Mochii::Shader> _FlatColorShader;
 	Mochii::Ref<Mochii::VertexArray> _SquareVA;
 
 	Mochii::Ref<Mochii::Texture2D> _Texture;

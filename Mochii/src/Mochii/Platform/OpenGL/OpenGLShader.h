@@ -8,11 +8,13 @@ namespace Mochii {
 	class OpenGLShader : public Shader {
 	public:
 		OpenGLShader(const std::string& filepath);
-		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~OpenGLShader();
 
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+
+		virtual const std::string& GetName() const override { return _Name; }
 
 		void UploadUniformInt(const std::string& name, int value);
 
@@ -29,5 +31,6 @@ namespace Mochii {
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 
 		uint32_t _RendererID;
+		std::string _Name;
 	};
 }
