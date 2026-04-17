@@ -10,25 +10,6 @@ namespace Mochii {
 
 	Application* Application::_Instance = nullptr;
 
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
-		switch (type) {
-			case Mochii::ShaderDataType::Float:		return GL_FLOAT;
-			case Mochii::ShaderDataType::Float2:	return GL_FLOAT;
-			case Mochii::ShaderDataType::Float3:	return GL_FLOAT;
-			case Mochii::ShaderDataType::Float4:	return GL_FLOAT;
-			case Mochii::ShaderDataType::Mat3:		return GL_FLOAT;
-			case Mochii::ShaderDataType::Mat4:		return GL_FLOAT;
-			case Mochii::ShaderDataType::Int:		return GL_INT;
-			case Mochii::ShaderDataType::Int2:		return GL_INT;
-			case Mochii::ShaderDataType::Int3:		return GL_INT;
-			case Mochii::ShaderDataType::Int4:		return GL_INT;
-			case Mochii::ShaderDataType::Bool:		return GL_BOOL;
-		}
-
-		MI_CORE_ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
-
 	Application::Application() {
 		MI_CORE_ASSERT(!_Instance, "Application already exists!");
 		_Instance = this;
@@ -39,8 +20,7 @@ namespace Mochii {
 		_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(_ImGuiLayer);
 
-		glGenVertexArrays(1, &_VertexArray);
-		glBindVertexArray(_VertexArray);
+		_VertexArray.reset(VertexArray::Create());
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
@@ -48,32 +28,39 @@ namespace Mochii {
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
-		{
-			BufferLayout layout = {
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float4, "a_Color" }
-			};
-
-			_VertexBuffer->SetLayout(layout);
-		}
-
-		uint32_t index = 0;
-		const auto& layout = _VertexBuffer->GetLayout();
-		for (const auto& element : layout) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
-				element.GetComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.Offset);
-			index++;
-		}
-
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		BufferLayout layout = {
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color" }
+		};
+		vertexBuffer->SetLayout(layout);
+		_VertexArray->AddVertexBuffer(vertexBuffer);
 		uint32_t indices[3] = { 0, 1, 2 };
-		_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		_VertexArray->SetIndexBuffer(indexBuffer);
+
+		_SquareVA.reset(VertexArray::Create());
+
+		float squareVertices[3 * 4] = {
+			-0.75f, -0.75f, 0.0f,
+			 0.75f, -0.75f, 0.0f,
+			 0.75f,  0.75f, 0.0f,
+			-0.75f,  0.75f, 0.0f
+		};
+
+		std::shared_ptr<VertexBuffer> squareVB;
+		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" }
+			});
+		_SquareVA->AddVertexBuffer(squareVB);
+
+		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+		std::shared_ptr<IndexBuffer> squareIB;
+		squareIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		_SquareVA->SetIndexBuffer(squareIB);
 
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -106,6 +93,35 @@ namespace Mochii {
 		)";
 
 		_Shader.reset(new Shader(vertexSrc, fragmentSrc));
+
+		std::string blueShaderVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);	
+			}
+		)";
+
+		std::string blueShaderFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main()
+			{
+				color = vec4(0.2, 0.3, 0.8, 1.0);
+			}
+		)";
+
+		_BlueShader.reset(new Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
 	}
 
 	void Application::PushLayer(Layer* layer) {
@@ -134,9 +150,13 @@ namespace Mochii {
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			_BlueShader->Bind();
+			_SquareVA->Bind();
+			glDrawElements(GL_TRIANGLES, _SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 			_Shader->Bind();
-			glBindVertexArray(_VertexArray);
-			glDrawElements(GL_TRIANGLES, _IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, _VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : _LayerStack)
 				layer->OnUpdate();

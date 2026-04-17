@@ -4,11 +4,10 @@
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Window.h"
 #include "Mochii/LayerStack.h"
-#include "Mochii/Events/Event.h"
-#include "Mochii/Events/ApplicationEvent.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
 #include "Mochii/Renderer/Shader.h"
 #include "Mochii/Renderer/Buffer.h"
+#include "Mochii/Renderer/VertexArray.h"
 
 namespace Mochii {
 	class MOCHII_API Application {
@@ -34,10 +33,11 @@ namespace Mochii {
 		bool _Running = true;
 		LayerStack _LayerStack;
 
-		unsigned int _VertexArray;
-		std::unique_ptr<Shader> _Shader;
-		std::unique_ptr<VertexBuffer> _VertexBuffer;
-		std::unique_ptr<IndexBuffer> _IndexBuffer;
+		std::shared_ptr<Shader> _Shader;
+		std::shared_ptr<VertexArray> _VertexArray;
+
+		std::shared_ptr<Shader> _BlueShader;
+		std::shared_ptr<VertexArray> _SquareVA;
 
 		static Application* _Instance;
 	};
