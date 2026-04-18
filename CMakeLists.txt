@@ -53,7 +53,7 @@ FetchContent_MakeAvailable(glfw spdlog glm)
 # Handle ImGui separately (not CMake-based)
 FetchContent_GetProperties(imgui)
 if(NOT imgui_POPULATED)
-    FetchContent_Populate(imgui)
+    FetchContent_MakeAvailable(imgui)
 endif()
 
 # GLAD (build from vendor)

@@ -38,7 +38,10 @@ void WindowsWindow::Init(const WindowProps& props) {
 
   _Window = glfwCreateWindow((int)props.Width, (int)props.Height,
                              _Data.Title.c_str(), nullptr, nullptr);
-  ++s_GLFWWindowCount;
+  MI_CORE_ASSERT(_Window, "Failed to create GLFW window!");
+  if (_Window) {
+    ++s_GLFWWindowCount;
+  }
 
   _Context = CreateScope<OpenGLContext>(_Window);
   _Context->Init();
