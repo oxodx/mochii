@@ -20,5 +20,7 @@ class Sandbox2D : public Mochii::Layer {
   Mochii::Ref<Mochii::VertexArray> m_SquareVA;
   Mochii::Ref<Mochii::Shader> m_FlatColorShader;
 
+  Mochii::Ref<Mochii::Texture2D> m_CheckerboardTexture;
+
   glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
 };
