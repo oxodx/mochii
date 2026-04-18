@@ -1,11 +1,22 @@
 @echo off
-cd ..
-mkdir build 2>nul
-cd build
+setlocal
+set "ROOT_DIR=%~dp0.."
+cd /d "%ROOT_DIR%"
+if not exist build mkdir build
+cd /d "%ROOT_DIR%\build"
 cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug
-cd ..
+if errorlevel 1 (
+    echo CMake generation failed!
+    pause
+    exit /b 1
+)
+cd /d "%ROOT_DIR%"
 cmake --build build
-echo D | xcopy /s /y .\Sandbox\assets\ .\build\bin\assets
-cd .\build\bin
-.\Sandbox.exe
-cd ./../../scripts/
+if errorlevel 1 (
+    echo CMake build failed!
+    pause
+    exit /b 1
+)
+echo D | xcopy /s /y "%ROOT_DIR%\Sandbox\assets" "%ROOT_DIR%\build\bin\assets"
+cd /d "%ROOT_DIR%\build\bin"
+Sandbox.exe

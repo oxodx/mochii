@@ -1,45 +1,46 @@
 #pragma once
 #include "Core.h"
-#include "Mochii/Events/Event.h"
-#include "Mochii/Events/ApplicationEvent.h"
-#include "Window.h"
 #include "Mochii/Core/LayerStack.h"
 #include "Mochii/Core/Timestep.h"
+#include "Mochii/Events/ApplicationEvent.h"
+#include "Mochii/Events/Event.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
+#include "Window.h"
 
 namespace Mochii {
-	class Application {
-	public:
-		Application();
-		virtual ~Application() = default;
+class Application {
+ public:
+  Application();
+  virtual ~Application() = default;
 
-		void Run();
+  void Run();
 
-		void OnEvent(Event& e);
+  void OnEvent(Event& e);
 
-		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* layer);
+  void PushLayer(Layer* layer);
+  void PushOverlay(Layer* layer);
 
-		inline Window& GetWindow() { return *_Window; }
+  inline Window& GetWindow() { return *_Window; }
 
-	inline static Application& Get() {
-		MI_CORE_ASSERT(_Instance, "Application not initialized!");
-		return *_Instance;
-	}
-	private:
-		bool OnWindowClose(WindowCloseEvent& e);
-		bool OnWindowResize(WindowResizeEvent& e);
+  inline static Application& Get() {
+    MI_CORE_ASSERT(_Instance, "Application not initialized!");
+    return *_Instance;
+  }
 
-		std::unique_ptr<Window> _Window;
-		ImGuiLayer* _ImGuiLayer;
-		bool _Running = true;
-		bool _Minimized = false;
-		LayerStack _LayerStack;
+ private:
+  bool OnWindowClose(WindowCloseEvent& e);
+  bool OnWindowResize(WindowResizeEvent& e);
 
-		float _LastFrameTime = 0.0f;
+  std::unique_ptr<Window> _Window;
+  ImGuiLayer* _ImGuiLayer;
+  bool _Running = true;
+  bool _Minimized = false;
+  LayerStack _LayerStack;
 
-		static Application* _Instance;
-	};
+  float _LastFrameTime = 0.0f;
 
-	Application* CreateApplication();
-}
+  static Application* _Instance;
+};
+
+Application* CreateApplication();
+}  // namespace Mochii

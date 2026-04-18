@@ -4,13 +4,14 @@
 struct GLFWwindow;
 
 namespace Mochii {
-	class OpenGLContext : public GraphicsContext {
-	public:
-		OpenGLContext(GLFWwindow* windowHandle);
+class OpenGLContext : public GraphicsContext {
+ public:
+  OpenGLContext(GLFWwindow* windowHandle);
 
-		virtual void Init() override;
-		virtual void SwapBuffers() override;
-	private:
-		GLFWwindow* _WindowHandle;
-	};
-}
+  virtual void Init() override;
+  virtual void SwapBuffers() override;
+
+ private:
+  GLFWwindow* _WindowHandle;
+};
+}  // namespace Mochii

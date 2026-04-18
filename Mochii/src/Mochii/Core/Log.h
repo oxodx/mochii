@@ -1,32 +1,38 @@
 #pragma once
-#include "mzpch.h"
 #include "Core.h"
-#include "spdlog/spdlog.h"
+#include "mzpch.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/spdlog.h"
 
 namespace Mochii {
-	class MOCHII_API Log {
-	public:
-		static void Init();
+class MOCHII_API Log {
+ public:
+  static void Init();
 
-			inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return sCoreLogger; }
-		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return sClientLogger;  }
-	private:
-		static std::shared_ptr<spdlog::logger> sCoreLogger;
-		static std::shared_ptr<spdlog::logger> sClientLogger;
-	};
-}
+  inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() {
+    return sCoreLogger;
+  }
+  inline static std::shared_ptr<spdlog::logger>& GetClientLogger() {
+    return sClientLogger;
+  }
+
+ private:
+  static std::shared_ptr<spdlog::logger> sCoreLogger;
+  static std::shared_ptr<spdlog::logger> sClientLogger;
+};
+}  // namespace Mochii
 
 // Core log macros
-#define MI_CORE_TRACE(...)		::Mochii::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define MI_CORE_INFO(...)		::Mochii::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define MI_CORE_WARN(...)		::Mochii::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define MI_CORE_ERROR(...)		::Mochii::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define MI_CORE_CRITICAL(...)	::Mochii::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#define MI_CORE_TRACE(...) ::Mochii::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define MI_CORE_INFO(...) ::Mochii::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define MI_CORE_WARN(...) ::Mochii::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define MI_CORE_ERROR(...) ::Mochii::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define MI_CORE_CRITICAL(...) \
+  ::Mochii::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Client log macros
-#define MI_TRACE(...)			::Mochii::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define MI_INFO(...)			::Mochii::Log::GetClientLogger()->info(__VA_ARGS__)
-#define MI_WARN(...)			::Mochii::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define MI_ERROR(...)			::Mochii::Log::GetClientLogger()->error(__VA_ARGS__)
-#define MI_CRITICAL(...)		::Mochii::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define MI_TRACE(...) ::Mochii::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define MI_INFO(...) ::Mochii::Log::GetClientLogger()->info(__VA_ARGS__)
+#define MI_WARN(...) ::Mochii::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define MI_ERROR(...) ::Mochii::Log::GetClientLogger()->error(__VA_ARGS__)
+#define MI_CRITICAL(...) ::Mochii::Log::GetClientLogger()->critical(__VA_ARGS__)
