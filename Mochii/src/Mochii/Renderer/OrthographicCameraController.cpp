@@ -8,21 +8,32 @@ namespace Mochii {
 		: _AspectRatio(aspectRatio), _Camera(-_AspectRatio * _ZoomLevel, _AspectRatio* _ZoomLevel, -_ZoomLevel, _ZoomLevel), _Rotation(rotation) { }
 
 	void OrthographicCameraController::OnUpdate(Timestep ts) {
-		if (Input::IsKeyPressed(MI_KEY_A))
-			_CameraPosition.x -= _CameraTranslationSpeed * ts;
-		else if (Input::IsKeyPressed(MI_KEY_D))
-			_CameraPosition.x += _CameraTranslationSpeed * ts;
+		if (Input::IsKeyPressed(MI_KEY_A)) {
+			_CameraPosition.x -= cos(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
+			_CameraPosition.y -= sin(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
+		} else if (Input::IsKeyPressed(MI_KEY_D)) {
+			_CameraPosition.x += cos(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
+			_CameraPosition.y += sin(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
+		}
 
-		if (Input::IsKeyPressed(MI_KEY_W))
-			_CameraPosition.y += _CameraTranslationSpeed * ts;
-		else if (Input::IsKeyPressed(MI_KEY_S))
-			_CameraPosition.y -= _CameraTranslationSpeed * ts;
+		if (Input::IsKeyPressed(MI_KEY_W)) {
+			_CameraPosition.x += -sin(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
+			_CameraPosition.y += cos(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
+		} else if (Input::IsKeyPressed(MI_KEY_S)) {
+			_CameraPosition.x -= -sin(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
+			_CameraPosition.y -= cos(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
+		}
 
 		if (_Rotation) {
 			if (Input::IsKeyPressed(MI_KEY_Q))
 				_CameraRotation += _CameraRotationSpeed * ts;
 			if (Input::IsKeyPressed(MI_KEY_E))
 				_CameraRotation -= _CameraRotationSpeed * ts;
+
+			if (_CameraRotation > 180.0f)
+				_CameraRotation -= 360.0f;
+			else if (_CameraRotation <= -180.0f)
+				_CameraRotation += 360.0f;
 
 			_Camera.SetRotation(_CameraRotation);
 		}

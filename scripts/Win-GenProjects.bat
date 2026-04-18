@@ -8,4 +8,4 @@ cmake --build build
 echo D | xcopy /s /y .\Sandbox\assets\ .\build\bin\assets
 cd .\build\bin
 .\Sandbox.exe
-PAUSE
+cd ./../../scripts/

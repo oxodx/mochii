@@ -3,7 +3,7 @@
 #include "Mochii/Platform/OpenGL/OpenGLShader.h"
 
 namespace Mochii {
-	Renderer::SceneData* Renderer::_SceneData = new Renderer::SceneData;
+	Scope<Renderer::SceneData> Renderer::_SceneData = CreateScope<Renderer::SceneData>();
 
 	void Renderer::Init() {
 		RenderCommand::Init();

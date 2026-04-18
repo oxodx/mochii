@@ -3,5 +3,5 @@
 #include "Mochii/Platform/OpenGL/OpenGLRendererAPI.h"
 
 namespace Mochii {
-	RendererAPI* RenderCommand::_RendererAPI = new OpenGLRendererAPI;
+	Scope<RendererAPI> RenderCommand::_RendererAPI = CreateScope<OpenGLRendererAPI>();
 }

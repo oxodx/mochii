@@ -24,6 +24,6 @@ namespace Mochii {
 			_RendererAPI->DrawIndexed(vertexArray);
 		}
 	private:
-		static RendererAPI* _RendererAPI;
+		static Scope<RendererAPI> _RendererAPI;
 	};
 }

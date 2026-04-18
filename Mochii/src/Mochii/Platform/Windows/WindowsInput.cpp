@@ -1,10 +1,11 @@
 #include "mzpch.h"
+#include "Mochii/Core/Core.h"
 #include "WindowsInput.h"
 #include "Mochii/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace Mochii {
-	Input* Input::_Instance = new WindowsInput();
+	Scope<Input> Input::_Instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode) {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());

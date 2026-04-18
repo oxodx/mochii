@@ -26,7 +26,7 @@ namespace Mochii {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* _Window;
-		GraphicsContext* _Context;
+		Scope<GraphicsContext> _Context;
 
 		struct WindowData {
 			std::string Title;

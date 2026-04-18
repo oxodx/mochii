@@ -39,6 +39,6 @@ namespace Mochii {
 		virtual float GetMouseXImpl() = 0;
 		virtual float GetMouseYImpl() = 0;
 	private:
-		static Input* _Instance;
+		static Scope<Input> _Instance;
 	};
 }
