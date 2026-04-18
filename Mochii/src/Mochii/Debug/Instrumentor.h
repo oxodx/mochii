@@ -113,9 +113,6 @@ class InstrumentationTimer {
 
 #define MI_PROFILE 1
 #if MI_PROFILE
-   // Resolve which function signature macro will be used. Note that this only
-// is resolved when the (pre)compiler starts, so the syntax highlighting
-// could mark the wrong one in your editor!
 #if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || \
     (defined(__ICC) && (__ICC >= 600)) || defined(__ghs__)
 #define MI_FUNC_SIG __PRETTY_FUNCTION__
@@ -127,7 +124,7 @@ class InstrumentationTimer {
     (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
 #define MI_FUNC_SIG __FUNCTION__
 #elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
-#define MI_FUNC_SIG __FUNC__
+#define MI_FUNC_SIG __func__
 #elif defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901)
 #define MI_FUNC_SIG __func__
 #elif defined(__cplusplus) && (__cplusplus >= 201103)
@@ -143,7 +140,8 @@ class InstrumentationTimer {
 #define MI_CONCAT(x, y) MI_CONCAT_IMPL(x, y)
 #define MI_PROFILE_SCOPE(name) \
   ::Mochii::InstrumentationTimer MI_CONCAT(timer, __LINE__)(name);
-#define MI_PROFILE_FUNCTION() MI_PROFILE_SCOPE(MI_FUNC_SIG)#else
+#define MI_PROFILE_FUNCTION() MI_PROFILE_SCOPE(MI_FUNC_SIG)
+#else
 #define MI_PROFILE_BEGIN_SESSION(name, filepath)
 #define MI_PROFILE_END_SESSION()
 #define MI_PROFILE_SCOPE(name)
