@@ -5,6 +5,7 @@
 #include "Mochii/Events/MouseEvent.h"
 #include "Mochii/Platform/OpenGL/OpenGLContext.h"
 #include "Mochii/Renderer/GraphicsContext.h"
+#include "Mochii/Renderer/Renderer.h"
 #include "mzpch.h"
 
 namespace Mochii {
@@ -50,6 +51,10 @@ void WindowsWindow::Init(const WindowProps& props) {
 
   {
     MI_PROFILE_SCOPE("glfwCreateWindow");
+#if defined(MI_DEBUG)
+    if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+      glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
     _Window = glfwCreateWindow((int)props.Width, (int)props.Height,
                                _Data.Title.c_str(), nullptr, nullptr);
     MI_CORE_ASSERT(_Window, "Failed to create GLFW window!");
