@@ -1,7 +1,5 @@
 #include "OpenGLContext.h"
-#include <GL/GL.h>
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
 #include "mzpch.h"
 
 namespace Mochii {

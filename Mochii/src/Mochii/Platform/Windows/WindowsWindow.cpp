@@ -7,7 +7,7 @@
 #include "mzpch.h"
 
 namespace Mochii {
-static bool _GLFWInitialized = false;
+static uint8_t s_GLFWWindowCount = 0;
 
 static void GLFWErrorCallback(int error, const char* description) {
   MI_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
@@ -29,17 +29,16 @@ void WindowsWindow::Init(const WindowProps& props) {
   MI_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width,
                props.Height);
 
-  if (!_GLFWInitialized) {
-    // TODO: glfwTerminate on system shutdown
+  if (s_GLFWWindowCount == 0) {
+    MI_CORE_INFO("Initializing GLFW");
     int success = glfwInit();
     MI_CORE_ASSERT(success, "Could not intialize GLFW!");
-
     glfwSetErrorCallback(GLFWErrorCallback);
-    _GLFWInitialized = true;
   }
 
   _Window = glfwCreateWindow((int)props.Width, (int)props.Height,
                              _Data.Title.c_str(), nullptr, nullptr);
+  ++s_GLFWWindowCount;
 
   _Context = CreateScope<OpenGLContext>(_Window);
   _Context->Init();
@@ -128,7 +127,13 @@ void WindowsWindow::Init(const WindowProps& props) {
       });
 }
 
-void WindowsWindow::Shutdown() { glfwDestroyWindow(_Window); }
+void WindowsWindow::Shutdown() {
+  glfwDestroyWindow(_Window);
+  if (--s_GLFWWindowCount == 0) {
+    MI_CORE_INFO("Terminating GLFW");
+    glfwTerminate();
+  }
+}
 
 void WindowsWindow::OnUpdate() {
   glfwPollEvents();

@@ -14,6 +14,10 @@ target_precompile_headers(mochii PRIVATE
 )
 
 # Include directories
+target_include_directories(mochii SYSTEM PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/glad/include
+)
+
 target_include_directories(mochii PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
@@ -25,14 +29,13 @@ target_include_directories(mochii PRIVATE
     ${spdlog_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/stb_image
-    ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/glad/include
 )
 
 # Link libraries
 target_link_libraries(mochii PUBLIC
+    glad
     glfw
     ImGui
-    glad
     stb_image
     opengl32
 )

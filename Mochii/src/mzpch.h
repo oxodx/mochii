@@ -1,4 +1,8 @@
 #pragma once
+
+// GLAD must be included first before any other GL headers
+#include <glad/glad.h>
+
 #include <algorithm>
 #include <array>
 #include <functional>
