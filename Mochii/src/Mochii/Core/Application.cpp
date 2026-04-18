@@ -53,8 +53,8 @@ void Application::OnEvent(Event& e) {
   dispatcher.Dispatch<WindowResizeEvent>(
       MI_BIND_EVENT_FN(Application::OnWindowResize));
 
-  for (auto it = _LayerStack.end(); it != _LayerStack.begin();) {
-    (*--it)->OnEvent(e);
+  for (auto it = _LayerStack.rbegin(); it != _LayerStack.rend(); ++it) {
+    (*it)->OnEvent(e);
     if (e.Handled) break;
   }
 }
