@@ -22,10 +22,8 @@ void Sandbox2D::OnUpdate(Mochii::Timestep ts) {
   Mochii::RenderCommand::Clear();
 
   Mochii::Renderer2D::BeginScene(m_CameraController.GetCamera());
-  Mochii::Renderer2D::DrawQuad({-1.0f, 0.0f}, {0.8f, 0.8f},
-                               {0.8f, 0.2f, 0.3f, 1.0f});
-  Mochii::Renderer2D::DrawQuad({0.5f, -0.5f}, {0.5f, 0.75f},
-                               {0.2f, 0.3f, 0.8f, 1.0f});
+  Mochii::Renderer2D::DrawQuad({-1.0f, 0.0f}, {0.8f, 0.8f}, {m_SquareColor1});
+  Mochii::Renderer2D::DrawQuad({0.5f, -0.5f}, {0.5f, 0.75f}, {m_SquareColor2});
   Mochii::Renderer2D::DrawQuad({0.0f, 0.0f, -0.1f}, {10.0f, 10.0f},
                                m_CheckerboardTexture);
   Mochii::Renderer2D::EndScene();
@@ -33,7 +31,8 @@ void Sandbox2D::OnUpdate(Mochii::Timestep ts) {
 
 void Sandbox2D::OnImGuiRender() {
   ImGui::Begin("Settings");
-  ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+  ImGui::ColorEdit4("Square Color 1", glm::value_ptr(m_SquareColor1));
+  ImGui::ColorEdit4("Square Color 2", glm::value_ptr(m_SquareColor2));
   ImGui::End();
 }
 

@@ -22,5 +22,6 @@ class Sandbox2D : public Mochii::Layer {
 
   Mochii::Ref<Mochii::Texture2D> m_CheckerboardTexture;
 
-  glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
+  glm::vec4 m_SquareColor1 = {0.8f, 0.2f, 0.3f, 1.0f};
+  glm::vec4 m_SquareColor2 = {0.2f, 0.3f, 0.8f, 1.0f};
 };
