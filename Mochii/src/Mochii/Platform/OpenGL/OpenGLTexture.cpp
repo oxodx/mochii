@@ -1,7 +1,7 @@
-#include "OpenGLTexture.h"
+#include "Mochii/Platform/OpenGL/OpenGLTexture.h"
 #include <glad/glad.h>
+#include <stb_image.h>
 #include "mzpch.h"
-#include "stb_image.h"
 
 namespace Mochii {
 OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)

@@ -1,4 +1,4 @@
-#include "OpenGLContext.h"
+#include "Mochii/Platform/OpenGL/OpenGLContext.h"
 #include <GLFW/glfw3.h>
 #include "mzpch.h"
 

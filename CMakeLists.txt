@@ -37,6 +37,13 @@ FetchContent_Declare(
     GIT_TAG v1.17.0
 )
 
+# fmt (required by spdlog)
+FetchContent_Declare(
+    fmt
+    GIT_REPOSITORY https://github.com/fmtlib/fmt
+    GIT_TAG 12.1.0
+)
+
 # GLM
 FetchContent_Declare(
     glm
@@ -48,7 +55,7 @@ FetchContent_Declare(
 # For stb_image, we'll create a simple wrapper library
 
 # Make content available
-FetchContent_MakeAvailable(glfw spdlog glm)
+FetchContent_MakeAvailable(glfw spdlog glm fmt)
 
 # Handle ImGui separately (not CMake-based)
 FetchContent_GetProperties(imgui)

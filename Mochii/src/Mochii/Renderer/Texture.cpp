@@ -1,6 +1,6 @@
-#include "Texture.h"
+#include "Mochii/Renderer/Texture.h"
 #include "Mochii/Platform/OpenGL/OpenGLTexture.h"
-#include "Renderer.h"
+#include "Mochii/Renderer/Renderer.h"
 #include "mzpch.h"
 
 namespace Mochii {

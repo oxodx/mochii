@@ -11,23 +11,20 @@ class OpenGLVertexArray : public VertexArray {
   virtual void Bind() const override;
   virtual void Unbind() const override;
 
-  virtual void AddVertexBuffer(
-      const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
-  virtual void SetIndexBuffer(
-      const std::shared_ptr<IndexBuffer>& indexBuffer) override;
+  virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
+  virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
-  virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers()
-      const {
+  virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const {
     return _VertexBuffers;
   }
-  virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const {
+  virtual const Ref<IndexBuffer>& GetIndexBuffer() const {
     return _IndexBuffer;
   }
 
  private:
   uint32_t _RendererID;
   uint32_t _VertexBufferIndex = 0;
-  std::vector<std::shared_ptr<VertexBuffer>> _VertexBuffers;
-  std::shared_ptr<IndexBuffer> _IndexBuffer;
+  std::vector<Ref<VertexBuffer>> _VertexBuffers;
+  Ref<IndexBuffer> _IndexBuffer;
 };
 }  // namespace Mochii

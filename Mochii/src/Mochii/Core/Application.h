@@ -11,7 +11,7 @@ namespace Mochii {
 class Application {
  public:
   Application();
-  virtual ~Application() = default;
+  virtual ~Application();
 
   void Run();
 

@@ -30,20 +30,6 @@
 #error "Unknown platform!"
 #endif
 
-#ifdef MI_PLATFORM_WINDOWS
-#if MI_DYNAMIC_LINK
-#ifdef MI_BUILD_DLL
-#define MOCHII_API __declspec(dllexport)
-#else
-#define MOCHII_API __declspec(dllimport)
-#endif
-#else
-#define MOCHII_API
-#endif
-#else
-#error Mochii only supports Windows!
-#endif
-
 #ifdef MI_DEBUG
 #define MI_ENABLE_ASSERTS
 #endif

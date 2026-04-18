@@ -1,10 +1,10 @@
 #include "Renderer2D.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "Mochii/Platform/OpenGL/OpenGLShader.h"
+#include "Mochii/Renderer/RenderCommand.h"
+#include "Mochii/Renderer/Shader.h"
 #include "Mochii/Renderer/Texture.h"
-#include "RenderCommand.h"
-#include "Shader.h"
-#include "VertexArray.h"
+#include "Mochii/Renderer/VertexArray.h"
 #include "mzpch.h"
 
 namespace Mochii {
@@ -24,16 +24,15 @@ void Renderer2D::Init() {
                                  0.0f,  1.0f,  0.0f, 0.5f, 0.5f, 0.0f, 1.0f,
                                  1.0f,  -0.5f, 0.5f, 0.0f, 0.0f, 1.0f};
 
-  Ref<VertexBuffer> squareVB;
-  squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+  Ref<VertexBuffer> squareVB =
+      VertexBuffer::Create(squareVertices, sizeof(squareVertices));
   squareVB->SetLayout({{ShaderDataType::Float3, "a_Position"},
                        {ShaderDataType::Float2, "a_TexCoord"}});
   s_Data->QuadVertexArray->AddVertexBuffer(squareVB);
 
   uint32_t squareIndices[6] = {0, 1, 2, 2, 3, 0};
-  Ref<IndexBuffer> squareIB;
-  squareIB.reset(IndexBuffer::Create(squareIndices,
-                                     sizeof(squareIndices) / sizeof(uint32_t)));
+  Ref<IndexBuffer> squareIB = IndexBuffer::Create(
+      squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
   s_Data->QuadVertexArray->SetIndexBuffer(squareIB);
 
   s_Data->WhiteTexture = Texture2D::Create(1, 1);

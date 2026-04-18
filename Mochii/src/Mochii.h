@@ -1,5 +1,6 @@
 #pragma once
 #include "Mochii/Core/Application.h"
+#include "Mochii/Core/Core.h"
 #include "Mochii/Core/Input.h"
 #include "Mochii/Core/KeyCodes.h"
 #include "Mochii/Core/Layer.h"
@@ -16,3 +17,4 @@
 #include "Mochii/Renderer/Shader.h"
 #include "Mochii/Renderer/Texture.h"
 #include "Mochii/Renderer/VertexArray.h"
+

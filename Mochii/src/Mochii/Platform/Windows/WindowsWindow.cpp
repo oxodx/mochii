@@ -1,9 +1,10 @@
-#include "WindowsWindow.h"
+#include "Mochii/Platform/Windows/WindowsWindow.h"
 #include <GLFW/glfw3.h>
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Mochii/Events/KeyEvent.h"
 #include "Mochii/Events/MouseEvent.h"
 #include "Mochii/Platform/OpenGL/OpenGLContext.h"
+#include "Mochii/Renderer/GraphicsContext.h"
 #include "mzpch.h"
 
 namespace Mochii {
@@ -13,8 +14,8 @@ static void GLFWErrorCallback(int error, const char* description) {
   MI_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 }
 
-std::unique_ptr<Window> Window::Create(const WindowProps& props) {
-  return std::make_unique<WindowsWindow>(props);
+Scope<Window> Window::Create(const WindowProps& props) {
+  return CreateScope<WindowsWindow>(props);
 }
 
 WindowsWindow::WindowsWindow(const WindowProps& props) { Init(props); }
@@ -30,7 +31,6 @@ void WindowsWindow::Init(const WindowProps& props) {
                props.Height);
 
   if (s_GLFWWindowCount == 0) {
-    MI_CORE_INFO("Initializing GLFW");
     int success = glfwInit();
     MI_CORE_ASSERT(success, "Could not intialize GLFW!");
     glfwSetErrorCallback(GLFWErrorCallback);
@@ -43,7 +43,7 @@ void WindowsWindow::Init(const WindowProps& props) {
     ++s_GLFWWindowCount;
   }
 
-  _Context = CreateScope<OpenGLContext>(_Window);
+  _Context = GraphicsContext::Create(_Window);
   _Context->Init();
 
   glfwSetWindowUserPointer(_Window, &_Data);
@@ -132,8 +132,9 @@ void WindowsWindow::Init(const WindowProps& props) {
 
 void WindowsWindow::Shutdown() {
   glfwDestroyWindow(_Window);
-  if (--s_GLFWWindowCount == 0) {
-    MI_CORE_INFO("Terminating GLFW");
+  --s_GLFWWindowCount;
+
+  if (s_GLFWWindowCount == 0) {
     glfwTerminate();
   }
 }

@@ -1,26 +1,29 @@
 #include "Application.h"
 #include <glfw/glfw3.h>
 #include "Input.h"
+#include "Mochii/Core/Application.h"
 #include "Mochii/Core/Log.h"
 #include "Mochii/Renderer/Renderer.h"
 #include "mzpch.h"
 
 namespace Mochii {
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 Application* Application::_Instance = nullptr;
 
 Application::Application() {
   MI_CORE_ASSERT(!_Instance, "Application already exists!");
   _Instance = this;
 
-  _Window = std::unique_ptr<Window>(Window::Create());
-  _Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+  _Window = Window::Create();
+  _Window->SetEventCallback(MI_BIND_EVENT_FN(Application::OnEvent));
 
   Renderer::Init();
 
   _ImGuiLayer = new ImGuiLayer();
   PushOverlay(_ImGuiLayer);
+}
+
+Application::~Application() {
+  Renderer::Shutdown();
 }
 
 void Application::PushLayer(Layer* layer) { _LayerStack.PushLayer(layer); }
@@ -29,8 +32,8 @@ void Application::PushOverlay(Layer* layer) { _LayerStack.PushOverlay(layer); }
 
 void Application::OnEvent(Event& e) {
   EventDispatcher dispatcher(e);
-  dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-  dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResize));
+  dispatcher.Dispatch<WindowCloseEvent>(MI_BIND_EVENT_FN(Application::OnWindowClose));
+  dispatcher.Dispatch<WindowResizeEvent>(MI_BIND_EVENT_FN(Application::OnWindowResize));
 
   for (auto it = _LayerStack.end(); it != _LayerStack.begin();) {
     (*--it)->OnEvent(e);

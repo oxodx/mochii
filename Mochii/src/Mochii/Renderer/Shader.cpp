@@ -1,6 +1,7 @@
-#include "Shader.h"
+#include "Mochii/Renderer/Shader.h"
+#include "Mochii/Core/Core.h"
 #include "Mochii/Platform/OpenGL/OpenGLShader.h"
-#include "Renderer.h"
+#include "Mochii/Renderer/Renderer.h"
 #include "mzpch.h"
 
 namespace Mochii {
@@ -10,7 +11,7 @@ Ref<Shader> Shader::Create(const std::string& filepath) {
       MI_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
       return nullptr;
     case RendererAPI::API::OpenGL:
-      return std::make_shared<OpenGLShader>(filepath);
+      return CreateRef<OpenGLShader>(filepath);
   }
 
   MI_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -25,7 +26,7 @@ Ref<Shader> Shader::Create(const std::string& name,
       MI_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
       return nullptr;
     case RendererAPI::API::OpenGL:
-      return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+      return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
   }
 
   MI_CORE_ASSERT(false, "Unknown RendererAPI!");

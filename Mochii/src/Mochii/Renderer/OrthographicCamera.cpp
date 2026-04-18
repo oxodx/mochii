@@ -1,4 +1,4 @@
-#include "OrthographicCamera.h"
+#include "Mochii/Renderer/OrthographicCamera.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "mzpch.h"
 

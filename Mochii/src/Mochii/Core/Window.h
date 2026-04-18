@@ -14,7 +14,7 @@ struct WindowProps {
       : Title(title), Width(width), Height(height) {}
 };
 
-class MOCHII_API Window {
+class Window {
  public:
   using EventCallbackFn = std::function<void(Event&)>;
 
@@ -32,7 +32,7 @@ class MOCHII_API Window {
 
   virtual void* GetNativeWindow() const = 0;
 
-  static std::unique_ptr<Window> Create(
+  static Scope<Window> Create(
       const WindowProps& props = WindowProps());
 };
 }  // namespace Mochii

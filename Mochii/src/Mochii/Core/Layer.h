@@ -4,7 +4,7 @@
 #include "Mochii/Events/Event.h"
 
 namespace Mochii {
-class MOCHII_API Layer {
+class Layer {
  public:
   Layer(const std::string& name = "Layer");
   virtual ~Layer() = default;

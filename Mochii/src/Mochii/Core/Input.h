@@ -2,7 +2,7 @@
 #include "Mochii/Core/Core.h"
 
 namespace Mochii {
-class MOCHII_API Input {
+class Input {
  protected:
   Input() = default;
 

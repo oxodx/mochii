@@ -1,8 +1,8 @@
 #pragma once
-#include "Event.h"
+#include "Mochii/Events/Event.h"
 
 namespace Mochii {
-class MOCHII_API KeyEvent : public Event {
+class KeyEvent : public Event {
  public:
   inline int GetKeyCode() const { return _KeyCode; }
 
@@ -13,7 +13,7 @@ class MOCHII_API KeyEvent : public Event {
   int _KeyCode;
 };
 
-class MOCHII_API KeyPressedEvent : public KeyEvent {
+class KeyPressedEvent : public KeyEvent {
  public:
   KeyPressedEvent(int keycode, int repeatCount)
       : KeyEvent(keycode), _RepeatCount(repeatCount) {}
@@ -32,7 +32,7 @@ class MOCHII_API KeyPressedEvent : public KeyEvent {
   int _RepeatCount;
 };
 
-class MOCHII_API KeyReleasedEvent : public KeyEvent {
+class KeyReleasedEvent : public KeyEvent {
  public:
   KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
 
@@ -45,7 +45,7 @@ class MOCHII_API KeyReleasedEvent : public KeyEvent {
   EVENT_CLASS_TYPE(KeyReleased)
 };
 
-class MOCHII_API KeyTypedEvent : public KeyEvent {
+class KeyTypedEvent : public KeyEvent {
  public:
   KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
 

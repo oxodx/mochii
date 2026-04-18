@@ -1,4 +1,4 @@
-#include "WindowsInput.h"
+#include "Mochii/Platform/Windows/WindowsInput.h"
 #include <GLFW/glfw3.h>
 #include "Mochii/Core/Application.h"
 #include "Mochii/Core/Core.h"

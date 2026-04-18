@@ -1,9 +1,7 @@
-#include "LayerStack.h"
+#include "Mochii/Core/LayerStack.h"
 #include "mzpch.h"
 
 namespace Mochii {
-LayerStack::LayerStack() {}
-
 LayerStack::~LayerStack() {
   for (Layer* layer : layers_) {
     layer->OnDetach();

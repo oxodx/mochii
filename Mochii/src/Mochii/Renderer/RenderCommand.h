@@ -1,5 +1,5 @@
 #pragma once
-#include "RendererAPI.h"
+#include "Mochii/Renderer/RendererAPI.h"
 
 namespace Mochii {
 class RenderCommand {
@@ -18,7 +18,7 @@ class RenderCommand {
   inline static void Clear() { _RendererAPI->Clear(); }
 
   inline static void DrawIndexed(
-      const std::shared_ptr<VertexArray>& vertexArray) {
+      const Ref<VertexArray>& vertexArray) {
     _RendererAPI->DrawIndexed(vertexArray);
   }
 

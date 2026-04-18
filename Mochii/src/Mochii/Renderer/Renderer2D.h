@@ -1,6 +1,6 @@
 #pragma once
-#include "OrthographicCamera.h"
-#include "Texture.h"
+#include "Mochii/Renderer/OrthographicCamera.h"
+#include "Mochii/Renderer/Texture.h"
 
 namespace Mochii {
 class Renderer2D {

@@ -1,4 +1,4 @@
-#include "OpenGLShader.h"
+#include "Mochii/Platform/OpenGL/OpenGLShader.h"
 #include <glad/glad.h>
 #include <fstream>
 #include <glm/gtc/type_ptr.hpp>

@@ -1,9 +1,10 @@
-#include "Log.h"
+#include "Mochii/Core/Log.h"
+#include <spdlog/sinks/stdout_color_sinks.h>
 #include "mzpch.h"
 
 namespace Mochii {
-std::shared_ptr<spdlog::logger> Log::sCoreLogger;
-std::shared_ptr<spdlog::logger> Log::sClientLogger;
+Ref<spdlog::logger> Log::s_CoreLogger;
+Ref<spdlog::logger> Log::s_ClientLogger;
 
 void Log::Init() {
   spdlog::set_pattern("%^[%T] %n: %v%$");
@@ -12,14 +13,14 @@ void Log::Init() {
   if (!coreLogger) {
     coreLogger = spdlog::stdout_color_mt("MOCHII");
   }
-  sCoreLogger = coreLogger;
-  sCoreLogger->set_level(spdlog::level::trace);
+  s_CoreLogger = coreLogger;
+  s_CoreLogger->set_level(spdlog::level::trace);
 
   auto clientLogger = spdlog::get("APP");
   if (!clientLogger) {
     clientLogger = spdlog::stdout_color_mt("APP");
   }
-  sClientLogger = clientLogger;
-  sClientLogger->set_level(spdlog::level::trace);
+  s_ClientLogger = clientLogger;
+  s_ClientLogger->set_level(spdlog::level::trace);
 }
 }  // namespace Mochii

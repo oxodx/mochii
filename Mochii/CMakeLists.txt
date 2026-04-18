@@ -29,6 +29,7 @@ target_include_directories(mochii PRIVATE
     ${spdlog_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/stb_image
+    ${fmt_SOURCE_DIR}/include
 )
 
 # Link libraries
@@ -38,6 +39,7 @@ target_link_libraries(mochii PUBLIC
     ImGui
     stb_image
     opengl32
+    fmt
 )
 
 # Preprocessor definitions

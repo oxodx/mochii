@@ -1,24 +1,24 @@
 #pragma once
-#include "Core.h"
+#include "Mochii/Core/Core.h"
 #include "mzpch.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/spdlog.h"
+#include <spdlog/fmt/ostr.h>
+#include <spdlog/spdlog.h>
 
 namespace Mochii {
-class MOCHII_API Log {
+class Log {
  public:
   static void Init();
 
-  inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() {
-    return sCoreLogger;
+  inline static Ref<spdlog::logger>& GetCoreLogger() {
+    return s_CoreLogger;
   }
-  inline static std::shared_ptr<spdlog::logger>& GetClientLogger() {
-    return sClientLogger;
+  inline static Ref<spdlog::logger>& GetClientLogger() {
+    return s_ClientLogger;
   }
 
  private:
-  static std::shared_ptr<spdlog::logger> sCoreLogger;
-  static std::shared_ptr<spdlog::logger> sClientLogger;
+  static Ref<spdlog::logger> s_CoreLogger;
+  static Ref<spdlog::logger> s_ClientLogger;
 };
 }  // namespace Mochii
 

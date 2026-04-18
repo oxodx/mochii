@@ -1,4 +1,4 @@
-#include "OpenGLBuffer.h"
+#include "Mochii/Platform/OpenGL/OpenGLBuffer.h"
 #include <glad/glad.h>
 #include "mzpch.h"
 
