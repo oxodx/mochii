@@ -9,6 +9,8 @@ OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
 }
 
 void OpenGLContext::Init() {
+  MI_PROFILE_FUNCTION();
+
   glfwMakeContextCurrent(_WindowHandle);
   int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
   MI_CORE_ASSERT(status, "Failed to initialize Glad!");
@@ -32,5 +34,9 @@ void OpenGLContext::Init() {
 #endif
 }
 
-void OpenGLContext::SwapBuffers() { glfwSwapBuffers(_WindowHandle); }
+void OpenGLContext::SwapBuffers() {
+  MI_PROFILE_FUNCTION();
+
+  glfwSwapBuffers(_WindowHandle);
+}
 }  // namespace Mochii

@@ -12,6 +12,8 @@ OrthographicCameraController::OrthographicCameraController(float aspectRatio,
       _Rotation(rotation) {}
 
 void OrthographicCameraController::OnUpdate(Timestep ts) {
+  MI_PROFILE_FUNCTION();
+
   if (Input::IsKeyPressed(MI_KEY_A)) {
     _CameraPosition.x -=
         cos(glm::radians(_CameraRotation)) * _CameraTranslationSpeed * ts;
@@ -56,6 +58,8 @@ void OrthographicCameraController::OnUpdate(Timestep ts) {
 }
 
 void OrthographicCameraController::OnEvent(Event& e) {
+  MI_PROFILE_FUNCTION();
+
   EventDispatcher dispatcher(e);
   dispatcher.Dispatch<MouseScrolledEvent>(
       MI_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
@@ -64,6 +68,8 @@ void OrthographicCameraController::OnEvent(Event& e) {
 }
 
 bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e) {
+  MI_PROFILE_FUNCTION();
+
   _ZoomLevel -= e.GetYOffset() * 0.25f;
   _ZoomLevel = std::max(_ZoomLevel, 0.25f);
   _Camera.SetProjection(-_AspectRatio * _ZoomLevel, _AspectRatio * _ZoomLevel,
@@ -72,6 +78,8 @@ bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e) {
 }
 
 bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e) {
+  MI_PROFILE_FUNCTION();
+
   if (e.GetHeight() == 0) {
     return false;
   }

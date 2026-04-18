@@ -10,6 +10,8 @@ namespace Mochii {
 Application* Application::_Instance = nullptr;
 
 Application::Application() {
+  MI_PROFILE_FUNCTION();
+
   MI_CORE_ASSERT(!_Instance, "Application already exists!");
   _Instance = this;
 
@@ -23,17 +25,33 @@ Application::Application() {
 }
 
 Application::~Application() {
+  MI_PROFILE_FUNCTION();
+
   Renderer::Shutdown();
 }
 
-void Application::PushLayer(Layer* layer) { _LayerStack.PushLayer(layer); }
+void Application::PushLayer(Layer* layer) {
+  MI_PROFILE_FUNCTION();
 
-void Application::PushOverlay(Layer* layer) { _LayerStack.PushOverlay(layer); }
+  _LayerStack.PushLayer(layer);
+  layer->OnAttach();
+}
+
+void Application::PushOverlay(Layer* layer) {
+  MI_PROFILE_FUNCTION();
+
+  _LayerStack.PushOverlay(layer);
+  layer->OnAttach();
+}
 
 void Application::OnEvent(Event& e) {
+  MI_PROFILE_FUNCTION();
+
   EventDispatcher dispatcher(e);
-  dispatcher.Dispatch<WindowCloseEvent>(MI_BIND_EVENT_FN(Application::OnWindowClose));
-  dispatcher.Dispatch<WindowResizeEvent>(MI_BIND_EVENT_FN(Application::OnWindowResize));
+  dispatcher.Dispatch<WindowCloseEvent>(
+      MI_BIND_EVENT_FN(Application::OnWindowClose));
+  dispatcher.Dispatch<WindowResizeEvent>(
+      MI_BIND_EVENT_FN(Application::OnWindowResize));
 
   for (auto it = _LayerStack.end(); it != _LayerStack.begin();) {
     (*--it)->OnEvent(e);
@@ -42,19 +60,30 @@ void Application::OnEvent(Event& e) {
 }
 
 void Application::Run() {
-  _LastFrameTime = (float)glfwGetTime();
+  MI_PROFILE_FUNCTION();
+
   while (_Running) {
+    MI_PROFILE_SCOPE("RunLoop");
+
     float time = (float)glfwGetTime();
     Timestep timestep = time - _LastFrameTime;
     _LastFrameTime = time;
 
     if (!_Minimized) {
-      for (Layer* layer : _LayerStack) layer->OnUpdate(timestep);
-    }
+      {
+        MI_PROFILE_SCOPE("LayerStack OnUpdate");
 
-    _ImGuiLayer->Begin();
-    for (Layer* layer : _LayerStack) layer->OnImGuiRender();
-    _ImGuiLayer->End();
+        for (Layer* layer : _LayerStack) layer->OnUpdate(timestep);
+      }
+
+      _ImGuiLayer->Begin();
+      {
+        MI_PROFILE_SCOPE("LayerStack OnImGuiRender");
+
+        for (Layer* layer : _LayerStack) layer->OnImGuiRender();
+      }
+      _ImGuiLayer->End();
+    }
 
     _Window->OnUpdate();
   }
@@ -66,6 +95,8 @@ bool Application::OnWindowClose(WindowCloseEvent& e) {
 }
 
 bool Application::OnWindowResize(WindowResizeEvent& e) {
+  MI_PROFILE_FUNCTION();
+
   if (e.GetWidth() == 0 || e.GetHeight() == 0) {
     _Minimized = true;
     return false;

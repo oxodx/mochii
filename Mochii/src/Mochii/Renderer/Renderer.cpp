@@ -8,6 +8,8 @@ Scope<Renderer::SceneData> Renderer::_SceneData =
     CreateScope<Renderer::SceneData>();
 
 void Renderer::Init() {
+  MI_PROFILE_FUNCTION();
+
   RenderCommand::Init();
   Renderer2D::Init();
 }

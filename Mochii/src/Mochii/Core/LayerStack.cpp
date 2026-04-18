@@ -13,13 +13,11 @@ void LayerStack::PushLayer(Layer* layer) {
   MI_CORE_ASSERT(layer, "PushLayer called with null pointer!");
   layers_.emplace(layers_.begin() + layerInsertIndex_, layer);
   layerInsertIndex_++;
-  layer->OnAttach();
 }
 
 void LayerStack::PushOverlay(Layer* overlay) {
   MI_CORE_ASSERT(overlay, "PushOverlay called with null pointer!");
   layers_.emplace_back(overlay);
-  overlay->OnAttach();
 }
 
 void LayerStack::PopLayer(Layer* layer) {

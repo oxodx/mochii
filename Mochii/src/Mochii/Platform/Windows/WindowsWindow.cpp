@@ -18,11 +18,21 @@ Scope<Window> Window::Create(const WindowProps& props) {
   return CreateScope<WindowsWindow>(props);
 }
 
-WindowsWindow::WindowsWindow(const WindowProps& props) { Init(props); }
+WindowsWindow::WindowsWindow(const WindowProps& props) {
+  MI_PROFILE_FUNCTION();
 
-WindowsWindow::~WindowsWindow() { Shutdown(); }
+  Init(props);
+}
+
+WindowsWindow::~WindowsWindow() {
+  MI_PROFILE_FUNCTION();
+
+  Shutdown();
+}
 
 void WindowsWindow::Init(const WindowProps& props) {
+  MI_PROFILE_FUNCTION();
+
   _Data.Title = props.Title;
   _Data.Width = props.Width;
   _Data.Height = props.Height;
@@ -31,16 +41,19 @@ void WindowsWindow::Init(const WindowProps& props) {
                props.Height);
 
   if (s_GLFWWindowCount == 0) {
+    MI_PROFILE_FUNCTION();
+
     int success = glfwInit();
     MI_CORE_ASSERT(success, "Could not intialize GLFW!");
     glfwSetErrorCallback(GLFWErrorCallback);
   }
 
-  _Window = glfwCreateWindow((int)props.Width, (int)props.Height,
-                             _Data.Title.c_str(), nullptr, nullptr);
-  MI_CORE_ASSERT(_Window, "Failed to create GLFW window!");
-  if (_Window) {
-    ++s_GLFWWindowCount;
+  {
+    MI_PROFILE_SCOPE("glfwCreateWindow");
+    _Window = glfwCreateWindow((int)props.Width, (int)props.Height,
+                               _Data.Title.c_str(), nullptr, nullptr);
+    MI_CORE_ASSERT(_Window, "Failed to create GLFW window!");
+    if (_Window) ++s_GLFWWindowCount;
   }
 
   _Context = GraphicsContext::Create(_Window);
@@ -131,6 +144,8 @@ void WindowsWindow::Init(const WindowProps& props) {
 }
 
 void WindowsWindow::Shutdown() {
+  MI_PROFILE_FUNCTION();
+
   glfwDestroyWindow(_Window);
   --s_GLFWWindowCount;
 
@@ -140,11 +155,15 @@ void WindowsWindow::Shutdown() {
 }
 
 void WindowsWindow::OnUpdate() {
+  MI_PROFILE_FUNCTION();
+
   glfwPollEvents();
   glfwSwapBuffers(_Window);
 }
 
 void WindowsWindow::SetVSync(bool enabled) {
+  MI_PROFILE_FUNCTION();
+
   if (enabled)
     glfwSwapInterval(1);
   else

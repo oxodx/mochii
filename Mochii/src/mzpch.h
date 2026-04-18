@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 #include "Mochii/Core/Log.h"
+#include "Mochii/Debug/instrumentor.h"
 
 #ifdef MI_PLATFORM_WINDOWS
 #include <Windows.h>

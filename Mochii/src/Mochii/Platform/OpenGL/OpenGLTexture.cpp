@@ -6,6 +6,8 @@
 namespace Mochii {
 OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
     : _Width(width), _Height(height) {
+  MI_PROFILE_FUNCTION();
+
   m_InternalFormat = GL_RGBA8;
   m_DataFormat = GL_RGBA;
 
@@ -20,9 +22,16 @@ OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 }
 
 OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : _Path(path) {
+  MI_PROFILE_FUNCTION();
+
   int width, height, channels;
   stbi_set_flip_vertically_on_load(1);
-  stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+  stbi_uc* data = nullptr;
+  {
+    MI_PROFILE_SCOPE(
+        "stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std::string&)");
+    data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+  }
   MI_CORE_ASSERT(data, "Failed to load image!");
   _Width = width;
   _Height = height;
@@ -56,9 +65,15 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : _Path(path) {
   stbi_image_free(data);
 }
 
-OpenGLTexture2D::~OpenGLTexture2D() { glDeleteTextures(1, &_RendererID); }
+OpenGLTexture2D::~OpenGLTexture2D() {
+  MI_PROFILE_FUNCTION();
+
+  glDeleteTextures(1, &_RendererID);
+}
 
 void OpenGLTexture2D::SetData(void* data, uint32_t size) {
+  MI_PROFILE_FUNCTION();
+
   uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
   MI_CORE_ASSERT(size == _Width * _Height * bpp,
                  "Data must be entire texture!");
@@ -67,6 +82,8 @@ void OpenGLTexture2D::SetData(void* data, uint32_t size) {
 }
 
 void OpenGLTexture2D::Bind(uint32_t slot) const {
+  MI_PROFILE_FUNCTION();
+
   glBindTextureUnit(slot, _RendererID);
 }
 }  // namespace Mochii
