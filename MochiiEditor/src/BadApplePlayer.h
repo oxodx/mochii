@@ -1,6 +1,6 @@
 #pragma once
-
 #include <string>
+#include <cstdint>
 #include <vector>
 
 namespace Mochii::BadApplePlayer {
