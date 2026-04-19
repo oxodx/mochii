@@ -40,7 +40,7 @@ You've created a new fix or feature for Mochii. Awesome!
 
 3. Submit a pull request, use the implemented issue template if it is based on an issue or the new issue template if it is not linked to any issue.
 
-4. Give us a moment. Mochii is maintained by only a few people, all of whom are doing this on their limited free time, so it may take us a bit to review your request. Bug fixes should be merged in directly, while features usually require Cherno's approval with or without it mentioned in one (or more) videos.
+4. Give us a moment. Mochii is maintained by only a few people, all of whom are doing this on their limited free time, so it may take us a bit to review your request. Bug fixes should be merged in directly, while features usually require oxod's approval.
 
 If you're not sure what any of that means, check out Thinkful's [GitHub Pull Request Tutorial][thinkful-pr-tutorial] for a complete walkthrough of the process.
 
