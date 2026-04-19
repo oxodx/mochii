@@ -21,6 +21,7 @@ void Sandbox2D::OnUpdate(Mochii::Timestep ts) {
 
   // Update
   m_CameraController.OnUpdate(ts);
+  m_SquarePos1.x += 1 * ts;
 
   // Render
   {
@@ -32,11 +33,14 @@ void Sandbox2D::OnUpdate(Mochii::Timestep ts) {
   {
     MI_PROFILE_SCOPE("Renderer Draw");
     Mochii::Renderer2D::BeginScene(m_CameraController.GetCamera());
-    Mochii::Renderer2D::DrawQuad({-1.0f, 0.0f}, {0.8f, 0.8f}, {m_SquareColor1});
+    Mochii::Renderer2D::DrawQuad({m_SquarePos1}, {0.8f, 0.8f},
+                                 {m_SquareColor1});
     Mochii::Renderer2D::DrawQuad({0.5f, -0.5f}, {0.5f, 0.75f},
                                  {m_SquareColor2});
-    Mochii::Renderer2D::DrawQuad({0.0f, 0.0f, -0.1f}, {10.0f, 10.0f},
-                                 m_CheckerboardTexture);
+    Mochii::Renderer2D::DrawQuad({-5.0f, -5.0f, -0.1f}, {10.0f, 10.0f},
+                                 m_CheckerboardTexture, 10.0f);
+    Mochii::Renderer2D::DrawQuad({-0.5f, -0.5f, 0.0f}, {1.0f, 1.0f},
+                                 m_CheckerboardTexture, 20.0f);
     Mochii::Renderer2D::EndScene();
   }
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include "Mochii/Renderer/RendererAPI.h"
 
 namespace Mochii {
@@ -17,9 +18,9 @@ class RenderCommand {
 
   inline static void Clear() { _RendererAPI->Clear(); }
 
-  inline static void DrawIndexed(
-      const Ref<VertexArray>& vertexArray) {
-    _RendererAPI->DrawIndexed(vertexArray);
+  inline static void DrawIndexed(const Ref<VertexArray>& vertexArray,
+                                 uint32_t count = 0) {
+    _RendererAPI->DrawIndexed(vertexArray, count);
   }
 
  private:
