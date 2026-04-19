@@ -1,0 +1,60 @@
+name: Build and Artifact
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  windows-build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Prepare runtime assets
+        shell: pwsh
+        run: |
+          if (Test-Path "Sandbox/assets") {
+            New-Item -ItemType Directory -Path "build/bin/assets" -Force | Out-Null
+            Copy-Item -Path "Sandbox/assets/*" -Destination "build/bin/assets" -Recurse -Force
+          }
+
+      - name: Smoke test (launch and exit)
+        shell: pwsh
+        run: |
+          $exe = "build/bin/MochiiEditor.exe"
+          if (!(Test-Path $exe)) {
+            throw "Expected executable not found: $exe"
+          }
+
+          $proc = Start-Process -FilePath $exe -PassThru
+          Start-Sleep -Seconds 5
+
+          if ($proc.HasExited) {
+            if ($proc.ExitCode -ne 0) {
+              throw "MochiiEditor exited early with non-zero code: $($proc.ExitCode)"
+            }
+            Write-Host "MochiiEditor exited quickly with code 0."
+          } else {
+            Stop-Process -Id $proc.Id -Force
+            Write-Host "MochiiEditor launched successfully and was stopped after smoke test."
+          }
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochii-windows-build
+          path: build/bin
+          if-no-files-found: error
