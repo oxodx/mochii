@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "Mochii/Renderer/Camera.h"
+#include "SceneCamera.h"
 
 namespace Mochii {
 struct TagComponent {
@@ -12,12 +12,12 @@ struct TagComponent {
 };
 
 struct CameraComponent {
-  Mochii::Camera Camera;
+  SceneCamera Camera;
   bool Primary = true;  // TODO: think about moving to Scene
+  bool FixedAspectRatio = false;
 
-  CameraComponent() : Camera(glm::mat4(1.0f)) {}
+  CameraComponent() = default;
   CameraComponent(const CameraComponent&) = default;
-  CameraComponent(const glm::mat4& projection) : Camera(projection) {}
 };
 
 struct TransformComponent {
