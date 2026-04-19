@@ -1,21 +1,13 @@
 #pragma once
+#include <filesystem>
 #include "Mochii/Core/Base.h"
 #include "Mochii/Core/Log.h"
 
-#ifdef MI_ENABLE_ASSERTS
-namespace Mochii::Assert {
-constexpr const char* CurrentFileName(const char* path) {
-  const char* file = path;
-  while (*path) {
-    if (*path == '/' || *path == '\\')
-      file = ++path;
-    else
-      path++;
-  }
-  return file;
-}
-}
 
+#ifdef MI_ENABLE_ASSERTS
+// Alteratively we could use the same "default" message for both "WITH_MSG" and
+// "NO_MSG" and provide support for custom formatting by concatenating the
+// formatting string instead of having the format inside the default message
 #define MI_INTERNAL_ASSERT_IMPL(type, check, msg, ...) \
   {                                                    \
     if (!(check)) {                                    \
@@ -25,10 +17,10 @@ constexpr const char* CurrentFileName(const char* path) {
   }
 #define MI_INTERNAL_ASSERT_WITH_MSG(type, check, ...) \
   MI_INTERNAL_ASSERT_IMPL(type, check, "Assertion failed: {0}", __VA_ARGS__)
-#define MI_INTERNAL_ASSERT_NO_MSG(type, check)                              \
-  MI_INTERNAL_ASSERT_IMPL(type, check, "Assertion '{0}' failed at {1}:{2}", \
-                          MI_STRINGIFY_MACRO(check),                        \
-                          ::Mochii::Assert::CurrentFileName(__FILE__),       \
+#define MI_INTERNAL_ASSERT_NO_MSG(type, check)                                 \
+  MI_INTERNAL_ASSERT_IMPL(type, check, "Assertion '{0}' failed at {1}:{2}",    \
+                          MI_STRINGIFY_MACRO(check),                           \
+                          std::filesystem::path(__FILE__).filename().string(), \
                           __LINE__)
 
 #define MI_INTERNAL_ASSERT_GET_MACRO_NAME(arg1, arg2, macro, ...) macro
