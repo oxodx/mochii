@@ -6,11 +6,6 @@
 #include "mzpch.h"
 
 namespace Mochii {
-static void DoMath(const glm::mat4& transform) {}
-
-static void OnTransformConstruct(entt::registry& registry,
-                                 entt::entity entity) {}
-
 Scene::Scene() {}
 
 Scene::~Scene() {}
@@ -24,14 +19,28 @@ Entity Scene::CreateEntity(const std::string& name) {
 }
 
 void Scene::OnUpdate(Timestep ts) {
+  // Update scripts
+  {
+    m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) {
+      if (!nsc.Instance) {
+        nsc.Instance = nsc.InstantiateScript();
+        nsc.Instance->m_Entity = Entity{entity, this};
+
+        nsc.Instance->OnCreate();
+      }
+
+      nsc.Instance->OnUpdate(ts);
+    });
+  }
+
   // Render 2D
   Camera* mainCamera = nullptr;
   glm::mat4* cameraTransform = nullptr;
   {
     auto view = m_Registry.view<TransformComponent, CameraComponent>();
     for (auto entity : view) {
-      auto& transform = view.get<TransformComponent>(entity);
-      auto& camera = view.get<CameraComponent>(entity);
+      auto transform = view.get<TransformComponent>(entity);
+      auto camera = view.get<CameraComponent>(entity);
 
       if (camera.Primary) {
         mainCamera = &camera.Camera;
@@ -42,13 +51,13 @@ void Scene::OnUpdate(Timestep ts) {
   }
 
   if (mainCamera) {
-    Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
+    Renderer2D::BeginScene(*mainCamera, *cameraTransform);
 
     auto group = m_Registry.group<TransformComponent>(
         entt::get<SpriteRendererComponent>);
     for (auto entity : group) {
-      auto& transform = group.get<TransformComponent>(entity);
-      auto& sprite = group.get<SpriteRendererComponent>(entity);
+      auto transform = group.get<TransformComponent>(entity);
+      auto sprite = group.get<SpriteRendererComponent>(entity);
 
       Renderer2D::DrawQuad(transform, sprite.Color);
     }

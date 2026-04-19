@@ -1,6 +1,7 @@
 #pragma once
+#include <functional>
 #include "Mochii/Core/Base.h"
-#include "mzpch.h"
+#include "Mochii/Debug/Instrumentor.h"
 
 namespace Mochii {
 enum class EventType {

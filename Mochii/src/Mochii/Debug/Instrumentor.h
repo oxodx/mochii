@@ -3,8 +3,11 @@
 #include <chrono>
 #include <fstream>
 #include <iomanip>
+#include <mutex>
+#include <sstream>
 #include <string>
 #include <thread>
+#include "Mochii/Core/Log.h"
 
 namespace Mochii {
 using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;

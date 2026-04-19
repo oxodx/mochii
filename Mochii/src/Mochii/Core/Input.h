@@ -1,13 +1,15 @@
 #pragma once
-#include "Mochii/Core/Base.h"
+#include <glm/glm.hpp>
+#include "Mochii/Core/KeyCodes.h"
+#include "Mochii/Core/MouseCodes.h"
 
 namespace Mochii {
 class Input {
  public:
-  static bool IsKeyPressed(int key);
+  static bool IsKeyPressed(KeyCode key);
 
-  static bool IsMouseButtonPressed(int button);
-  static std::pair<float, float> GetMousePosition();
+  static bool IsMouseButtonPressed(MouseCode button);
+  static glm::vec2 GetMousePosition();
   static float GetMouseX();
   static float GetMouseY();
 };

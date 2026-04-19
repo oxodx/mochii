@@ -1,8 +1,7 @@
 #pragma once
+#include <GLFW/glfw3.h>
 #include "Mochii/Core/Window.h"
 #include "Mochii/Renderer/GraphicsContext.h"
-
-struct GLFWwindow;
 
 namespace Mochii {
 class WindowsWindow : public Window {
@@ -12,25 +11,25 @@ class WindowsWindow : public Window {
 
   void OnUpdate() override;
 
-  unsigned int GetWidth() const override { return _Data.Width; }
-  unsigned int GetHeight() const override { return _Data.Height; }
+  unsigned int GetWidth() const override { return m_Data.Width; }
+  unsigned int GetHeight() const override { return m_Data.Height; }
 
   // Window attributes
   void SetEventCallback(const EventCallbackFn& callback) override {
-    _Data.EventCallback = callback;
+    m_Data.EventCallback = callback;
   }
   void SetVSync(bool enabled) override;
   bool IsVSync() const override;
 
-  void* GetNativeWindow() const override { return _Window; }
+  virtual void* GetNativeWindow() const { return m_Window; }
 
  private:
   virtual void Init(const WindowProps& props);
   virtual void Shutdown();
 
  private:
-  GLFWwindow* _Window;
-  Scope<GraphicsContext> _Context;
+  GLFWwindow* m_Window;
+  Scope<GraphicsContext> m_Context;
 
   struct WindowData {
     std::string Title;
@@ -40,6 +39,6 @@ class WindowsWindow : public Window {
     EventCallbackFn EventCallback;
   };
 
-  WindowData _Data;
+  WindowData m_Data;
 };
 }  // namespace Mochii

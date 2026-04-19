@@ -33,6 +33,31 @@ void EditorLayer::OnAttach() {
   m_SecondCamera = m_ActiveScene->CreateEntity("Clip-Space Entity");
   auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
   cc.Primary = false;
+
+  class CameraController : public ScriptableEntity {
+   public:
+    void OnCreate() {
+      auto& transform = GetComponent<TransformComponent>().Transform;
+      transform[3][0] = rand() % 10 - 5.0f;
+    }
+
+    void OnDestroy() {}
+
+    void OnUpdate(Timestep ts) {
+      auto& transform = GetComponent<TransformComponent>().Transform;
+
+      float speed = 5.0f;
+
+      if (Input::IsKeyPressed(Key::A)) transform[3][0] -= speed * ts;
+      if (Input::IsKeyPressed(Key::D)) transform[3][0] += speed * ts;
+      if (Input::IsKeyPressed(Key::W)) transform[3][1] += speed * ts;
+      if (Input::IsKeyPressed(Key::S)) transform[3][1] -= speed * ts;
+    }
+  };
+
+  m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+  m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 }
 
 void EditorLayer::OnDetach() { MI_PROFILE_FUNCTION(); }
@@ -190,10 +215,13 @@ void EditorLayer::OnImGuiRender() {
     m_ViewportSize = {viewportPanelSize.x, viewportPanelSize.y};
 
     m_CameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
+    m_ActiveScene->OnViewportResize((uint32_t)viewportPanelSize.x,
+                                    (uint32_t)viewportPanelSize.y);
   }
-  uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-  ImGui::Image((void*)textureID, ImVec2{m_ViewportSize.x, m_ViewportSize.y},
-               ImVec2{0, 1}, ImVec2{1, 0});
+  uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+  ImGui::Image(reinterpret_cast<void*>(textureID),
+               ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1},
+               ImVec2{1, 0});
   ImGui::End();
   ImGui::PopStyleVar();
 

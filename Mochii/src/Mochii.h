@@ -5,7 +5,7 @@
 #include "Mochii/Core/KeyCodes.h"
 #include "Mochii/Core/Layer.h"
 #include "Mochii/Core/Log.h"
-#include "Mochii/Core/MouseButtonCodes.h"
+#include "Mochii/Core/MouseCodes.h"
 #include "Mochii/Core/Timestep.h"
 #include "Mochii/ImGui/ImGuiLayer.h"
 #include "Mochii/Renderer/Buffer.h"
@@ -21,3 +21,4 @@
 #include "Mochii/Scene/Components.h"
 #include "Mochii/Scene/Entity.h"
 #include "Mochii/Scene/Scene.h"
+#include "Mochii/Scene/ScriptableEntity.h"

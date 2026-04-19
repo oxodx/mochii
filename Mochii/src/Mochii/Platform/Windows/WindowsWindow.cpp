@@ -1,12 +1,11 @@
 #include "Mochii/Platform/Windows/WindowsWindow.h"
-#include <GLFW/glfw3.h>
+#include "mzpch.h"
+#include "Mochii/Core/Input.h"
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Mochii/Events/KeyEvent.h"
 #include "Mochii/Events/MouseEvent.h"
-#include "Mochii/Platform/OpenGL/OpenGLContext.h"
-#include "Mochii/Renderer/GraphicsContext.h"
 #include "Mochii/Renderer/Renderer.h"
-#include "mzpch.h"
+#include "Mochii/Platform/OpenGL/OpenGLContext.h"
 
 namespace Mochii {
 static uint8_t s_GLFWWindowCount = 0;
@@ -30,16 +29,15 @@ WindowsWindow::~WindowsWindow() {
 void WindowsWindow::Init(const WindowProps& props) {
   MI_PROFILE_FUNCTION();
 
-  _Data.Title = props.Title;
-  _Data.Width = props.Width;
-  _Data.Height = props.Height;
+  m_Data.Title = props.Title;
+  m_Data.Width = props.Width;
+  m_Data.Height = props.Height;
 
   MI_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width,
                props.Height);
 
   if (s_GLFWWindowCount == 0) {
-    MI_PROFILE_FUNCTION();
-
+    MI_PROFILE_SCOPE("glfwInit");
     int success = glfwInit();
     MI_CORE_ASSERT(success, "Could not initialize GLFW!");
     glfwSetErrorCallback(GLFWErrorCallback);
@@ -51,20 +49,20 @@ void WindowsWindow::Init(const WindowProps& props) {
     if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
       glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
-    _Window = glfwCreateWindow((int)props.Width, (int)props.Height,
-                               _Data.Title.c_str(), nullptr, nullptr);
-    MI_CORE_ASSERT(_Window, "Failed to create GLFW window!");
-    if (_Window) ++s_GLFWWindowCount;
+    m_Window = glfwCreateWindow((int)props.Width, (int)props.Height,
+                                m_Data.Title.c_str(), nullptr, nullptr);
+    ++s_GLFWWindowCount;
   }
 
-  _Context = GraphicsContext::Create(_Window);
-  _Context->Init();
+  m_Context = GraphicsContext::Create(m_Window);
+  m_Context->Init();
 
-  glfwSetWindowUserPointer(_Window, &_Data);
+  glfwSetWindowUserPointer(m_Window, &m_Data);
   SetVSync(true);
 
+  // Set GLFW callbacks
   glfwSetWindowSizeCallback(
-      _Window, [](GLFWwindow* window, int width, int height) {
+      m_Window, [](GLFWwindow* window, int width, int height) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
         data.Width = width;
         data.Height = height;
@@ -73,14 +71,14 @@ void WindowsWindow::Init(const WindowProps& props) {
         data.EventCallback(event);
       });
 
-  glfwSetWindowCloseCallback(_Window, [](GLFWwindow* window) {
+  glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
     WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
     WindowCloseEvent event;
     data.EventCallback(event);
   });
 
-  glfwSetKeyCallback(_Window, [](GLFWwindow* window, int key, int scancode,
-                                 int action, int mods) {
+  glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode,
+                                  int action, int mods) {
     WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
     switch (action) {
@@ -102,7 +100,7 @@ void WindowsWindow::Init(const WindowProps& props) {
     }
   });
 
-  glfwSetCharCallback(_Window, [](GLFWwindow* window, unsigned int keycode) {
+  glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode) {
     WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
     KeyTypedEvent event(keycode);
@@ -110,7 +108,7 @@ void WindowsWindow::Init(const WindowProps& props) {
   });
 
   glfwSetMouseButtonCallback(
-      _Window, [](GLFWwindow* window, int button, int action, int mods) {
+      m_Window, [](GLFWwindow* window, int button, int action, int mods) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
         switch (action) {
@@ -128,7 +126,7 @@ void WindowsWindow::Init(const WindowProps& props) {
       });
 
   glfwSetScrollCallback(
-      _Window, [](GLFWwindow* window, double xOffset, double yOffset) {
+      m_Window, [](GLFWwindow* window, double xOffset, double yOffset) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
         MouseScrolledEvent event((float)xOffset, (float)yOffset);
@@ -136,7 +134,7 @@ void WindowsWindow::Init(const WindowProps& props) {
       });
 
   glfwSetCursorPosCallback(
-      _Window, [](GLFWwindow* window, double xPos, double yPos) {
+      m_Window, [](GLFWwindow* window, double xPos, double yPos) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
         MouseMovedEvent event((float)xPos, (float)yPos);
@@ -147,7 +145,7 @@ void WindowsWindow::Init(const WindowProps& props) {
 void WindowsWindow::Shutdown() {
   MI_PROFILE_FUNCTION();
 
-  glfwDestroyWindow(_Window);
+  glfwDestroyWindow(m_Window);
   --s_GLFWWindowCount;
 
   if (s_GLFWWindowCount == 0) {
@@ -159,7 +157,7 @@ void WindowsWindow::OnUpdate() {
   MI_PROFILE_FUNCTION();
 
   glfwPollEvents();
-  glfwSwapBuffers(_Window);
+  m_Context->SwapBuffers();
 }
 
 void WindowsWindow::SetVSync(bool enabled) {
@@ -170,8 +168,8 @@ void WindowsWindow::SetVSync(bool enabled) {
   else
     glfwSwapInterval(0);
 
-  _Data.VSync = enabled;
+  m_Data.VSync = enabled;
 }
 
-bool WindowsWindow::IsVSync() const { return _Data.VSync; }
-}  // namespace Mochii
+bool WindowsWindow::IsVSync() const { return m_Data.VSync; }
+}  // namespace Hazel

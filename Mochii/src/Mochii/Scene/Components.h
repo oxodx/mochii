@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "SceneCamera.h"
+#include "ScriptableEntity.h"
 
 namespace Mochii {
 struct TagComponent {
@@ -37,5 +38,23 @@ struct SpriteRendererComponent {
   SpriteRendererComponent() = default;
   SpriteRendererComponent(const SpriteRendererComponent&) = default;
   SpriteRendererComponent(const glm::vec4& color) : Color(color) {}
+};
+
+struct NativeScriptComponent {
+  ScriptableEntity* Instance = nullptr;
+
+  ScriptableEntity* (*InstantiateScript)();
+  void (*DestroyScript)(NativeScriptComponent*);
+
+  template <typename T>
+  void Bind() {
+    InstantiateScript = []() {
+      return static_cast<ScriptableEntity*>(new T());
+    };
+    DestroyScript = [](NativeScriptComponent* nsc) {
+      delete nsc->Instance;
+      nsc->Instance = nullptr;
+    };
+  }
 };
 }  // namespace Mochii
