@@ -33,6 +33,8 @@ class Input {
     return _Instance->GetMouseYImpl();
   }
 
+  static Scope<Input> Create();
+
  protected:
   virtual bool IsKeyPressedImpl(int keycode) = 0;
 

@@ -7,13 +7,13 @@
 #include "Mochii/ImGui/ImGuiLayer.h"
 #include "Window.h"
 
+int main(int argc, char** argv);
+
 namespace Mochii {
 class Application {
  public:
   Application();
   virtual ~Application();
-
-  void Run();
 
   void OnEvent(Event& e);
 
@@ -28,6 +28,7 @@ class Application {
   }
 
  private:
+  void Run();
   bool OnWindowClose(WindowCloseEvent& e);
   bool OnWindowResize(WindowResizeEvent& e);
 
@@ -40,6 +41,7 @@ class Application {
   float _LastFrameTime = 0.0f;
 
   static Application* _Instance;
+  friend int ::main(int argc, char** argv);
 };
 
 Application* CreateApplication();
