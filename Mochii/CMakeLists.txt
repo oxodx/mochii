@@ -42,6 +42,13 @@ target_link_libraries(mochii PUBLIC
     fmt
 )
 
+# EnTT is header-only but linking its target propagates include paths and compile defs.
+if(TARGET EnTT::EnTT)
+    target_link_libraries(mochii PUBLIC EnTT::EnTT)
+elseif(TARGET entt::entt)
+    target_link_libraries(mochii PUBLIC entt::entt)
+endif()
+
 # Preprocessor definitions
 target_compile_definitions(mochii PRIVATE
     MI_BUILD_DLL

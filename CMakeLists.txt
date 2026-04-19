@@ -51,11 +51,18 @@ FetchContent_Declare(
     GIT_TAG 1.0.3
 )
 
+# entt
+FetchContent_Declare(
+    entt
+    GIT_REPOSITORY https://github.com/skypjack/entt
+    GIT_TAG v3.16.0
+)
+
 # stb_image (header-only, we'll add it manually)
 # For stb_image, we'll create a simple wrapper library
 
 # Make content available
-FetchContent_MakeAvailable(glfw spdlog glm fmt)
+FetchContent_MakeAvailable(glfw spdlog glm fmt entt)
 
 # Handle ImGui separately (not CMake-based)
 FetchContent_GetProperties(imgui)

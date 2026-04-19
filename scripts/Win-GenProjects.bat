@@ -18,6 +18,5 @@ if errorlevel 1 (
     exit /b 1
 )
 echo D | xcopy /s /y "%ROOT_DIR%\Sandbox\assets" "%ROOT_DIR%\build\bin\assets"
-echo F | xcopy /s /y "%ROOT_DIR%\MochiiEditor\imgui.ini" "%ROOT_DIR%\build\bin\imgui.ini"
 cd /d "%ROOT_DIR%\build\bin"
 MochiiEditor.exe
