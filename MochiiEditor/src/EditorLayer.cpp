@@ -192,15 +192,16 @@ void EditorLayer::OnImGuiRender() {
                                                   !m_ViewportHovered);
 
   ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-  if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize) &&
-      viewportPanelSize.x > 0 && viewportPanelSize.y > 0) {
-    m_Framebuffer->Resize((uint32_t)viewportPanelSize.x,
-                          (uint32_t)viewportPanelSize.y);
-    m_ViewportSize = {viewportPanelSize.x, viewportPanelSize.y};
+  const glm::vec2 newViewportSize(viewportPanelSize.x, viewportPanelSize.y);
+  if (newViewportSize.x > 0.0f && newViewportSize.y > 0.0f &&
+      m_ViewportSize != newViewportSize) {
+    m_Framebuffer->Resize((uint32_t)newViewportSize.x,
+                          (uint32_t)newViewportSize.y);
+    m_ViewportSize = newViewportSize;
 
-    m_CameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
-    m_ActiveScene->OnViewportResize((uint32_t)viewportPanelSize.x,
-                                    (uint32_t)viewportPanelSize.y);
+    m_CameraController.OnResize(newViewportSize.x, newViewportSize.y);
+    m_ActiveScene->OnViewportResize((uint32_t)newViewportSize.x,
+                                    (uint32_t)newViewportSize.y);
   }
   uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
   ImGui::Image(reinterpret_cast<void*>(textureID),

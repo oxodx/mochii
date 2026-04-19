@@ -15,6 +15,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup CMake
         uses: lukka/get-cmake@latest
+      # Ninja is single-config: this is a true Release build (/O2 on MSVC), unlike
+      # many local IDE defaults (Debug). Reproduce CI behavior locally with:
+      #   cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
       - name: Configure
         run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
       - name: Build
@@ -22,9 +25,12 @@ jobs:
       - name: Prepare runtime assets
         shell: pwsh
         run: |
-          if (Test-Path "Sandbox/assets") {
-            New-Item -ItemType Directory -Path "build/bin/assets" -Force | Out-Null
-            Copy-Item -Path "Sandbox/assets/*" -Destination "build/bin/assets" -Recurse -Force
+          $dest = "build/bin/assets"
+          foreach ($src in @("Sandbox/assets", "MochiiEditor/assets")) {
+            if (Test-Path $src) {
+              New-Item -ItemType Directory -Path $dest -Force | Out-Null
+              Copy-Item -Path "$src/*" -Destination $dest -Recurse -Force
+            }
           }
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
