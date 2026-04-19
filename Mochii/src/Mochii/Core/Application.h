@@ -24,6 +24,8 @@ class Application {
 
   void Close();
 
+  ImGuiLayer* GetImGuiLayer() { return _ImGuiLayer; }
+
   static Application& Get() {
     MI_CORE_ASSERT(_Instance, "Application not initialized!");
     return *_Instance;

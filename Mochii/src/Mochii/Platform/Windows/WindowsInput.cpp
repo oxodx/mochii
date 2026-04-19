@@ -1,25 +1,25 @@
-#include "Mochii/Platform/Windows/WindowsInput.h"
+#include "Mochii/Core/Input.h"
 #include <GLFW/glfw3.h>
 #include "Mochii/Core/Application.h"
 #include "Mochii/Core/Base.h"
 #include "mzpch.h"
 
 namespace Mochii {
-bool WindowsInput::IsKeyPressedImpl(int keycode) {
+bool Input::IsKeyPressed(int keycode) {
   auto window = static_cast<GLFWwindow*>(
       Application::Get().GetWindow().GetNativeWindow());
   auto state = glfwGetKey(window, keycode);
   return state == GLFW_PRESS || state == GLFW_REPEAT;
 }
 
-bool WindowsInput::IsMouseButtonPressedImpl(int button) {
+bool Input::IsMouseButtonPressed(int button) {
   auto window = static_cast<GLFWwindow*>(
       Application::Get().GetWindow().GetNativeWindow());
   auto state = glfwGetMouseButton(window, button);
   return state == GLFW_PRESS;
 }
 
-std::pair<float, float> WindowsInput::GetMousePositionImpl() {
+std::pair<float, float> Input::GetMousePosition() {
   auto window = static_cast<GLFWwindow*>(
       Application::Get().GetWindow().GetNativeWindow());
   double xpos, ypos;
@@ -28,13 +28,13 @@ std::pair<float, float> WindowsInput::GetMousePositionImpl() {
   return {(float)xpos, (float)ypos};
 }
 
-float WindowsInput::GetMouseXImpl() {
-  auto [x, y] = GetMousePositionImpl();
+float Input::GetMouseX() {
+  auto [x, y] = GetMousePosition();
   return x;
 }
 
-float WindowsInput::GetMouseYImpl() {
-  auto [x, y] = GetMousePositionImpl();
+float Input::GetMouseY() {
+  auto [x, y] = GetMousePosition();
   return y;
 }
 }  // namespace Mochii

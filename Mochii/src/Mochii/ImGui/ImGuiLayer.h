@@ -17,7 +17,10 @@ class ImGuiLayer : public Layer {
   void Begin();
   void End();
 
+  void BlockEvents(bool block) { m_BlockEvents = block; }
+
  private:
+  bool m_BlockEvents = true;
   float _Time = 0.0f;
 };
 }  // namespace Mochii
