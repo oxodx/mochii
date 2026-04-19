@@ -1,6 +1,7 @@
 #pragma once
 #include <Mochii.h>
 #include <vector>
+#include <cmath>
 
 class Sandbox2D : public Mochii::Layer {
  public:
@@ -14,15 +15,40 @@ class Sandbox2D : public Mochii::Layer {
   virtual void OnImGuiRender() override;
   void OnEvent(Mochii::Event& e) override;
 
- private:
+private:
   Mochii::OrthographicCameraController m_CameraController;
 
-  // Temp
-  Mochii::Ref<Mochii::VertexArray> m_SquareVA;
-  Mochii::Ref<Mochii::Shader> m_FlatColorShader;
+  struct Particle {
+    glm::vec2 position;
+    glm::vec2 velocity;
+    float mass;
+    glm::vec4 color;
+    float distanceFromCenter;
+    float angle;
+    float orbitalSpeed;
+  };
 
-  Mochii::Ref<Mochii::Texture2D> m_CheckerboardTexture;
+  struct Planet {
+    glm::vec2 position;
+    float orbitRadius;
+    float orbitSpeed;
+    float angle;
+    float size;
+    glm::vec4 color;
+    float selfRotation;
+  };
 
-  glm::vec4 m_SquareColor1 = {0.8f, 0.2f, 0.3f, 1.0f};
-  glm::vec4 m_SquareColor2 = {0.2f, 0.3f, 0.8f, 1.0f};
+  std::vector<Particle> m_Particles;
+  std::vector<Planet> m_Planets;
+  static constexpr int NumParticles = 1000;
+  static constexpr float GalaxyRadius = 5.0f;
+
+  float m_SimulationSpeed = 1.0f;
+  float m_CameraZoom = 1.0f;
+  int m_SelectedPlanet = -1;
+
+  void InitializeGalaxy();
+  void InitializePlanets();
+  void UpdateParticles(Mochii::Timestep ts);
+  void UpdatePlanets(Mochii::Timestep ts);
 };
