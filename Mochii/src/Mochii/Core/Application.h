@@ -12,7 +12,7 @@ int main(int argc, char** argv);
 namespace Mochii {
 class Application {
  public:
-  Application();
+  Application(const std::string& name = "Mochii App");
   virtual ~Application();
 
   void OnEvent(Event& e);

@@ -9,13 +9,13 @@
 namespace Mochii {
 Application* Application::_Instance = nullptr;
 
-Application::Application() {
+Application::Application(const std::string& name) {
   MI_PROFILE_FUNCTION();
 
   MI_CORE_ASSERT(!_Instance, "Application already exists!");
   _Instance = this;
 
-  _Window = Window::Create();
+  _Window = Window::Create(WindowProps(name));
   _Window->SetEventCallback(MI_BIND_EVENT_FN(Application::OnEvent));
 
   Renderer::Init();

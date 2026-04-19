@@ -15,6 +15,7 @@
 #include "Mochii/Renderer/Renderer.h"
 #include "Mochii/Renderer/Renderer2D.h"
 #include "Mochii/Renderer/Shader.h"
+#include "Mochii/Renderer/Framebuffer.h"
 #include "Mochii/Renderer/Texture.h"
 #include "Mochii/Renderer/VertexArray.h"
 

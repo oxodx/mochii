@@ -19,4 +19,4 @@ if errorlevel 1 (
 )
 echo D | xcopy /s /y "%ROOT_DIR%\Sandbox\assets" "%ROOT_DIR%\build\bin\assets"
 cd /d "%ROOT_DIR%\build\bin"
-Sandbox.exe
+MochiiEditor.exe

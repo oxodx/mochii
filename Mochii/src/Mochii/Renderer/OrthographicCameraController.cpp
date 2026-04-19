@@ -67,25 +67,26 @@ void OrthographicCameraController::OnEvent(Event& e) {
       MI_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 }
 
+void OrthographicCameraController::OnResize(float width, float height) {
+  _AspectRatio = width / height;
+  _Camera.SetProjection(-_AspectRatio * _ZoomLevel, _AspectRatio * _ZoomLevel,
+                        -_ZoomLevel, _ZoomLevel);
+}
+
 bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e) {
   MI_PROFILE_FUNCTION();
 
-  _ZoomLevel -= e.GetYOffset() * 0.25f;
+  _ZoomLevel -= e.GetYOffset() * 0.5f;
   _ZoomLevel = std::max(_ZoomLevel, 0.25f);
-  _Camera.SetProjection(-_AspectRatio * _ZoomLevel, _AspectRatio * _ZoomLevel,
-                        -_ZoomLevel, _ZoomLevel);
+  SetZoomLevel(_ZoomLevel);
   return false;
 }
 
 bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e) {
   MI_PROFILE_FUNCTION();
 
-  if (e.GetHeight() == 0) {
-    return false;
-  }
-  _AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-  _Camera.SetProjection(-_AspectRatio * _ZoomLevel, _AspectRatio * _ZoomLevel,
-                        -_ZoomLevel, _ZoomLevel);
+  if (e.GetHeight() == 0) return false;
+  OnResize((float)e.GetWidth(), (float)e.GetHeight());
   return false;
 }
 }  // namespace Mochii

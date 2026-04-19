@@ -12,6 +12,8 @@ class OrthographicCameraController {
   void OnUpdate(Timestep ts);
   void OnEvent(Event& e);
 
+  void OnResize(float width, float height);
+
   OrthographicCamera& GetCamera() { return _Camera; }
   const OrthographicCamera& GetCamera() const { return _Camera; }
 
