@@ -95,6 +95,11 @@ target_include_directories(ImGui PUBLIC
 )
 target_link_libraries(ImGui PUBLIC glad)
 
+# Static link MinGW runtime to avoid DLL dependencies
+if (MINGW)
+    add_link_options(-static-libgcc -static-libstdc++ -static)
+endif()
+
 # Add projects
 add_subdirectory(Mochii)
 add_subdirectory(MochiiEditor)
