@@ -26,6 +26,17 @@ target_link_libraries(MochiiEditor PRIVATE
     ImGui
 )
 
+if (WIN32)
+    target_link_libraries(MochiiEditor PRIVATE
+        urlmon
+        shell32
+        mfplat
+        mfreadwrite
+        mfuuid
+        ole32
+    )
+endif()
+
 # Preprocessor definitions
 target_compile_definitions(MochiiEditor PRIVATE
     $<$<CONFIG:Debug>:MI_DEBUG>

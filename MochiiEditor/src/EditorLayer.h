@@ -1,6 +1,9 @@
 #pragma once
 #include "Mochii.h"
+#include "BadApplePlayer.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include <string>
+#include <vector>
 
 namespace Mochii {
 class EditorLayer : public Layer {
@@ -14,6 +17,8 @@ class EditorLayer : public Layer {
   void OnUpdate(Timestep ts) override;
   virtual void OnImGuiRender() override;
   void OnEvent(Event& e) override;
+  void ResetSceneForBadAppleTilemap();
+  void UpdateBadAppleTilemapFrame(size_t frameIndex);
 
  private:
   Mochii::OrthographicCameraController m_CameraController;
@@ -35,7 +40,11 @@ class EditorLayer : public Layer {
   bool m_ViewportFocused = false, m_ViewportHovered = false;
   glm::vec2 m_ViewportSize = {0.0f, 0.0f};
 
-  glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
+  std::string m_BadAppleStatus = "Ready.";
+  BadApplePlayer::TileVideo m_BadAppleTileVideo;
+  std::vector<Entity> m_BadAppleTiles;
+  float m_BadApplePlaybackTime = 0.0f;
+  bool m_BadAppleTilemapPlaying = false;
 
   // Panels
   SceneHierarchyPanel m_SceneHierarchyPanel;

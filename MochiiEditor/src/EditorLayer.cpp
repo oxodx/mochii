@@ -1,18 +1,12 @@
 #include "EditorLayer.h"
 #include <imgui.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 namespace Mochii {
-EditorLayer::EditorLayer()
-    : Layer("EditorLayer"),
-      m_CameraController(1280.0f / 720.0f),
-      m_SquareColor({0.2f, 0.3f, 0.8f, 1.0f}) {}
+EditorLayer::EditorLayer() : Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f) {}
 
 void EditorLayer::OnAttach() {
   MI_PROFILE_FUNCTION();
-
-  m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
   Mochii::FramebufferSpecification fbSpec;
   fbSpec.Width = 1280;
@@ -21,46 +15,9 @@ void EditorLayer::OnAttach() {
 
   m_ActiveScene = CreateRef<Scene>();
 
-  auto square = m_ActiveScene->CreateEntity("Green Square");
-  square.AddComponent<SpriteRendererComponent>(
-      glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
-
-  auto redSquare = m_ActiveScene->CreateEntity("Red Square");
-  redSquare.AddComponent<SpriteRendererComponent>(
-      glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
-
-  m_SquareEntity = square;
-
   m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
-  m_CameraEntity.AddComponent<CameraComponent>();
-
-  m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
-  auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
-  cc.Primary = false;
-
-  class CameraController : public ScriptableEntity {
-   public:
-    virtual void OnCreate() override {
-      auto& transform = GetComponent<TransformComponent>().Transform;
-      transform[3][0] = rand() % 10 - 5.0f;
-    }
-
-    virtual void OnDestroy() override {}
-
-    virtual void OnUpdate(Timestep ts) override {
-      auto& transform = GetComponent<TransformComponent>().Transform;
-
-      float speed = 5.0f;
-
-      if (Input::IsKeyPressed(Key::A)) transform[3][0] -= speed * ts;
-      if (Input::IsKeyPressed(Key::D)) transform[3][0] += speed * ts;
-      if (Input::IsKeyPressed(Key::W)) transform[3][1] += speed * ts;
-      if (Input::IsKeyPressed(Key::S)) transform[3][1] -= speed * ts;
-    }
-  };
-
-  m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-  m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+  auto& cameraComponent = m_CameraEntity.AddComponent<CameraComponent>();
+  cameraComponent.Primary = true;
 
   m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 }
@@ -85,6 +42,19 @@ void EditorLayer::OnUpdate(Timestep ts) {
 
   // Update
   if (m_ViewportFocused) m_CameraController.OnUpdate(ts);
+  if (m_BadAppleTilemapPlaying && m_BadAppleTileVideo.Width > 0 &&
+      m_BadAppleTileVideo.Height > 0 && !m_BadAppleTileVideo.Frames.empty()) {
+    const size_t framePixelCount =
+        static_cast<size_t>(m_BadAppleTileVideo.Width) * m_BadAppleTileVideo.Height;
+    const size_t frameCount = m_BadAppleTileVideo.Frames.size() / framePixelCount;
+    if (frameCount > 0) {
+      m_BadApplePlaybackTime += ts;
+      const size_t frameIndex =
+          static_cast<size_t>(m_BadApplePlaybackTime * m_BadAppleTileVideo.FPS) %
+          frameCount;
+      UpdateBadAppleTilemapFrame(frameIndex);
+    }
+  }
 
   // Render
   Renderer2D::ResetStats();
@@ -158,6 +128,18 @@ void EditorLayer::OnImGuiRender() {
       // depth/z control.
       // ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
+      if (ImGui::MenuItem("Load Bad Apple Tilemap Level")) {
+        if (!Mochii::BadApplePlayer::LoadTileVideo(m_BadAppleTileVideo,
+                                                   m_BadAppleStatus))
+          MI_ERROR("{}", m_BadAppleStatus);
+        else {
+          ResetSceneForBadAppleTilemap();
+          m_BadApplePlaybackTime = 0.0f;
+          m_BadAppleTilemapPlaying = true;
+          MI_INFO("{}", m_BadAppleStatus);
+        }
+      }
+
       if (ImGui::MenuItem("Exit")) Application::Get().Close();
       ImGui::EndMenu();
     }
@@ -175,6 +157,29 @@ void EditorLayer::OnImGuiRender() {
   ImGui::Text("Quads: %d", stats.QuadCount);
   ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
   ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+  ImGui::Separator();
+  if (ImGui::Button("Load Bad Apple Tilemap Level")) {
+    if (!Mochii::BadApplePlayer::LoadTileVideo(m_BadAppleTileVideo,
+                                               m_BadAppleStatus))
+      MI_ERROR("{}", m_BadAppleStatus);
+    else {
+      ResetSceneForBadAppleTilemap();
+      m_BadApplePlaybackTime = 0.0f;
+      m_BadAppleTilemapPlaying = true;
+      MI_INFO("{}", m_BadAppleStatus);
+    }
+  }
+  ImGui::Separator();
+  if (ImGui::Button(m_BadAppleTilemapPlaying ? "Pause Tilemap" : "Play Tilemap")) {
+    m_BadAppleTilemapPlaying = !m_BadAppleTilemapPlaying;
+  }
+  ImGui::SameLine();
+  if (ImGui::Button("Restart Tilemap")) {
+    m_BadApplePlaybackTime = 0.0f;
+    UpdateBadAppleTilemapFrame(0);
+  }
+  ImGui::Separator();
+  ImGui::TextWrapped("Bad Apple: %s", m_BadAppleStatus.c_str());
 
   ImGui::End();
 
@@ -208,4 +213,55 @@ void EditorLayer::OnImGuiRender() {
 }
 
 void EditorLayer::OnEvent(Event& e) { m_CameraController.OnEvent(e); }
+
+void EditorLayer::ResetSceneForBadAppleTilemap() {
+  m_ActiveScene = CreateRef<Scene>();
+  m_BadAppleTiles.clear();
+
+  m_CameraEntity = m_ActiveScene->CreateEntity("BadAppleCamera");
+  auto& cameraComponent = m_CameraEntity.AddComponent<CameraComponent>();
+  cameraComponent.Primary = true;
+  cameraComponent.Camera.SetProjectionType(SceneCamera::ProjectionType::Orthographic);
+
+  constexpr float tileSize = 0.2f;
+  const float worldHeight = static_cast<float>(m_BadAppleTileVideo.Height) * tileSize;
+  cameraComponent.Camera.SetOrthographic(worldHeight, -1.0f, 1.0f);
+
+  const float halfWidth = static_cast<float>(m_BadAppleTileVideo.Width) * 0.5f;
+  const float halfHeight = static_cast<float>(m_BadAppleTileVideo.Height) * 0.5f;
+  for (uint32_t row = 0; row < m_BadAppleTileVideo.Height; ++row) {
+    for (uint32_t col = 0; col < m_BadAppleTileVideo.Width; ++col) {
+      Entity tile = m_ActiveScene->CreateEntity("BadAppleTile");
+      auto& transform = tile.GetComponent<TransformComponent>().Transform;
+      const float x = (static_cast<float>(col) - halfWidth) * tileSize + tileSize * 0.5f;
+      const float y =
+          (halfHeight - static_cast<float>(row)) * tileSize - tileSize * 0.5f;
+      transform = glm::translate(glm::mat4(1.0f), glm::vec3{x, y, 0.0f}) *
+                  glm::scale(glm::mat4(1.0f), glm::vec3{tileSize, tileSize, 1.0f});
+      tile.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f});
+      m_BadAppleTiles.push_back(tile);
+    }
+  }
+
+  UpdateBadAppleTilemapFrame(0);
+  m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+}
+
+void EditorLayer::UpdateBadAppleTilemapFrame(size_t frameIndex) {
+  const size_t framePixelCount =
+      static_cast<size_t>(m_BadAppleTileVideo.Width) * m_BadAppleTileVideo.Height;
+  if (framePixelCount == 0) return;
+
+  const size_t frameCount = m_BadAppleTileVideo.Frames.size() / framePixelCount;
+  if (frameCount == 0) return;
+  const size_t clampedFrameIndex = frameIndex % frameCount;
+  const size_t frameOffset = clampedFrameIndex * framePixelCount;
+
+  const size_t tileCount = std::min(m_BadAppleTiles.size(), framePixelCount);
+  for (size_t i = 0; i < tileCount; ++i) {
+    const float value = m_BadAppleTileVideo.Frames[frameOffset + i] > 0 ? 1.0f : 0.0f;
+    auto& sprite = m_BadAppleTiles[i].GetComponent<SpriteRendererComponent>();
+    sprite.Color = {value, value, value, 1.0f};
+  }
+}
 }  // namespace Mochii
