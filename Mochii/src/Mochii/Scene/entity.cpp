@@ -1,4 +1,4 @@
-#include "entity.h"
+#include "Entity.h"
 #include "mzpch.h"
 
 namespace Mochii {

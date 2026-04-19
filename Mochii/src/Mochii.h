@@ -19,5 +19,5 @@
 #include "Mochii/Renderer/Texture.h"
 #include "Mochii/Renderer/VertexArray.h"
 #include "Mochii/Scene/Components.h"
-#include "Mochii/Scene/entity.h"
-#include "Mochii/Scene/scene.h"
+#include "Mochii/Scene/Entity.h"
+#include "Mochii/Scene/Scene.h"

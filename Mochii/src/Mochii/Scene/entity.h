@@ -1,6 +1,6 @@
 #pragma once
 #include <entt/entt.hpp>
-#include "scene.h"
+#include "Scene.h"
 
 namespace Mochii {
 class Entity {

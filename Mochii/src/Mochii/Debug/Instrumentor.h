@@ -22,13 +22,9 @@ struct InstrumentationSession {
 };
 
 class Instrumentor {
- private:
-  std::mutex m_Mutex;
-  InstrumentationSession* m_CurrentSession;
-  std::ofstream m_OutputStream;
-
  public:
-  Instrumentor() : m_CurrentSession(nullptr) {}
+  Instrumentor(const Instrumentor&) = delete;
+  Instrumentor(Instrumentor&&) = delete;
 
   void BeginSession(const std::string& name,
                     const std::string& filepath = "results.json") {
@@ -38,8 +34,9 @@ class Instrumentor {
       // new one. Subsequent profiling output meant for the original session
       // will end up in the newly opened session instead.  That's better than
       // having badly formatted profiling output.
-      if (Log::GetCoreLogger()) {  // Edge case: BeginSession() might be before
-                                   // Log::Init()
+      if (Log::GetCoreLogger())  // Edge case: BeginSession() might be before
+                                 // Log::Init()
+      {
         MI_CORE_ERROR(
             "Instrumentor::BeginSession('{0}') when session '{1}' already "
             "open.",
@@ -53,8 +50,9 @@ class Instrumentor {
       m_CurrentSession = new InstrumentationSession({name});
       WriteHeader();
     } else {
-      if (Log::GetCoreLogger()) {  // Edge case: BeginSession() might be before
-                                   // Log::Init()
+      if (Log::GetCoreLogger())  // Edge case: BeginSession() might be before
+                                 // Log::Init()
+      {
         MI_CORE_ERROR("Instrumentor could not open results file '{0}'.",
                       filepath);
       }
@@ -76,7 +74,7 @@ class Instrumentor {
     json << "\"name\":\"" << result.Name << "\",";
     json << "\"ph\":\"X\",";
     json << "\"pid\":0,";
-    json << "\"tid\":" << std::hash<std::thread::id>{}(result.ThreadID) << ",";
+    json << "\"tid\":" << result.ThreadID << ",";
     json << "\"ts\":" << result.Start.count();
     json << "}";
 
@@ -93,6 +91,10 @@ class Instrumentor {
   }
 
  private:
+  Instrumentor() : m_CurrentSession(nullptr) {}
+
+  ~Instrumentor() { EndSession(); }
+
   void WriteHeader() {
     m_OutputStream << "{\"otherData\": {},\"traceEvents\":[{}";
     m_OutputStream.flush();
@@ -113,6 +115,11 @@ class Instrumentor {
       m_CurrentSession = nullptr;
     }
   }
+
+ private:
+  std::mutex m_Mutex;
+  InstrumentationSession* m_CurrentSession;
+  std::ofstream m_OutputStream;
 };
 
 class InstrumentationTimer {
@@ -204,10 +211,12 @@ constexpr auto CleanupOutputString(const char (&expr)[N],
 #define MI_PROFILE_BEGIN_SESSION(name, filepath) \
   ::Mochii::Instrumentor::Get().BeginSession(name, filepath)
 #define MI_PROFILE_END_SESSION() ::Mochii::Instrumentor::Get().EndSession()
-#define MI_PROFILE_SCOPE(name)                                            \
-  constexpr auto fixedName =                                              \
+#define MI_PROFILE_SCOPE_LINE2(name, line)                                \
+  constexpr auto fixedName##line =                                        \
       ::Mochii::InstrumentorUtils::CleanupOutputString(name, "__cdecl "); \
-  ::Mochii::InstrumentationTimer timer##__LINE__(fixedName.Data)
+  ::Mochii::InstrumentationTimer timer##line(fixedName##line.Data)
+#define MI_PROFILE_SCOPE_LINE(name, line) MI_PROFILE_SCOPE_LINE2(name, line)
+#define MI_PROFILE_SCOPE(name) MI_PROFILE_SCOPE_LINE(name, __LINE__)
 #define MI_PROFILE_FUNCTION() MI_PROFILE_SCOPE(MI_FUNC_SIG)
 #else
 #define MI_PROFILE_BEGIN_SESSION(name, filepath)
