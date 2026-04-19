@@ -2,7 +2,6 @@
 #include <spdlog/fmt/ostr.h>
 #include <spdlog/spdlog.h>
 #include "Mochii/Core/Base.h"
-#include "mzpch.h"
 
 namespace Mochii {
 class Log {
