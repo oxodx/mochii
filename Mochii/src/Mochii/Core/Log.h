@@ -1,7 +1,9 @@
 #pragma once
 #include <spdlog/fmt/ostr.h>
+#pragma warning(push, 0)
 #include <spdlog/spdlog.h>
 #include "Mochii/Core/Base.h"
+#pragma warning(pop)
 
 namespace Mochii {
 class Log {

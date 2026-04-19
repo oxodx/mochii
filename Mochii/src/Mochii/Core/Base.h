@@ -16,25 +16,8 @@
 #define MI_DEBUGBREAK()
 #endif
 
-#ifdef MI_ENABLE_ASSERTS
-#define MI_ASSERT(x, ...)                             \
-  {                                                   \
-    if (!(x)) {                                       \
-      MI_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
-      MI_DEBUGBREAK();                                \
-    }                                                 \
-  }
-#define MI_CORE_ASSERT(x, ...)                             \
-  {                                                        \
-    if (!(x)) {                                            \
-      MI_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
-      MI_DEBUGBREAK();                                     \
-    }                                                      \
-  }
-#else
-#define MI_ASSERT(x, ...)
-#define MI_CORE_ASSERT(x, ...)
-#endif
+#define MI_EXPAND_MACRO(x) x
+#define MI_STRINGIFY_MACRO(x) #x
 
 #define BIT(x) ((1u) << (x))
 
@@ -58,3 +41,7 @@ Ref<T> CreateRef(Args&&... args) {
   return std::make_shared<T>(std::forward<Args>(args)...);
 }
 }  // namespace Mochii
+
+#include "Mochii/Core/Assert.h"
+#include "Mochii/Core/Log.h"
+

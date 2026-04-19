@@ -1,5 +1,6 @@
 #pragma once
 #include "Mochii/Core/Application.h"
+#include "Mochii/Core/Assert.h"
 #include "Mochii/Core/Base.h"
 #include "Mochii/Core/Input.h"
 #include "Mochii/Core/KeyCodes.h"
@@ -22,3 +23,4 @@
 #include "Mochii/Scene/Entity.h"
 #include "Mochii/Scene/Scene.h"
 #include "Mochii/Scene/ScriptableEntity.h"
+
