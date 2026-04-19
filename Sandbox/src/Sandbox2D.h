@@ -40,7 +40,7 @@ private:
 
   std::vector<Particle> m_Particles;
   std::vector<Planet> m_Planets;
-  static constexpr int NumParticles = 1000;
+  static constexpr int NumParticles = 2000;
   static constexpr float GalaxyRadius = 5.0f;
 
   float m_SimulationSpeed = 1.0f;

@@ -1,6 +1,5 @@
 #include "Sandbox2D.h"
 #include <imgui.h>
-#include <chrono>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <random>
@@ -172,51 +171,46 @@ void Sandbox2D::OnUpdate(Mochii::Timestep ts) {
 void Sandbox2D::OnImGuiRender() {
   MI_PROFILE_FUNCTION();
 
-  ImGui::Begin("Milky Way Simulation");
-
-  if (ImGui::CollapsingHeader("Controls", ImGuiTreeNodeFlags_DefaultOpen)) {
-    ImGui::SliderFloat("Simulation Speed", &m_SimulationSpeed, 0.0f, 5.0f);
+  static bool init = false;
+  if (!init) {
+    init = true;
+    ImGui::GetIO().ConfigDockingWithShift = false;
   }
 
-  if (ImGui::CollapsingHeader("Galaxy Stats", ImGuiTreeNodeFlags_DefaultOpen)) {
+  if (ImGui::Begin("Controls")) {
+    ImGui::SliderFloat("Simulation Speed", &m_SimulationSpeed, 0.0f, 5.0f);
+
+    ImGui::Separator();
     ImGui::Text("Stars: %d", NumParticles);
     ImGui::Text("Planets: %d", (int)m_Planets.size());
-  }
 
-  if (ImGui::CollapsingHeader("Planets", ImGuiTreeNodeFlags_DefaultOpen)) {
+    ImGui::Separator();
+    ImGui::Text("Planets:");
     static const char* planetNames[] = {"Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
     for (int i = 0; i < (int)m_Planets.size(); ++i) {
       bool selected = (m_SelectedPlanet == i);
       if (ImGui::Selectable(planetNames[i], selected)) {
         m_SelectedPlanet = i;
       }
-      if (selected) {
-        ImGui::SameLine();
-        ImGui::TextColored({1.0f, 1.0f, 0.0f, 1.0f}, " <- selected");
-      }
     }
+
+    if (m_SelectedPlanet >= 0 && m_SelectedPlanet < (int)m_Planets.size()) {
+      ImGui::Separator();
+      ImGui::Text("Selected: %s", planetNames[m_SelectedPlanet]);
+      auto& p = m_Planets[m_SelectedPlanet];
+      ImGui::Text("Orbit: %.2f, Speed: %.2f", p.orbitRadius, p.orbitSpeed);
+      ImGui::ColorEdit4("Color", glm::value_ptr(p.color));
+    }
+    ImGui::End();
   }
 
-  if (m_SelectedPlanet >= 0 && m_SelectedPlanet < (int)m_Planets.size()) {
-    static const char* planetNames[] = {"Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
-    ImGui::Separator();
-    ImGui::Text("Selected: %s", planetNames[m_SelectedPlanet]);
-    auto& p = m_Planets[m_SelectedPlanet];
-    ImGui::Text("Orbit Radius: %.2f", p.orbitRadius);
-    ImGui::Text("Orbit Speed: %.2f", p.orbitSpeed);
-    ImGui::Text("Size: %.2f", p.size);
-    ImGui::ColorEdit4("Color", glm::value_ptr(p.color));
+  if (ImGui::Begin("Renderer")) {
+    auto stats = Mochii::Renderer2D::GetStats();
+    ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+    ImGui::Text("Quads: %d", stats.QuadCount);
+    ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+    ImGui::End();
   }
-
-  ImGui::End();
-
-  ImGui::Begin("Renderer Stats");
-  auto stats = Mochii::Renderer2D::GetStats();
-  ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-  ImGui::Text("Quads: %d", stats.QuadCount);
-  ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-  ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-  ImGui::End();
 }
 
 void Sandbox2D::OnEvent(Mochii::Event& e) { m_CameraController.OnEvent(e); }

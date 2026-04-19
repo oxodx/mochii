@@ -22,6 +22,8 @@ class Application {
 
   Window& GetWindow() { return *_Window; }
 
+  void Close();
+
   static Application& Get() {
     MI_CORE_ASSERT(_Instance, "Application not initialized!");
     return *_Instance;

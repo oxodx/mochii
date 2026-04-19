@@ -44,6 +44,8 @@ void Application::PushOverlay(Layer* layer) {
   layer->OnAttach();
 }
 
+void Application::Close() { _Running = false; }
+
 void Application::OnEvent(Event& e) {
   MI_PROFILE_FUNCTION();
 
