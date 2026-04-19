@@ -12,11 +12,11 @@ class WindowsWindow : public Window {
 
   void OnUpdate() override;
 
-  inline unsigned int GetWidth() const override { return _Data.Width; }
-  inline unsigned int GetHeight() const override { return _Data.Height; }
+  unsigned int GetWidth() const override { return _Data.Width; }
+  unsigned int GetHeight() const override { return _Data.Height; }
 
   // Window attributes
-  inline void SetEventCallback(const EventCallbackFn& callback) override {
+  void SetEventCallback(const EventCallbackFn& callback) override {
     _Data.EventCallback = callback;
   }
   void SetVSync(bool enabled) override;

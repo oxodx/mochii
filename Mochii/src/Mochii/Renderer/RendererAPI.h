@@ -17,7 +17,7 @@ class RendererAPI {
   virtual void DrawIndexed(const Ref<VertexArray>& vertexArray,
                            uint32_t indexCount = 0) = 0;
 
-  inline static API GetAPI() { return _API; }
+  static API GetAPI() { return _API; }
   static Scope<RendererAPI> Create();
 
  private:

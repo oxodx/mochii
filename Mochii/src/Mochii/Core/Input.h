@@ -11,24 +11,24 @@ class Input {
   Input(const Input&) = delete;
   Input& operator=(const Input&) = delete;
 
-  inline static bool IsKeyPressed(int keycode) {
+  static bool IsKeyPressed(int keycode) {
     MI_CORE_ASSERT(_Instance, "Input not initialized!");
     return _Instance->IsKeyPressedImpl(keycode);
   }
 
-  inline static bool IsMouseButtonPressed(int button) {
+  static bool IsMouseButtonPressed(int button) {
     MI_CORE_ASSERT(_Instance, "Input not initialized!");
     return _Instance->IsMouseButtonPressedImpl(button);
   }
-  inline static std::pair<float, float> GetMousePosition() {
+  static std::pair<float, float> GetMousePosition() {
     MI_CORE_ASSERT(_Instance, "Input not initialized!");
     return _Instance->GetMousePositionImpl();
   }
-  inline static float GetMouseX() {
+  static float GetMouseX() {
     MI_CORE_ASSERT(_Instance, "Input not initialized!");
     return _Instance->GetMouseXImpl();
   }
-  inline static float GetMouseY() {
+  static float GetMouseY() {
     MI_CORE_ASSERT(_Instance, "Input not initialized!");
     return _Instance->GetMouseYImpl();
   }

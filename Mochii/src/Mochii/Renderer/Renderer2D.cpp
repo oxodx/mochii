@@ -33,7 +33,7 @@ struct Renderer2DData {
   uint32_t TextureSlotIndex = 1;
 };
 
-static Renderer2DData* s_Data;
+static Renderer2DData* s_Data = new Renderer2DData();
 
 void Renderer2D::Init() {
   MI_PROFILE_FUNCTION();

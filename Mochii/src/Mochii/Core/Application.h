@@ -20,9 +20,9 @@ class Application {
   void PushLayer(Layer* layer);
   void PushOverlay(Layer* layer);
 
-  inline Window& GetWindow() { return *_Window; }
+  Window& GetWindow() { return *_Window; }
 
-  inline static Application& Get() {
+  static Application& Get() {
     MI_CORE_ASSERT(_Instance, "Application not initialized!");
     return *_Instance;
   }

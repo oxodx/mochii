@@ -41,7 +41,7 @@ void WindowsWindow::Init(const WindowProps& props) {
     MI_PROFILE_FUNCTION();
 
     int success = glfwInit();
-    MI_CORE_ASSERT(success, "Could not intialize GLFW!");
+    MI_CORE_ASSERT(success, "Could not initialize GLFW!");
     glfwSetErrorCallback(GLFWErrorCallback);
   }
 

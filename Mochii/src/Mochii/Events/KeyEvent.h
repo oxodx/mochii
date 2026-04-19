@@ -4,7 +4,7 @@
 namespace Mochii {
 class KeyEvent : public Event {
  public:
-  inline int GetKeyCode() const { return _KeyCode; }
+  int GetKeyCode() const { return _KeyCode; }
 
   EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
  protected:
@@ -18,7 +18,7 @@ class KeyPressedEvent : public KeyEvent {
   KeyPressedEvent(int keycode, int repeatCount)
       : KeyEvent(keycode), _RepeatCount(repeatCount) {}
 
-  inline int GetRepeatCount() const { return _RepeatCount; }
+  int GetRepeatCount() const { return _RepeatCount; }
 
   std::string ToString() const override {
     std::stringstream ss;

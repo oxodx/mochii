@@ -105,8 +105,8 @@ class BufferLayout {
     CalculateOffsetsAndStride();
   }
 
-  inline uint32_t GetStride() const { return _Stride; }
-  inline const std::vector<BufferElement>& GetElements() const {
+  uint32_t GetStride() const { return _Stride; }
+  const std::vector<BufferElement>& GetElements() const {
     return _Elements;
   }
 
