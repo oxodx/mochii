@@ -1,11 +1,12 @@
 #include "ImGuiLayer.h"
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 #include <glad/glad.h>
 #include "GLFW/glfw3.h"
 #include "Mochii/Core/Application.h"
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
 #include "imgui.h"
 #include "mzpch.h"
+
 
 namespace Mochii {
 ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {}
@@ -56,6 +57,12 @@ void ImGuiLayer::OnDetach() {
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();
+}
+
+void ImGuiLayer::OnEvent(Event& e) {
+  ImGuiIO& io = ImGui::GetIO();
+  e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+  e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
 }
 
 void ImGuiLayer::Begin() {

@@ -54,8 +54,8 @@ void Application::OnEvent(Event& e) {
       MI_BIND_EVENT_FN(Application::OnWindowResize));
 
   for (auto it = _LayerStack.rbegin(); it != _LayerStack.rend(); ++it) {
-    (*it)->OnEvent(e);
     if (e.Handled) break;
+    (*it)->OnEvent(e);
   }
 }
 

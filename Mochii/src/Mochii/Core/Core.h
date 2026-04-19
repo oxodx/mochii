@@ -31,7 +31,17 @@
 #endif
 
 #ifdef MI_DEBUG
+#if defined(MI_PLATFORM_WINDOWS)
+#define MI_DEBUGBREAK() __debugbreak()
+#elif defined(MI_PLATFORM_LINUX)
+#include <signal.h>
+#define MI_DEBUGBREAK() raise(SIGTRAP)
+#else
+#error "Platform doesn't support debugbreak yet!"
+#endif
 #define MI_ENABLE_ASSERTS
+#else
+#define MI_DEBUGBREAK()
 #endif
 
 #ifdef MI_ENABLE_ASSERTS
@@ -39,14 +49,14 @@
   {                                                   \
     if (!(x)) {                                       \
       MI_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
-      __debugbreak();                                 \
+      MI_DEBUGBREAK();                                \
     }                                                 \
   }
 #define MI_CORE_ASSERT(x, ...)                             \
   {                                                        \
     if (!(x)) {                                            \
       MI_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
-      __debugbreak();                                      \
+      MI_DEBUGBREAK();                                     \
     }                                                      \
   }
 #else
