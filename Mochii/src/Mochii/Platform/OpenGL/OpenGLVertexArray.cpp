@@ -88,14 +88,14 @@ void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) {
       }
       case ShaderDataType::Mat3:
       case ShaderDataType::Mat4: {
-        uint8_t count = element.GetComponentCount();
-        for (uint8_t i = 0; i < count; i++) {
+        uint8_t columnCount = (element.Type == ShaderDataType::Mat3) ? 3 : 4;
+        for (uint8_t i = 0; i < columnCount; i++) {
           glEnableVertexAttribArray(_VertexBufferIndex);
-          glVertexAttribPointer(_VertexBufferIndex, count,
+          glVertexAttribPointer(_VertexBufferIndex, columnCount,
                                 ShaderDataTypeToOpenGLBaseType(element.Type),
                                 element.Normalized ? GL_TRUE : GL_FALSE,
                                 layout.GetStride(),
-                                (const void*)(sizeof(float) * count * i));
+                                (const void*)(element.Offset + sizeof(float) * columnCount * i));
           glVertexAttribDivisor(_VertexBufferIndex, 1);
           _VertexBufferIndex++;
         }

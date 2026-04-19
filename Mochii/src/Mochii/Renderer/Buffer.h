@@ -29,10 +29,9 @@ static uint32_t ShaderDataTypeSize(ShaderDataType type) {
     case ShaderDataType::Float4:
       return 4 * 4;
     case ShaderDataType::Mat3:
-      return 4 * 3;
+      return 4 * 3 * 3;
     case ShaderDataType::Mat4:
-      return 4 * 4;
-    case ShaderDataType::Int:
+      return 4 * 4 * 4;    case ShaderDataType::Int:
       return 4;
     case ShaderDataType::Int2:
       return 4 * 2;
