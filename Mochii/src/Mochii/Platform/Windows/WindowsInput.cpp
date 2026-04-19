@@ -1,7 +1,7 @@
 #include "Mochii/Platform/Windows/WindowsInput.h"
 #include <GLFW/glfw3.h>
 #include "Mochii/Core/Application.h"
-#include "Mochii/Core/Core.h"
+#include "Mochii/Core/Base.h"
 #include "mzpch.h"
 
 namespace Mochii {

@@ -1,5 +1,5 @@
 #include "Mochii/Renderer/Shader.h"
-#include "Mochii/Core/Core.h"
+#include "Mochii/Core/Base.h"
 #include "Mochii/Platform/OpenGL/OpenGLShader.h"
 #include "Mochii/Renderer/Renderer.h"
 #include "mzpch.h"

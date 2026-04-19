@@ -1,5 +1,5 @@
 #pragma once
-#include "Mochii/Core/Core.h"
+#include "Mochii/Core/Base.h"
 #include "Mochii/Events/Event.h"
 #include "mzpch.h"
 
@@ -32,7 +32,6 @@ class Window {
 
   virtual void* GetNativeWindow() const = 0;
 
-  static Scope<Window> Create(
-      const WindowProps& props = WindowProps());
+  static Scope<Window> Create(const WindowProps& props = WindowProps());
 };
 }  // namespace Mochii

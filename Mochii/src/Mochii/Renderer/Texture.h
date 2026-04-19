@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Mochii/Core/Core.h"
+#include "Mochii/Core/Base.h"
 
 namespace Mochii {
 class Texture {

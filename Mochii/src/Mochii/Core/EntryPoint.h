@@ -1,7 +1,8 @@
 #pragma once
-#include "Application.h"
-#include "Log.h"
-#include "Mochii/Core/Core.h"
+#include "Mochii/Core/Application.h"
+#include "Mochii/Core/Base.h"
+#include "Mochii/Core/Log.h"
+
 
 #ifdef MI_PLATFORM_WINDOWS
 

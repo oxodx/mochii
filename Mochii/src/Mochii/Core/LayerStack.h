@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Mochii/Core/Core.h"
+#include "Mochii/Core/Base.h"
 #include "Mochii/Core/Layer.h"
 
 namespace Mochii {

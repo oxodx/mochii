@@ -1,5 +1,5 @@
 #pragma once
-#include "Mochii/Core/Core.h"
+#include "Mochii/Core/Base.h"
 #include "mzpch.h"
 
 namespace Mochii {

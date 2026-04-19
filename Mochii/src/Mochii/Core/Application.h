@@ -1,5 +1,5 @@
 #pragma once
-#include "Core.h"
+#include "Mochii/Core/Base.h"
 #include "Mochii/Core/LayerStack.h"
 #include "Mochii/Core/Timestep.h"
 #include "Mochii/Events/ApplicationEvent.h"
