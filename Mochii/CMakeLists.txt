@@ -53,6 +53,7 @@ endif()
 target_compile_definitions(mochii PRIVATE
     MI_BUILD_DLL
     GLFW_INCLUDE_NONE
+    _CRT_SECURE_NO_WARNINGS
 )
 
 # Configuration-specific definitions

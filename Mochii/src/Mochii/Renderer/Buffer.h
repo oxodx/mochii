@@ -20,6 +20,8 @@ enum class ShaderDataType {
 
 static uint32_t ShaderDataTypeSize(ShaderDataType type) {
   switch (type) {
+    case ShaderDataType::None:
+      return 0;
     case ShaderDataType::Float:
       return 4;
     case ShaderDataType::Float2:
@@ -31,7 +33,8 @@ static uint32_t ShaderDataTypeSize(ShaderDataType type) {
     case ShaderDataType::Mat3:
       return 4 * 3 * 3;
     case ShaderDataType::Mat4:
-      return 4 * 4 * 4;    case ShaderDataType::Int:
+      return 4 * 4 * 4;
+    case ShaderDataType::Int:
       return 4;
     case ShaderDataType::Int2:
       return 4 * 2;
@@ -66,6 +69,8 @@ struct BufferElement {
 
   uint32_t GetComponentCount() const {
     switch (Type) {
+      case ShaderDataType::None:
+        return 0;
       case ShaderDataType::Float:
         return 1;
       case ShaderDataType::Float2:

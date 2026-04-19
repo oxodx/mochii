@@ -5,6 +5,8 @@
 namespace Mochii {
 static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
   switch (type) {
+    case ShaderDataType::None:
+      return 0;
     case ShaderDataType::Float:
       return GL_FLOAT;
     case ShaderDataType::Float2:

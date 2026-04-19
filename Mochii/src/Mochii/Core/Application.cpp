@@ -1,5 +1,5 @@
 #include "Application.h"
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 #include "Input.h"
 #include "Mochii/Core/Application.h"
 #include "Mochii/Core/Log.h"

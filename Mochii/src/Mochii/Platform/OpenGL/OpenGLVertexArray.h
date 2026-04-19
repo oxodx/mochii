@@ -14,10 +14,10 @@ class OpenGLVertexArray : public VertexArray {
   virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
   virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
-  virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const {
+  const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const override {
     return _VertexBuffers;
   }
-  virtual const Ref<IndexBuffer>& GetIndexBuffer() const {
+  const Ref<IndexBuffer>& GetIndexBuffer() const override {
     return _IndexBuffer;
   }
 

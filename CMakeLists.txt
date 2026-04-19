@@ -64,6 +64,11 @@ FetchContent_Declare(
 # Make content available
 FetchContent_MakeAvailable(glfw spdlog glm fmt entt)
 
+# Silence a known fmt deprecation-warning path under newer Clang.
+if(TARGET fmt AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_compile_options(fmt PRIVATE -Wno-unused-result)
+endif()
+
 # Handle ImGui separately (not CMake-based)
 FetchContent_GetProperties(imgui)
 if(NOT imgui_POPULATED)
