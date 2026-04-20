@@ -40,6 +40,7 @@ target_link_libraries(mochii PUBLIC
     stb_image
     opengl32
     fmt
+    yaml-cpp::yaml-cpp
 )
 
 # EnTT is header-only but linking its target propagates include paths and compile defs.
