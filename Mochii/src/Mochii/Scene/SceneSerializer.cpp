@@ -152,6 +152,10 @@ void SceneSerializer::Serialize(const std::string& filepath) {
   out << YAML::EndMap;
 
   std::ofstream fout(filepath);
+  if (!fout) {
+    MI_CORE_ERROR("Failed to open file for serialization: {0}", filepath);
+    return;
+  }
   fout << out.c_str();
 }
 
@@ -162,8 +166,15 @@ void SceneSerializer::SerializeRuntime(const std::string& filepath) {
 
 bool SceneSerializer::Deserialize(const std::string& filepath) {
   std::ifstream stream(filepath);
+  if (!stream) {
+    MI_CORE_ERROR("Failed to open file for deserialization: {0}", filepath);
+    return false;
+  }
   std::stringstream strStream;
   strStream << stream.rdbuf();
+
+  YAML::Node data = YAML::Load(strStream.str());
+  if (!data["Scene"]) return false;  strStream << stream.rdbuf();
 
   YAML::Node data = YAML::Load(strStream.str());
   if (!data["Scene"]) return false;
