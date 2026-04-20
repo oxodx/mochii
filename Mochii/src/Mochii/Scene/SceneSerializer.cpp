@@ -174,9 +174,6 @@ bool SceneSerializer::Deserialize(const std::string& filepath) {
   strStream << stream.rdbuf();
 
   YAML::Node data = YAML::Load(strStream.str());
-  if (!data["Scene"]) return false;  strStream << stream.rdbuf();
-
-  YAML::Node data = YAML::Load(strStream.str());
   if (!data["Scene"]) return false;
 
   std::string sceneName = data["Scene"].as<std::string>();
