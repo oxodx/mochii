@@ -16,6 +16,12 @@ class EditorLayer : public Layer {
   void OnEvent(Event& e) override;
 
  private:
+  bool OnKeyPressed(KeyPressedEvent& e);
+
+  void NewScene();
+  void OpenScene();
+  void SaveSceneAs();
+  
   Mochii::OrthographicCameraController m_CameraController;
 
   // Temp
