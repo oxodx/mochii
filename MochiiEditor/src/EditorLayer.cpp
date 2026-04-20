@@ -240,17 +240,14 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& e) {
   switch (e.GetKeyCode()) {
     case Key::N: {
       if (control) NewScene();
-
       break;
     }
     case Key::O: {
       if (control) OpenScene();
-
       break;
     }
     case Key::S: {
       if (control && shift) SaveSceneAs();
-
       break;
     }
   }
