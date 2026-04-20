@@ -37,7 +37,7 @@ void Scene::OnUpdate(Timestep ts) {
 
   // Render 2D
   Camera* mainCamera = nullptr;
-  glm::mat4 cameraTransform;
+  glm::mat4 cameraTransform = glm::mat4(1.0f);
   {
     auto view = m_Registry.view<TransformComponent, CameraComponent>();
     for (auto entity : view) {

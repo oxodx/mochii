@@ -100,6 +100,9 @@ void Renderer2D::Shutdown() {
   MI_PROFILE_FUNCTION();
 
   delete[] s_Data->QuadVertexBufferBase;
+  s_Data->QuadVertexBufferBase = nullptr;
+  delete s_Data;
+  s_Data = nullptr;
 }
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera) {
