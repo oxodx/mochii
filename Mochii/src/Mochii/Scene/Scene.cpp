@@ -41,8 +41,8 @@ void Scene::OnUpdate(Timestep ts) {
   {
     auto view = m_Registry.view<TransformComponent, CameraComponent>();
     for (auto entity : view) {
-      auto transform = view.get<TransformComponent>(entity);
-      auto camera = view.get<CameraComponent>(entity);
+      auto& transform = view.get<TransformComponent>(entity);
+      auto& camera = view.get<CameraComponent>(entity);
 
       if (camera.Primary) {
         mainCamera = &camera.Camera;
@@ -58,8 +58,8 @@ void Scene::OnUpdate(Timestep ts) {
     auto group = m_Registry.group<TransformComponent>(
         entt::get<SpriteRendererComponent>);
     for (auto entity : group) {
-      auto transform = group.get<TransformComponent>(entity);
-      auto sprite = group.get<SpriteRendererComponent>(entity);
+      auto& transform = group.get<TransformComponent>(entity);
+      auto& sprite = group.get<SpriteRendererComponent>(entity);
 
       Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
     }
