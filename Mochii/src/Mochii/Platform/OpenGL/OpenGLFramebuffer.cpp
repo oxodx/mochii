@@ -43,9 +43,13 @@ void OpenGLFramebuffer::Invalidate() {
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
                          GL_TEXTURE_2D, m_DepthAttachment, 0);
 
-  MI_CORE_ASSERT(
-      glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE,
-      "Framebuffer is incomplete!");
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status != GL_FRAMEBUFFER_COMPLETE) {
+    MI_CORE_ERROR("Framebuffer incomplete: {}", status);
+#if defined(MI_DEBUG)
+    MI_CORE_ASSERT(false, "Framebuffer is incomplete!");
+#endif
+  }
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

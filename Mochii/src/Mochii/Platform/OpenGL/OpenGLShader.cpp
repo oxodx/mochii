@@ -152,15 +152,13 @@ void OpenGLShader::Compile(
 
     // The maxLength includes the NULL character
     std::vector<GLchar> infoLog(maxLength);
-    glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-
-    // We don't need the program anymore.
-    glDeleteProgram(program);
-
-    for (auto id : glShaderIDs) glDeleteShader(id);
-
-    MI_CORE_ERROR("{0}", infoLog.data());
+    MI_CORE_ERROR("Shader link failed: {}", infoLog.data());
+#if defined(MI_DEBUG)
     MI_CORE_ASSERT(false, "Shader link failure!");
+#endif
+
+    glDeleteProgram(program);
+    for (auto id : glShaderIDs) glDeleteShader(id);
     return;
   }
 
