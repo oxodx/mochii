@@ -131,7 +131,7 @@ void OpenGLShader::Compile(
 
       MI_CORE_ERROR("{0}", infoLog.data());
       MI_CORE_ASSERT(false, "Shader compilation failure!");
-      break;
+      return;
     }
 
     glAttachShader(program, shader);
@@ -150,8 +150,8 @@ void OpenGLShader::Compile(
     GLint maxLength = 0;
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
-    // The maxLength includes the NULL character
     std::vector<GLchar> infoLog(maxLength);
+    glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
     MI_CORE_ERROR("Shader link failed: {}", infoLog.data());
 #if defined(MI_DEBUG)
     MI_CORE_ASSERT(false, "Shader link failure!");
