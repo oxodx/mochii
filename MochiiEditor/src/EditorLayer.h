@@ -17,10 +17,17 @@ class EditorLayer : public Layer {
   void OnUpdate(Timestep ts) override;
   virtual void OnImGuiRender() override;
   void OnEvent(Event& e) override;
+
+  void NewScene();
+  void OpenScene();
+  void SaveSceneAs();
+
   void ResetSceneForBadAppleTilemap();
   void UpdateBadAppleTilemapFrame(size_t frameIndex);
 
- private:
+private:
+  bool OnKeyPressed(KeyPressedEvent& e);
+
   Mochii::OrthographicCameraController m_CameraController;
 
   // Temp

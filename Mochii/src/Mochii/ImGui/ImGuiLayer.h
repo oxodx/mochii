@@ -19,6 +19,8 @@ class ImGuiLayer : public Layer {
 
   void BlockEvents(bool block) { m_BlockEvents = block; }
 
+  void SetDarkThemeColors();
+
  private:
   bool m_BlockEvents = true;
   float _Time = 0.0f;

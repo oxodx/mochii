@@ -58,11 +58,18 @@ FetchContent_Declare(
     GIT_TAG v3.16.0
 )
 
+# yaml-cpp
+FetchContent_Declare(
+    yaml-cpp
+    GIT_REPOSITORY https://github.com/jbeder/yaml-cpp
+    GIT_TAG yaml-cpp-0.9.0
+)
+
 # stb_image (header-only, we'll add it manually)
 # For stb_image, we'll create a simple wrapper library
 
 # Make content available
-FetchContent_MakeAvailable(glfw spdlog glm fmt entt)
+FetchContent_MakeAvailable(glfw spdlog glm fmt entt yaml-cpp)
 
 # Silence a known fmt deprecation-warning path under newer Clang.
 if(TARGET fmt AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")

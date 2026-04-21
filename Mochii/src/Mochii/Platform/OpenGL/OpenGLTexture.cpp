@@ -32,7 +32,10 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : _Path(path) {
         "stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std::string&)");
     data = stbi_load(path.c_str(), &width, &height, &channels, 0);
   }
-  MI_CORE_ASSERT(data, "Failed to load image!");
+  if (!data) {
+    MI_CORE_ASSERT(false, "Failed to load image!");
+    return;
+  }
   _Width = width;
   _Height = height;
 
@@ -43,12 +46,14 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : _Path(path) {
   } else if (channels == 3) {
     internalFormat = GL_RGB8;
     dataFormat = GL_RGB;
+  } else {
+    stbi_image_free(data);
+    MI_CORE_ASSERT(false, "Unsupported channel count!");
+    return;
   }
 
   m_InternalFormat = internalFormat;
   m_DataFormat = dataFormat;
-
-  MI_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
 
   glCreateTextures(GL_TEXTURE_2D, 1, &_RendererID);
   glTextureStorage2D(_RendererID, 1, internalFormat, _Width, _Height);
