@@ -1,10 +1,26 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <random>
 #include "SceneCamera.h"
 #include "ScriptableEntity.h"
 
 namespace Mochii {
+
+static uint64_t GenerateUUID() {
+  static std::random_device rd;
+  static std::mt19937_64 eng(rd());
+  static std::uniform_int_distribution<uint64_t> dist;
+  return dist(eng);
+}
+
+struct UUIDComponent {
+  uint64_t UUID;
+
+  UUIDComponent() = default;
+  UUIDComponent(const UUIDComponent&) = default;
+  UUIDComponent(uint64_t uuid) : UUID(uuid) {}
+};
 struct TagComponent {
   std::string Tag;
 
