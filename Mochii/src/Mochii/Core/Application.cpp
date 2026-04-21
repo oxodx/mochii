@@ -28,7 +28,6 @@ Application::~Application() {
   MI_PROFILE_FUNCTION();
 
   Renderer::Shutdown();
-  delete _ImGuiLayer;
 }
 
 void Application::PushLayer(Layer* layer) {
