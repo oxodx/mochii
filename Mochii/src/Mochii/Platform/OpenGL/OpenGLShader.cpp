@@ -129,7 +129,7 @@ void OpenGLShader::Compile(
 
       glDeleteShader(shader);
 
-      MI_CORE_ERROR("{0}", infoLog.data());
+      MI_CORE_ERROR("Shader compilation failed:\n{0}", infoLog.data());
       MI_CORE_ASSERT(false, "Shader compilation failure!");
       return;
     }
