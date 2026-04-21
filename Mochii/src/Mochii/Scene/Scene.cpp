@@ -12,6 +12,7 @@ Scene::~Scene() {}
 
 Entity Scene::CreateEntity(const std::string& name) {
   Entity entity = {m_Registry.create(), this};
+  entity.AddComponent<UUIDComponent>(GenerateUUID());
   entity.AddComponent<TransformComponent>();
   auto& tag = entity.AddComponent<TagComponent>();
   tag.Tag = name.empty() ? "Entity" : name;
@@ -107,4 +108,8 @@ void Scene::OnComponentAdded<TagComponent>(Entity entity,
 template <>
 void Scene::OnComponentAdded<NativeScriptComponent>(
     Entity entity, NativeScriptComponent& component) {}
+
+template <>
+void Scene::OnComponentAdded<UUIDComponent>(Entity entity,
+                                             UUIDComponent& component) {}
 }  // namespace Mochii

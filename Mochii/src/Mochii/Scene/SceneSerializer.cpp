@@ -67,7 +67,7 @@ SceneSerializer::SceneSerializer(const Ref<Scene>& scene) : m_Scene(scene) {}
 static void SerializeEntity(YAML::Emitter& out, Entity entity) {
   out << YAML::BeginMap;  // Entity
   out << YAML::Key << "Entity" << YAML::Value
-      << "12837192831273";  // TODO: Entity ID goes here
+      << entity.GetComponent<UUIDComponent>().UUID;
 
   if (entity.HasComponent<TagComponent>()) {
     out << YAML::Key << "TagComponent";
@@ -192,6 +192,7 @@ bool SceneSerializer::Deserialize(const std::string& filepath) {
                     name);
 
       Entity deserializedEntity = m_Scene->CreateEntity(name);
+      deserializedEntity.GetComponent<UUIDComponent>().UUID = uuid;
 
       auto transformComponent = entity["TransformComponent"];
       if (transformComponent) {
