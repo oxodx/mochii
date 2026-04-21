@@ -20,11 +20,17 @@ class Application {
   void PushLayer(Layer* layer);
   void PushOverlay(Layer* layer);
 
+  LayerStack& GetLayerStack() { return _LayerStack; }
+
   Window& GetWindow() { return *_Window; }
 
   void Close();
 
   ImGuiLayer* GetImGuiLayer() { return _ImGuiLayer; }
+
+  virtual void OnMenuNewScene() {}
+  virtual void OnMenuOpenScene() {}
+  virtual void OnMenuSaveSceneAs() {}
 
   static Application& Get() {
     MI_CORE_ASSERT(_Instance, "Application not initialized!");

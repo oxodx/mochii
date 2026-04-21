@@ -13,15 +13,15 @@ class EditorLayer : public Layer {
 
   void OnUpdate(Timestep ts) override;
   virtual void OnImGuiRender() override;
-  void OnEvent(Event& e) override;
-
- private:
-  bool OnKeyPressed(KeyPressedEvent& e);
+void OnEvent(Event& e) override;
 
   void NewScene();
   void OpenScene();
   void SaveSceneAs();
-  
+
+private:
+  bool OnKeyPressed(KeyPressedEvent& e);
+
   Mochii::OrthographicCameraController m_CameraController;
 
   // Temp

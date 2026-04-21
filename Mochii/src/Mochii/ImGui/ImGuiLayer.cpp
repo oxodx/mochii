@@ -98,6 +98,27 @@ void ImGuiLayer::Begin() {
   ImGuiID dockspace_id = ImGui::GetID("MainDock");
   ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 
+  if (ImGui::BeginMenuBar()) {
+    if (ImGui::BeginMenu("File")) {
+      if (ImGui::MenuItem("New", "Ctrl+N")) {
+        auto& app = Application::Get();
+        app.OnMenuNewScene();
+      }
+      if (ImGui::MenuItem("Open...", "Ctrl+O")) {
+        auto& app = Application::Get();
+        app.OnMenuOpenScene();
+      }
+      if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S")) {
+        auto& app = Application::Get();
+        app.OnMenuSaveSceneAs();
+      }
+
+      if (ImGui::MenuItem("Exit")) Application::Get().Close();
+      ImGui::EndMenu();
+    }
+    ImGui::EndMenuBar();
+  }
+
   ImGui::End();
 }
 
