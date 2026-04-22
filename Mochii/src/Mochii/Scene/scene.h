@@ -10,6 +10,9 @@ class Scene {
   Scene();
   ~Scene();
 
+  const std::string& GetName() const { return m_Name; }
+  void SetName(const std::string& name) { m_Name = name; }
+
   Entity CreateEntity(const std::string& name = std::string());
   void DestroyEntity(Entity entity);
 
@@ -20,6 +23,7 @@ class Scene {
   template <typename T>
   void OnComponentAdded(Entity entity, T& component);
 
+  std::string m_Name = "Untitled";
   entt::registry m_Registry;
   uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 

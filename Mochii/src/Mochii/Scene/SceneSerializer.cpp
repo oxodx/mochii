@@ -140,7 +140,7 @@ static void SerializeEntity(YAML::Emitter& out, Entity entity) {
 void SceneSerializer::Serialize(const std::string& filepath) {
   YAML::Emitter out;
   out << YAML::BeginMap;
-  out << YAML::Key << "Scene" << YAML::Value << "Untitled";
+  out << YAML::Key << "Scene" << YAML::Value << m_Scene->GetName();
   out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
   for (auto entityID : m_Scene->m_Registry.view<entt::entity>()) {
     Entity entity = {entityID, m_Scene.get()};
@@ -177,6 +177,7 @@ bool SceneSerializer::Deserialize(const std::string& filepath) {
   if (!data["Scene"]) return false;
 
   std::string sceneName = data["Scene"].as<std::string>();
+  m_Scene->SetName(sceneName);
   MI_CORE_TRACE("Deserializing scene '{0}'", sceneName);
 
   auto entities = data["Entities"];
