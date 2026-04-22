@@ -4,8 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 Sandbox2D::Sandbox2D()
-    : Layer("Sandbox2D"),
-      m_CameraController(1280.0f / 720.0f) {}
+    : Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f) {}
 
 void Sandbox2D::OnAttach() {
   MI_PROFILE_FUNCTION();
@@ -37,14 +36,14 @@ void Sandbox2D::OnUpdate(Mochii::Timestep ts) {
     MI_PROFILE_SCOPE("Renderer Draw");
     Mochii::Renderer2D::BeginScene(m_CameraController.GetCamera());
     Mochii::Renderer2D::DrawRotatedQuad({1.0f, 0.0f}, {0.8f, 0.8f}, -45.0f,
-                                       {0.8f, 0.2f, 0.3f, 1.0f});
+                                        {0.8f, 0.2f, 0.3f, 1.0f});
     Mochii::Renderer2D::DrawQuad({-1.0f, 0.0f}, {0.8f, 0.8f},
-                                {0.8f, 0.2f, 0.3f, 1.0f});
+                                 {0.8f, 0.2f, 0.3f, 1.0f});
     Mochii::Renderer2D::DrawQuad({0.5f, -0.5f}, {0.5f, 0.75f}, m_SquareColor);
     Mochii::Renderer2D::DrawQuad({0.0f, 0.0f, -0.1f}, {20.0f, 20.0f},
-                                m_CheckerboardTexture, 10.0f);
+                                 m_CheckerboardTexture, 10.0f);
     Mochii::Renderer2D::DrawRotatedQuad({-2.0f, 0.0f, 0.0f}, {1.0f, 1.0f},
-                                       rotation, m_CheckerboardTexture, 20.0f);
+                                        rotation, m_CheckerboardTexture, 20.0f);
     Mochii::Renderer2D::EndScene();
 
     Mochii::Renderer2D::BeginScene(m_CameraController.GetCamera());
@@ -63,13 +62,13 @@ void Sandbox2D::OnImGuiRender() {
 
   ImGui::Begin("Settings");
   auto stats = Mochii::Renderer2D::GetStats();
-	ImGui::Text("Renderer2D Stats:");
-	ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-	ImGui::Text("Quads: %d", stats.QuadCount);
-	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+  ImGui::Text("Renderer2D Stats:");
+  ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+  ImGui::Text("Quads: %d", stats.QuadCount);
+  ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+  ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
   ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
-	ImGui::End();
+  ImGui::End();
 }
 
 void Sandbox2D::OnEvent(Mochii::Event& e) { m_CameraController.OnEvent(e); }

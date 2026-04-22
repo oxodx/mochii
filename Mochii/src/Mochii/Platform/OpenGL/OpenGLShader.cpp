@@ -186,7 +186,8 @@ void OpenGLShader::SetInt(const std::string& name, int value) {
   UploadUniformInt(name, value);
 }
 
-void OpenGLShader::SetIntArray(const std::string& name, int* values, uint32_t count) {
+void OpenGLShader::SetIntArray(const std::string& name, int* values,
+                               uint32_t count) {
   MI_PROFILE_FUNCTION();
 
   UploadUniformIntArray(name, values, count);
@@ -221,7 +222,8 @@ void OpenGLShader::UploadUniformInt(const std::string& name, int value) {
   if (location != -1) glUniform1i(location, value);
 }
 
-void OpenGLShader::UploadUniformIntArray(const std::string& name, int* values, uint32_t count) {
+void OpenGLShader::UploadUniformIntArray(const std::string& name, int* values,
+                                         uint32_t count) {
   GLint location = glGetUniformLocation(_RendererID, name.c_str());
   if (location != -1) glUniform1iv(location, count, values);
 }
@@ -252,12 +254,14 @@ void OpenGLShader::UploadUniformFloat4(const std::string& name,
 void OpenGLShader::UploadUniformMat3(const std::string& name,
                                      const glm::mat3& matrix) {
   GLint location = glGetUniformLocation(_RendererID, name.c_str());
-  if (location != -1) glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+  if (location != -1)
+    glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void OpenGLShader::UploadUniformMat4(const std::string& name,
                                      const glm::mat4& matrix) {
   GLint location = glGetUniformLocation(_RendererID, name.c_str());
-  if (location != -1) glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+  if (location != -1)
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 }  // namespace Mochii

@@ -3,7 +3,6 @@
 #include "Mochii/Core/Base.h"
 #include "Mochii/Core/Log.h"
 
-
 #ifdef MI_PLATFORM_WINDOWS
 
 extern Mochii::Application* Mochii::CreateApplication();

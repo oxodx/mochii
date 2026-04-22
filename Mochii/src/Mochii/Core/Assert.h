@@ -3,7 +3,6 @@
 #include "Mochii/Core/Base.h"
 #include "Mochii/Core/Log.h"
 
-
 #ifdef MI_ENABLE_ASSERTS
 // Alteratively we could use the same "default" message for both "WITH_MSG" and
 // "NO_MSG" and provide support for custom formatting by concatenating the

@@ -1,6 +1,6 @@
 #include "Mochii/Renderer/GraphicsContext.h"
-#include "Mochii/Renderer/Renderer.h"
 #include "Mochii/Platform/OpenGL/OpenGLContext.h"
+#include "Mochii/Renderer/Renderer.h"
 #include "mzpch.h"
 
 namespace Mochii {
@@ -16,4 +16,4 @@ Scope<GraphicsContext> GraphicsContext::Create(void* window) {
   MI_CORE_ASSERT(false, "Unknown RendererAPI!");
   return nullptr;
 }
-}  // namespace Mochi
+}  // namespace Mochii

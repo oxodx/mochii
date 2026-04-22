@@ -111,5 +111,5 @@ void Scene::OnComponentAdded<NativeScriptComponent>(
 
 template <>
 void Scene::OnComponentAdded<UUIDComponent>(Entity entity,
-                                             UUIDComponent& component) {}
+                                            UUIDComponent& component) {}
 }  // namespace Mochii

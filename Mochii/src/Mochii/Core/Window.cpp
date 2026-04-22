@@ -1,5 +1,5 @@
-#include "mzpch.h"
 #include "Mochii/Core/Window.h"
+#include "mzpch.h"
 #ifdef MI_PLATFORM_WINDOWS
 #include "Mochii/Platform/Windows/WindowsWindow.h"
 #endif

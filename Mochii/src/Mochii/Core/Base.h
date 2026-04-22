@@ -44,4 +44,3 @@ Ref<T> CreateRef(Args&&... args) {
 
 #include "Mochii/Core/Assert.h"
 #include "Mochii/Core/Log.h"
-

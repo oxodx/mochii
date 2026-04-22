@@ -1,7 +1,7 @@
-#include "mzpch.h"
 #include "Mochii/Renderer/Framebuffer.h"
 #include "Mochii/Platform/OpenGL/OpenGLFramebuffer.h"
 #include "Mochii/Renderer/Renderer.h"
+#include "mzpch.h"
 
 namespace Mochii {
 Ref<Framebuffer> Framebuffer::Create(const FramebufferSpecification& spec) {

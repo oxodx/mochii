@@ -110,9 +110,7 @@ class BufferLayout {
   }
 
   uint32_t GetStride() const { return _Stride; }
-  const std::vector<BufferElement>& GetElements() const {
-    return _Elements;
-  }
+  const std::vector<BufferElement>& GetElements() const { return _Elements; }
 
   std::vector<BufferElement>::iterator begin() { return _Elements.begin(); }
   std::vector<BufferElement>::iterator end() { return _Elements.end(); }

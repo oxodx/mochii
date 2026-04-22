@@ -1,11 +1,11 @@
 #include "Mochii/Platform/Windows/WindowsWindow.h"
-#include "mzpch.h"
 #include "Mochii/Core/Input.h"
 #include "Mochii/Events/ApplicationEvent.h"
 #include "Mochii/Events/KeyEvent.h"
 #include "Mochii/Events/MouseEvent.h"
-#include "Mochii/Renderer/Renderer.h"
 #include "Mochii/Platform/OpenGL/OpenGLContext.h"
+#include "Mochii/Renderer/Renderer.h"
+#include "mzpch.h"
 
 namespace Mochii {
 static uint8_t s_GLFWWindowCount = 0;
@@ -172,4 +172,4 @@ void WindowsWindow::SetVSync(bool enabled) {
 }
 
 bool WindowsWindow::IsVSync() const { return m_Data.VSync; }
-}  // namespace Hazel
+}  // namespace Mochii
