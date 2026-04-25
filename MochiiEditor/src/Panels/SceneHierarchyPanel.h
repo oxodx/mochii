@@ -1,6 +1,5 @@
 #pragma once
 #include "Mochii/Core/Base.h"
-#include "Mochii/Core/Log.h"
 #include "Mochii/Scene/Entity.h"
 #include "Mochii/Scene/Scene.h"
 
@@ -13,6 +12,8 @@ class SceneHierarchyPanel {
   void SetContext(const Ref<Scene>& scene);
 
   void OnImGuiRender();
+
+  Entity GetSelectedEntity() const { return m_SelectionContext; }
 
  private:
   void DrawEntityNode(Entity entity);

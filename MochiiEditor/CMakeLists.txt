@@ -24,6 +24,7 @@ target_link_libraries(MochiiEditor PRIVATE
     mochii
     glfw
     ImGui
+    ImGuizmo
 )
 
 # Preprocessor definitions

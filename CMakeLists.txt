@@ -5,6 +5,9 @@ project(Mochii)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# ImGui math operators for ImGuizmo
+add_compile_definitions(IMGUI_DEFINE_MATH_OPERATORS)
+
 # Export compile commands for clangd and other tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -71,11 +74,6 @@ FetchContent_Declare(
 # Make content available
 FetchContent_MakeAvailable(glfw spdlog glm fmt entt yaml-cpp)
 
-# Silence a known fmt deprecation-warning path under newer Clang.
-if(TARGET fmt AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    target_compile_options(fmt PRIVATE -Wno-unused-result)
-endif()
-
 # Handle ImGui separately (not CMake-based)
 FetchContent_GetProperties(imgui)
 if(NOT imgui_POPULATED)
@@ -106,6 +104,16 @@ target_include_directories(ImGui PUBLIC
     ${imgui_SOURCE_DIR}/backends
 )
 target_link_libraries(ImGui PUBLIC glad)
+
+# ImGuizmo library (from vendor)
+add_library(ImGuizmo)
+target_sources(ImGuizmo PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo/ImGuizmo.cpp
+)
+target_include_directories(ImGuizmo PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo
+    ${imgui_SOURCE_DIR}
+)
 
 # Static link MinGW runtime to avoid DLL dependencies
 if (MINGW)
