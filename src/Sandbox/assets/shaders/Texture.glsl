@@ -17,7 +17,7 @@ out float v_TilingFactor;
 void main() {
 	v_Color = a_Color;
 	v_TexCoord = a_TexCoord;
-	v_TexIndex = int(a_TexIndex);
+	v_TexIndex = a_TexIndex;
 	v_TilingFactor = a_TilingFactor;
 	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 }
@@ -29,14 +29,11 @@ layout(location = 0) out vec4 color;
 
 in vec4 v_Color;
 in vec2 v_TexCoord;
-flat in int v_TexIndex;
-in float v_TilingFactor;
-
-uniform sampler2D u_Textures[32];
+flat in float v_TexIndex;
 
 void main() {
 	vec4 texColor = v_Color;
-	switch(v_TexIndex) {
+	switch(int(v_TexIndex)) {
 		case 0: texColor *= texture(u_Textures[0], v_TexCoord * v_TilingFactor); break;
 		case 1: texColor *= texture(u_Textures[1], v_TexCoord * v_TilingFactor); break;
 		case 2: texColor *= texture(u_Textures[2], v_TexCoord * v_TilingFactor); break;
