@@ -1,6 +1,7 @@
 #pragma once
 #include <entt/entt.hpp>
 #include "Mochii/Core/Timestep.h"
+#include "Mochii/Renderer/EditorCamera.h"
 
 namespace Mochii {
 class Entity;
@@ -16,7 +17,8 @@ class Scene {
   Entity CreateEntity(const std::string& name = std::string());
   void DestroyEntity(Entity entity);
 
-  void OnUpdate(Timestep ts);
+  void OnUpdateRuntime(Timestep ts);
+  void OnUpdateEditor(Timestep ts, EditorCamera& camera);
   void OnViewportResize(uint32_t width, uint32_t height);
 
   Entity GetPrimaryCameraEntity();
