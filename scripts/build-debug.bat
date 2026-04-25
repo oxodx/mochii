@@ -17,6 +17,7 @@ if errorlevel 1 (
     pause
     exit /b 1
 )
-echo D | xcopy /s /y "%ROOT_DIR%\Sandbox\assets" "%ROOT_DIR%\build\bin\assets"
+echo D | xcopy /s /y "%ROOT_DIR%\src\Sandbox\assets" "%ROOT_DIR%\build\bin\assets"
+echo D | xcopy /s /y "%ROOT_DIR%\src\MochiiEditor\assets" "%ROOT_DIR%\build\bin\assets"
 cd /d "%ROOT_DIR%\build\bin"
 MochiiEditor.exe

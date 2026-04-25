@@ -38,7 +38,6 @@ target_link_libraries(mochii PUBLIC
     glfw
     ImGui
     stb_image
-    opengl32
     fmt
     yaml-cpp::yaml-cpp
 )
