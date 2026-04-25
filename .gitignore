@@ -1,16 +1,8 @@
-/vendor/
 /build/
 /bin/
 /.cache/
 /.vs/
 /Sandbox/imgui.ini
-/**/*.vcxproj.filters
-/**/*.vcxproj.user
-/**/*.vcxproj
-/**/*.slnx
 /**/*.log
 
-!/vendor/glad/include/
-!/vendor/glad/src/
-!/vendor/stb_image/*.cpp
-!/vendor/stb_image/*.h
+/.xmake/

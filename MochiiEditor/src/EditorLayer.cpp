@@ -280,7 +280,7 @@ void EditorLayer::NewScene() {
 
 void EditorLayer::OpenScene() {
   std::optional<std::string> filepath =
-      FileDialogs::OpenFile("Hazel Scene (*.hazel)\0*.hazel\0");
+      FileDialogs::OpenFile("Mochii Scene (*.mochii)\0*.mochii\0");
   if (filepath) {
     m_ActiveScene = CreateRef<Scene>();
     m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x,
@@ -294,7 +294,7 @@ void EditorLayer::OpenScene() {
 
 void EditorLayer::SaveSceneAs() {
   std::optional<std::string> filepath =
-      FileDialogs::SaveFile("Hazel Scene (*.hazel)\0*.hazel\0");
+      FileDialogs::SaveFile("Mochii Scene (*.mochii)\0*.mochii\0");
   if (filepath) {
     SceneSerializer serializer(m_ActiveScene);
     serializer.Serialize(*filepath);

@@ -1,6 +1,5 @@
 #include "Math.h"
 #include "mzpch.h"
-#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
 
 namespace Mochii::Math {

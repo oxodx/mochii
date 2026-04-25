@@ -4,7 +4,6 @@
 #include <random>
 #include "SceneCamera.h"
 #include "ScriptableEntity.h"
-#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
 namespace Mochii {
