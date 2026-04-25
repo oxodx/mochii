@@ -6,7 +6,7 @@
 #include "mzpch.h"
 
 namespace Mochii {
-Scene::Scene() {}
+Scene::Scene() : m_ViewportWidth(1280), m_ViewportHeight(720) {}
 
 Scene::~Scene() {}
 
