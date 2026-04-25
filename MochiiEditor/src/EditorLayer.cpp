@@ -91,7 +91,9 @@ void EditorLayer::OnImGuiRender() {
 }
 
 void EditorLayer::OnEvent(Event& e) {
-  m_CameraController.OnEvent(e);
+  if (e.GetEventType() != EventType::WindowResize) {
+    m_CameraController.OnEvent(e);
+  }
 
   EventDispatcher dispatcher(e);
   dispatcher.Dispatch<KeyPressedEvent>(
