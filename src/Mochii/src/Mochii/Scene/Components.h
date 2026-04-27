@@ -69,6 +69,10 @@ struct NativeScriptComponent {
   ScriptableEntity* (*InstantiateScript)();
   void (*DestroyScript)(NativeScriptComponent*);
 
+  ~NativeScriptComponent() {
+    if (Instance && DestroyScript) DestroyScript(this);
+  }
+
   template <typename T>
   void Bind() {
     InstantiateScript = []() {
