@@ -276,36 +276,42 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& e) {
                  Input::IsKeyPressed(Key::RightControl);
   bool shift = Input::IsKeyPressed(Key::LeftShift) ||
                Input::IsKeyPressed(Key::RightShift);
+
   switch (e.GetKeyCode()) {
     case Key::N: {
       if (control) NewScene();
-
       break;
     }
     case Key::O: {
       if (control) OpenScene();
-
       break;
     }
     case Key::S: {
       if (control && shift) SaveSceneAs();
-
       break;
     }
 
     // Gizmos
-    case Key::Q:
-      m_GizmoType = -1;
+    case Key::Q: {
+      if (!ImGuizmo::IsUsing())
+        m_GizmoType = -1;
       break;
-    case Key::W:
-      m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+    }
+    case Key::W: {
+      if (!ImGuizmo::IsUsing())
+        m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
       break;
-    case Key::E:
-      m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+    }
+    case Key::E: {
+      if (!ImGuizmo::IsUsing())
+        m_GizmoType = ImGuizmo::OPERATION::ROTATE;
       break;
-    case Key::R:
-      m_GizmoType = ImGuizmo::OPERATION::SCALE;
+    }
+    case Key::R: {
+      if (!ImGuizmo::IsUsing())
+        m_GizmoType = ImGuizmo::OPERATION::SCALE;
       break;
+    }
   }
 
   return false;
