@@ -11,8 +11,7 @@
 namespace Mochii {
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"),
-      m_CameraController(1280.0f / 720.0f),
-      m_SquareColor({0.2f, 0.3f, 0.8f, 1.0f}) {}
+      m_CameraController(1280.0f / 720.0f) {}
 
 void EditorLayer::OnAttach() {
   MI_PROFILE_FUNCTION();
