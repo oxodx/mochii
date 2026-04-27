@@ -22,10 +22,10 @@ int main(int argc, char** argv) {
     app->Run();
   } catch (const std::exception& e) {
     MI_CORE_ERROR("Application error: {0}", e.what());
+    MI_PROFILE_END_SESSION();
     return 1;
   }
   MI_PROFILE_END_SESSION();
-
   return 0;
 }
 

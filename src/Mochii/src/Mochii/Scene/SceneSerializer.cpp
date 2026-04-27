@@ -1,9 +1,9 @@
+#include "mzpch.h"
 #include "SceneSerializer.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include "Components.h"
 #include "Entity.h"
-#include "mzpch.h"
 
 namespace YAML {
 template <>

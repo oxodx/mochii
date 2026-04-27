@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace Mochii {
 using KeyCode = uint16_t;

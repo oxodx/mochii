@@ -1,10 +1,10 @@
+#include "mzpch.h"
 #include "Application.h"
 #include <GLFW/glfw3.h>
 #include "Input.h"
 #include "Mochii/Core/Application.h"
 #include "Mochii/Core/Log.h"
 #include "Mochii/Renderer/Renderer.h"
-#include "mzpch.h"
 
 namespace Mochii {
 Application* Application::_Instance = nullptr;

@@ -1,8 +1,8 @@
 #pragma once
+#include <cstdint>
 
 namespace Mochii {
 using MouseCode = uint16_t;
-
 namespace Mouse {
 enum : MouseCode {
   // From glfw3.h

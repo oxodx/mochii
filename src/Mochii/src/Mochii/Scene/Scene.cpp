@@ -1,9 +1,9 @@
+#include "mzpch.h"
 #include "Scene.h"
 #include <glm/glm.hpp>
 #include "Components.h"
 #include "Entity.h"
 #include "Mochii/Renderer/Renderer2D.h"
-#include "mzpch.h"
 
 namespace Mochii {
 Scene::Scene() : m_ViewportWidth(1280), m_ViewportHeight(720) {}

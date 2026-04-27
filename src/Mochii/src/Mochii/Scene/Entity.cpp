@@ -1,5 +1,5 @@
-#include "Entity.h"
 #include "mzpch.h"
+#include "Entity.h"
 
 namespace Mochii {
 Entity::Entity(entt::entity handle, Scene* scene)

@@ -23,6 +23,7 @@ void SceneCamera::SetOrthographic(float size, float nearClip, float farClip) {
 }
 
 void SceneCamera::SetViewportSize(uint32_t width, uint32_t height) {
+  if (height == 0 || width == 0) return;
   m_AspectRatio = (float)width / (float)height;
   RecalculateProjection();
 }

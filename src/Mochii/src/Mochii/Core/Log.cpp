@@ -1,7 +1,7 @@
+#include "mzpch.h"
 #include "Mochii/Core/Log.h"
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include "mzpch.h"
 
 namespace Mochii {
 Ref<spdlog::logger> Log::s_CoreLogger;
