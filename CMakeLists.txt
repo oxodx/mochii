@@ -6,7 +6,7 @@ endif()
 
 cmake_minimum_required(VERSION 3.16.3 FATAL_ERROR)
 set(CMAKE_WARN_DEPRECATED FALSE)
-project(mochii VERSION 0.1.1 LANGUAGES C CXX
+project(mochii VERSION 0.1.2 LANGUAGES C CXX
     HOMEPAGE_URL "https://github.com/oxodx/mochii")
 
 include(cmake/CPM.cmake)
