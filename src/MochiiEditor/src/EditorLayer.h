@@ -18,28 +18,22 @@ class EditorLayer : public Layer {
   void OnUpdate(Timestep ts) override;
   virtual void OnImGuiRender() override;
   void OnEvent(Event& e) override;
+  void ResetSceneForBadAppleTilemap();
+  void UpdateBadAppleTilemapFrame(size_t frameIndex);
 
   void NewScene();
   void OpenScene();
   void SaveSceneAs();
-
-  void ResetSceneForBadAppleTilemap();
-  void UpdateBadAppleTilemapFrame(size_t frameIndex);
 
   bool OnKeyPressed(KeyPressedEvent& e);
 
  private:
   Mochii::OrthographicCameraController m_CameraController;
 
-  // Temp
-  Ref<VertexArray> m_SquareVA;
-  Ref<Shader> m_FlatColorShader;
   Ref<Framebuffer> m_Framebuffer;
 
   Ref<Scene> m_ActiveScene;
-  Entity m_SquareEntity;
   Entity m_CameraEntity;
-  Entity m_SecondCamera;
 
   bool m_PrimaryCamera = true;
 
@@ -51,13 +45,13 @@ class EditorLayer : public Layer {
   glm::vec2 m_ViewportSize = {0.0f, 0.0f};
   glm::vec2 m_ViewportBounds[2];
 
+  int m_GizmoType = -1;
+
   std::string m_BadAppleStatus = "Ready.";
   BadApplePlayer::TileVideo m_BadAppleTileVideo;
   std::vector<Entity> m_BadAppleTiles;
   float m_BadApplePlaybackTime = 0.0f;
   bool m_BadAppleTilemapPlaying = false;
-
-  int m_GizmoType = -1;
 
   // Panels
   SceneHierarchyPanel m_SceneHierarchyPanel;

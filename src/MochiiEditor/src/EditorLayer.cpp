@@ -56,6 +56,21 @@ void EditorLayer::OnUpdate(Timestep ts) {
 
   m_EditorCamera.OnUpdate(ts);
 
+  // Bad Apple playback
+  if (m_BadAppleTilemapPlaying && m_BadAppleTileVideo.Width > 0 &&
+      m_BadAppleTileVideo.Height > 0 && !m_BadAppleTileVideo.Frames.empty()) {
+    const size_t framePixelCount =
+        static_cast<size_t>(m_BadAppleTileVideo.Width) * m_BadAppleTileVideo.Height;
+    const size_t frameCount = m_BadAppleTileVideo.Frames.size() / framePixelCount;
+    if (frameCount > 0) {
+      m_BadApplePlaybackTime += ts;
+      const size_t frameIndex =
+          static_cast<size_t>(m_BadApplePlaybackTime * m_BadAppleTileVideo.FPS) %
+          frameCount;
+      UpdateBadAppleTilemapFrame(frameIndex);
+    }
+  }
+
   // Render
   Renderer2D::ResetStats();
   m_Framebuffer->Bind();
@@ -88,15 +103,11 @@ void EditorLayer::OnUpdate(Timestep ts) {
 void EditorLayer::OnImGuiRender() {
   MI_PROFILE_FUNCTION();
 
-  // Note: Switch this to true to enable dockspace
   static bool dockspaceOpen = true;
   static bool opt_fullscreen_persistant = true;
   bool opt_fullscreen = opt_fullscreen_persistant;
   static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-  // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window
-  // not dockable into, because it would be confusing to have two docking
-  // targets within each others.
   ImGuiWindowFlags window_flags =
       ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
   if (opt_fullscreen) {
@@ -112,26 +123,15 @@ void EditorLayer::OnImGuiRender() {
         ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
   }
 
-  // When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render
-  // our background and handle the pass-thru hole, so we ask Begin() to not
-  // render a background.
   if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
     window_flags |= ImGuiWindowFlags_NoBackground;
 
-  // Important: note that we proceed even if Begin() returns false (aka window
-  // is collapsed). This is because we want to keep our DockSpace() active. If a
-  // DockSpace() is inactive, all active windows docked into it will lose their
-  // parent and become undocked. We cannot preserve the docking relationship
-  // between an active window and an inactive docking, otherwise any change of
-  // dockspace/settings would lead to windows being stuck in limbo and never
-  // being visible.
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
   ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
   ImGui::PopStyleVar();
 
   if (opt_fullscreen) ImGui::PopStyleVar(2);
 
-  // DockSpace
   ImGuiIO& io = ImGui::GetIO();
   ImGuiStyle& style = ImGui::GetStyle();
   float minWinSizeX = style.WindowMinSize.x;
@@ -145,16 +145,22 @@ void EditorLayer::OnImGuiRender() {
 
   if (ImGui::BeginMenuBar()) {
     if (ImGui::BeginMenu("File")) {
-      // Disabling fullscreen would allow the window to be moved to the front of
-      // other windows, which we can't undo at the moment without finer window
-      // depth/z control.
-      // ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);1
       if (ImGui::MenuItem("New", "Ctrl+N")) NewScene();
-
       if (ImGui::MenuItem("Open...", "Ctrl+O")) OpenScene();
-
       if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S")) SaveSceneAs();
-
+      ImGui::Separator();
+      if (ImGui::MenuItem("Load Bad Apple Tilemap")) {
+        if (!Mochii::BadApplePlayer::LoadTileVideo(m_BadAppleTileVideo,
+                                                   m_BadAppleStatus))
+          MI_ERROR("{}", m_BadAppleStatus);
+        else {
+          ResetSceneForBadAppleTilemap();
+          m_BadApplePlaybackTime = 0.0f;
+          m_BadAppleTilemapPlaying = true;
+          MI_INFO("{}", m_BadAppleStatus);
+        }
+      }
+      ImGui::Separator();
       if (ImGui::MenuItem("Exit")) Application::Get().Close();
       ImGui::EndMenu();
     }
@@ -172,12 +178,35 @@ void EditorLayer::OnImGuiRender() {
   ImGui::Text("Quads: %d", stats.QuadCount);
   ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
   ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+  ImGui::Separator();
+  if (ImGui::Button("Load Bad Apple Tilemap")) {
+    if (!Mochii::BadApplePlayer::LoadTileVideo(m_BadAppleTileVideo,
+                                               m_BadAppleStatus))
+      MI_ERROR("{}", m_BadAppleStatus);
+    else {
+      ResetSceneForBadAppleTilemap();
+      m_BadApplePlaybackTime = 0.0f;
+      m_BadAppleTilemapPlaying = true;
+      MI_INFO("{}", m_BadAppleStatus);
+    }
+  }
+  ImGui::Separator();
+  if (ImGui::Button(m_BadAppleTilemapPlaying ? "Pause Tilemap" : "Play Tilemap")) {
+    m_BadAppleTilemapPlaying = !m_BadAppleTilemapPlaying;
+  }
+  ImGui::SameLine();
+  if (ImGui::Button("Restart Tilemap")) {
+    m_BadApplePlaybackTime = 0.0f;
+    UpdateBadAppleTilemapFrame(0);
+  }
+  ImGui::Separator();
+  ImGui::TextWrapped("Bad Apple: %s", m_BadAppleStatus.c_str());
 
   ImGui::End();
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
   ImGui::Begin("Viewport");
-  auto viewportOffset = ImGui::GetCursorPos();  // Includes tab bar
+  auto viewportOffset = ImGui::GetCursorPos();
 
   m_ViewportFocused = ImGui::IsWindowFocused();
   m_ViewportHovered = ImGui::IsWindowHovered();
@@ -202,7 +231,6 @@ void EditorLayer::OnImGuiRender() {
   m_ViewportBounds[0] = {minBound.x, minBound.y};
   m_ViewportBounds[1] = {maxBound.x, maxBound.y};
 
-  // Gizmos
   Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
   if (selectedEntity && m_GizmoType != -1) {
     ImGuizmo::SetOrthographic(false);
@@ -213,25 +241,14 @@ void EditorLayer::OnImGuiRender() {
     ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y,
                       windowWidth, windowHeight);
 
-    // Runtime camera from entity
-    // auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-    // const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-    // const glm::mat4& cameraProjection = camera.GetProjection();
-    // glm::mat4 cameraView =
-    // glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
-
-    // Editor camera
     const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
     glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
 
-    // Entity transform
     auto& tc = selectedEntity.GetComponent<TransformComponent>();
     glm::mat4 transform = tc.GetTransform();
 
-    // Snapping
     bool snap = Input::IsKeyPressed(Key::LeftControl);
-    float snapValue = 0.5f;  // Snap to 0.5m for translation/scale
-    // Snap to 45 degrees for rotation
+    float snapValue = 0.5f;
     if (m_GizmoType == ImGuizmo::OPERATION::ROTATE) snapValue = 45.0f;
 
     float snapValues[3] = {snapValue, snapValue, snapValue};
@@ -268,7 +285,6 @@ void EditorLayer::OnEvent(Event& e) {
 }
 
 bool EditorLayer::OnKeyPressed(KeyPressedEvent& e) {
-  // Shortcuts
   if (e.GetRepeatCount() > 0) return false;
 
   bool control = Input::IsKeyPressed(Key::LeftControl) ||
@@ -289,8 +305,6 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& e) {
       if (control && shift) SaveSceneAs();
       break;
     }
-
-    // Gizmos
     case Key::Q: {
       if (!ImGuizmo::IsUsing())
         m_GizmoType = -1;
@@ -343,6 +357,57 @@ void EditorLayer::SaveSceneAs() {
   if (filepath) {
     SceneSerializer serializer(m_ActiveScene);
     serializer.Serialize(*filepath);
+  }
+}
+
+void EditorLayer::ResetSceneForBadAppleTilemap() {
+  m_ActiveScene = CreateRef<Scene>();
+  m_BadAppleTiles.clear();
+
+  m_CameraEntity = m_ActiveScene->CreateEntity("BadAppleCamera");
+  auto& cameraComponent = m_CameraEntity.AddComponent<CameraComponent>();
+  cameraComponent.Primary = true;
+  cameraComponent.Camera.SetProjectionType(SceneCamera::ProjectionType::Orthographic);
+
+  constexpr float tileSize = 0.2f;
+  const float worldHeight = static_cast<float>(m_BadAppleTileVideo.Height) * tileSize;
+  cameraComponent.Camera.SetOrthographic(worldHeight, -1.0f, 1.0f);
+
+  const float halfWidth = static_cast<float>(m_BadAppleTileVideo.Width) * 0.5f;
+  const float halfHeight = static_cast<float>(m_BadAppleTileVideo.Height) * 0.5f;
+  for (uint32_t row = 0; row < m_BadAppleTileVideo.Height; ++row) {
+    for (uint32_t col = 0; col < m_BadAppleTileVideo.Width; ++col) {
+      Entity tile = m_ActiveScene->CreateEntity("BadAppleTile");
+      auto& tc = tile.GetComponent<TransformComponent>();
+      const float x = (static_cast<float>(col) - halfWidth) * tileSize + tileSize * 0.5f;
+      const float y =
+          (halfHeight - static_cast<float>(row)) * tileSize - tileSize * 0.5f;
+      tc.Translation = {x, y, 0.0f};
+      tc.Scale = {tileSize, tileSize, 1.0f};
+      tile.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f});
+      m_BadAppleTiles.push_back(tile);
+    }
+  }
+
+  UpdateBadAppleTilemapFrame(0);
+  m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+}
+
+void EditorLayer::UpdateBadAppleTilemapFrame(size_t frameIndex) {
+  const size_t framePixelCount =
+      static_cast<size_t>(m_BadAppleTileVideo.Width) * m_BadAppleTileVideo.Height;
+  if (framePixelCount == 0) return;
+
+  const size_t frameCount = m_BadAppleTileVideo.Frames.size() / framePixelCount;
+  if (frameCount == 0) return;
+  const size_t clampedFrameIndex = frameIndex % frameCount;
+  const size_t frameOffset = clampedFrameIndex * framePixelCount;
+
+  const size_t tileCount = std::min(m_BadAppleTiles.size(), framePixelCount);
+  for (size_t i = 0; i < tileCount; ++i) {
+    const float value = m_BadAppleTileVideo.Frames[frameOffset + i] > 0 ? 1.0f : 0.0f;
+    auto& sprite = m_BadAppleTiles[i].GetComponent<SpriteRendererComponent>();
+    sprite.Color = {value, value, value, 1.0f};
   }
 }
 }  // namespace Mochii
