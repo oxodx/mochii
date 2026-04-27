@@ -1,5 +1,6 @@
 #include "Mochii/Renderer/Renderer2D.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <memory>
 #include "Mochii/Renderer/RenderCommand.h"
 #include "Mochii/Renderer/Shader.h"
 #include "Mochii/Renderer/VertexArray.h"
@@ -26,7 +27,7 @@ struct Renderer2DData {
   Ref<Texture2D> WhiteTexture;
 
   uint32_t QuadIndexCount = 0;
-  QuadVertex* QuadVertexBufferBase = nullptr;
+  std::unique_ptr<QuadVertex[]> QuadVertexBufferBase;
   QuadVertex* QuadVertexBufferPtr = nullptr;
 
   std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
@@ -54,7 +55,9 @@ void Renderer2D::Init() {
        {ShaderDataType::Float, "a_TilingFactor"}});
   s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
-  s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];
+  s_Data.QuadVertexBufferBase =
+      std::make_unique<QuadVertex[]>(s_Data.MaxVertices);
+  s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase.get();
 
   uint32_t* quadIndices = new uint32_t[s_Data.MaxIndices];
 
@@ -98,9 +101,6 @@ void Renderer2D::Init() {
 
 void Renderer2D::Shutdown() {
   MI_PROFILE_FUNCTION();
-
-  delete[] s_Data.QuadVertexBufferBase;
-  s_Data.QuadVertexBufferBase = nullptr;
 }
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera) {
@@ -143,7 +143,7 @@ void Renderer2D::EndScene() {
 
 void Renderer2D::StartBatch() {
   s_Data.QuadIndexCount = 0;
-  s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+  s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase.get();
 
   s_Data.TextureSlotIndex = 1;
 }
@@ -152,8 +152,8 @@ void Renderer2D::Flush() {
   if (s_Data.QuadIndexCount == 0) return;
 
   uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr -
-                                 (uint8_t*)s_Data.QuadVertexBufferBase);
-  s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
+                                 (uint8_t*)s_Data.QuadVertexBufferBase.get());
+  s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase.get(), dataSize);
 
   for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
     s_Data.TextureSlots[i]->Bind(i);
