@@ -9,15 +9,11 @@ on:
 jobs:
   windows-build:
     runs-on: windows-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup CMake
         uses: lukka/get-cmake@latest
-      # Ninja is single-config: this is a true Release build (/O2 on MSVC), unlike
-      # many local IDE defaults (Debug). Reproduce CI behavior locally with:
-      #   cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
       - name: Configure
         run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
       - name: Build
