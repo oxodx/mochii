@@ -22,6 +22,7 @@ class EditorLayer : public Layer {
 
  private:
   bool OnKeyPressed(KeyPressedEvent& e);
+  bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
  private:
   Mochii::OrthographicCameraController m_CameraController;

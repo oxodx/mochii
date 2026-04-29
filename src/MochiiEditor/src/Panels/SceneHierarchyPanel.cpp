@@ -45,6 +45,10 @@ void SceneHierarchyPanel::OnImGuiRender() {
   ImGui::End();
 }
 
+void SceneHierarchyPanel::SetSelectedEntity(Entity entity) {
+  m_SelectionContext = entity;
+}
+
 void SceneHierarchyPanel::DrawEntityNode(Entity entity) {
   auto& tag = entity.GetComponent<TagComponent>().Tag;
 
@@ -91,8 +95,7 @@ static void DrawVec3Control(const std::string& label, glm::vec3& values,
   ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
   ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{0, 0});
 
-  float lineHeight =
-      GImGui->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+  float lineHeight = GImGui->FontSize + GImGui->Style.FramePadding.y * 2.0f;
   ImVec2 buttonSize = {lineHeight + 3.0f, lineHeight};
 
   ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{0.8f, 0.1f, 0.15f, 1.0f});
