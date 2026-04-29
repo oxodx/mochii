@@ -32,6 +32,9 @@ target_include_directories(mochii PRIVATE
     ${fmt_SOURCE_DIR}/include
 )
 
+# Set C++ standard using modern CMake
+target_compile_features(mochii PUBLIC cxx_std_17)
+
 # Link libraries
 target_link_libraries(mochii PUBLIC
     glad

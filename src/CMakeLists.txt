@@ -1,6 +1,6 @@
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
+# Set C++ standard using modern CMake approach
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # ImGui math operators for ImGuizmo
 add_compile_definitions(IMGUI_DEFINE_MATH_OPERATORS)
