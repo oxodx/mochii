@@ -104,16 +104,6 @@ void Renderer2D::Init() {
 
 void Renderer2D::Shutdown() { MI_PROFILE_FUNCTION(); }
 
-void Renderer2D::BeginScene(const OrthographicCamera& camera) {
-  MI_PROFILE_FUNCTION();
-
-  s_Data.TextureShader->Bind();
-  s_Data.TextureShader->SetMat4("u_ViewProjection",
-                                camera.GetViewProjectionMatrix());
-
-  StartBatch();
-}
-
 void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform) {
   MI_PROFILE_FUNCTION();
 
