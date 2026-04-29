@@ -32,6 +32,14 @@ enum class EventCategory : uint32_t {
   MouseButton = BIT(4)
 };
 
+inline uint32_t operator|(EventCategory a, EventCategory b) {
+  return static_cast<uint32_t>(a) | static_cast<uint32_t>(b);
+}
+
+inline uint32_t operator|(uint32_t a, EventCategory b) {
+  return a | static_cast<uint32_t>(b);
+}
+
 #define EVENT_CLASS_TYPE(type)                                                \
   static EventType GetStaticType() { return EventType::type; }                \
   virtual EventType GetEventType() const override { return GetStaticType(); } \
