@@ -151,7 +151,6 @@ void EditorLayer::OnImGuiRender() {
       // Disabling fullscreen would allow the window to be moved to the front of
       // other windows, which we can't undo at the moment without finer window
       // depth/z control.
-      // ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);1
       if (ImGui::MenuItem("New", "Ctrl+N")) NewScene();
 
       if (ImGui::MenuItem("Open...", "Ctrl+O")) OpenScene();
@@ -214,13 +213,6 @@ void EditorLayer::OnImGuiRender() {
     ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y,
                       m_ViewportBounds[1].x - m_ViewportBounds[0].x,
                       m_ViewportBounds[1].y - m_ViewportBounds[0].y);
-
-    // Runtime camera from entity
-    // auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-    // const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-    // const glm::mat4& cameraProjection = camera.GetProjection();
-    // glm::mat4 cameraView =
-    // glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
 
     // Editor camera
     const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
