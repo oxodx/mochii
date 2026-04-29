@@ -25,7 +25,7 @@ void OpenGLContext::Init() {
 
   MI_CORE_ASSERT(
       GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 5),
-      "Hazel requires at least OpenGL version 4.5!");
+      "Mochii requires at least OpenGL version 4.5!");
 }
 
 void OpenGLContext::SwapBuffers() {
