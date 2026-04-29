@@ -68,7 +68,7 @@ void Application::Run() {
     MI_PROFILE_SCOPE("RunLoop");
 
     float time = (float)glfwGetTime();
-    Timestep timestep = time - _LastFrameTime;
+    Timestep timestep = _LastFrameTime == 0.0f ? 0.016f : time - _LastFrameTime;
     _LastFrameTime = time;
 
     if (!_Minimized) {
