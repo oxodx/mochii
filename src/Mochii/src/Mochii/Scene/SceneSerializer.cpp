@@ -189,11 +189,11 @@ bool SceneSerializer::Deserialize(const std::string& filepath) {
       auto tagComponent = entity["TagComponent"];
       if (tagComponent) name = tagComponent["Tag"].as<std::string>();
 
-      MI_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid,
-                    name);
+       MI_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid,
+                     name);
 
-      Entity deserializedEntity = m_Scene->CreateEntity(name);
-      deserializedEntity.GetComponent<UUIDComponent>().UUID = uuid;
+       Entity deserializedEntity = m_Scene->CreateEntity(name);
+       deserializedEntity.AddComponent<UUIDComponent>().UUID = uuid;
 
       auto transformComponent = entity["TransformComponent"];
       if (transformComponent) {
