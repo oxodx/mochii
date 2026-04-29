@@ -18,7 +18,7 @@ class WindowResizeEvent : public Event {
   }
 
   EVENT_CLASS_TYPE(WindowResize)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+  EVENT_CLASS_CATEGORY(EventCategory::Application)
  private:
   unsigned int m_Width, m_Height;
 };
@@ -28,7 +28,7 @@ class WindowCloseEvent : public Event {
   WindowCloseEvent() = default;
 
   EVENT_CLASS_TYPE(WindowClose)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+  EVENT_CLASS_CATEGORY(EventCategory::Application)
 };
 
 class AppTickEvent : public Event {
@@ -36,7 +36,7 @@ class AppTickEvent : public Event {
   AppTickEvent() = default;
 
   EVENT_CLASS_TYPE(AppTick)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+  EVENT_CLASS_CATEGORY(EventCategory::Application)
 };
 
 class AppUpdateEvent : public Event {
@@ -44,7 +44,7 @@ class AppUpdateEvent : public Event {
   AppUpdateEvent() = default;
 
   EVENT_CLASS_TYPE(AppUpdate)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+  EVENT_CLASS_CATEGORY(EventCategory::Application)
 };
 
 class AppRenderEvent : public Event {
@@ -52,6 +52,6 @@ class AppRenderEvent : public Event {
   AppRenderEvent() = default;
 
   EVENT_CLASS_TYPE(AppRender)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+  EVENT_CLASS_CATEGORY(EventCategory::Application)
 };
 }  // namespace Mochii

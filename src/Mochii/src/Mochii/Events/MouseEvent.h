@@ -17,8 +17,8 @@ class MouseMovedEvent : public Event {
   }
 
   EVENT_CLASS_TYPE(MouseMoved)
-  EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput |
-                       EventCategoryMouseButton)
+  EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input |
+                       EventCategory::MouseButton)
  private:
   float m_MouseX, m_MouseY;
 };
@@ -38,7 +38,7 @@ class MouseScrolledEvent : public Event {
   }
 
   EVENT_CLASS_TYPE(MouseScrolled)
-  EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+  EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
  private:
   float m_XOffset, m_YOffset;
 };
@@ -47,7 +47,7 @@ class MouseButtonEvent : public Event {
  public:
   MouseCode GetMouseButton() const { return m_Button; }
 
-  EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+  EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
  protected:
   MouseButtonEvent(const MouseCode button) : m_Button(button) {}
 
