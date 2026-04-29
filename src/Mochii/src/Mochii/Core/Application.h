@@ -43,7 +43,7 @@ class Application {
   bool OnWindowResize(WindowResizeEvent& e);
 
   std::unique_ptr<Window> _Window;
-  ImGuiLayer* _ImGuiLayer;
+  ImGuiLayer* _ImGuiLayer = nullptr;
   bool _Running = true;
   bool _Minimized = false;
   LayerStack _LayerStack;
