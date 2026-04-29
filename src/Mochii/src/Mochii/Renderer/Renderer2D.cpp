@@ -320,7 +320,7 @@ void Renderer2D::DrawSprite(const glm::mat4& transform,
   DrawQuad(transform, src.Color, entityID);
 }
 
-void Renderer2D::ResetStats() { memset(&s_Data.Stats, 0, sizeof(Statistics)); }
+void Renderer2D::ResetStats() { s_Data.Stats = {}; }
 
 Renderer2D::Statistics Renderer2D::GetStats() { return s_Data.Stats; }
 }  // namespace Mochii
