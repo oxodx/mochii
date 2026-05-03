@@ -18,6 +18,13 @@ void SceneHierarchyPanel::SetContext(const Ref<Scene>& context) {
 void SceneHierarchyPanel::OnImGuiRender() {
   ImGui::Begin("Scene Hierarchy");
 
+  if (!m_Context) {
+    ImGui::End();
+    ImGui::Begin("Properties");
+    ImGui::End();
+    return;
+  }
+
   auto view = m_Context->m_Registry.view<entt::entity>();
   for (auto entityID : view) {
     Entity entity{entityID, m_Context.get()};
@@ -46,7 +53,7 @@ void SceneHierarchyPanel::OnImGuiRender() {
 }
 
 void SceneHierarchyPanel::SetSelectedEntity(Entity entity) {
-  m_SelectionContext = entity;
+  m_SelectionContext = entity.IsValid() ? entity : Entity();
 }
 
 void SceneHierarchyPanel::DrawEntityNode(Entity entity) {

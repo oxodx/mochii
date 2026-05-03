@@ -80,9 +80,12 @@ void EditorLayer::OnUpdate(Timestep ts) {
   if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x &&
       mouseY < (int)viewportSize.y) {
     int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
-    m_HoveredEntity =
+    Entity hoveredEntity =
         pixelData == -1 ? Entity()
                         : Entity((entt::entity)pixelData, m_ActiveScene.get());
+    m_HoveredEntity = hoveredEntity.IsValid() ? hoveredEntity : Entity();
+  } else {
+    m_HoveredEntity = {};
   }
 
   m_Framebuffer->Unbind();
@@ -320,7 +323,8 @@ bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e) {
   if (e.GetMouseButton() == Mouse::ButtonLeft) {
     if (m_ViewportHovered && !ImGuizmo::IsOver() &&
         !Input::IsKeyPressed(Key::LeftAlt))
-      m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+      m_SceneHierarchyPanel.SetSelectedEntity(
+          m_HoveredEntity.IsValid() ? m_HoveredEntity : Entity());
   }
   return false;
 }
