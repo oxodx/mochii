@@ -26,8 +26,9 @@ static void AttachColorTexture(uint32_t id, int samples, GLenum internalFormat,
     glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, internalFormat,
                             width, height, GL_FALSE);
   } else {
+    GLenum type = format == GL_RED_INTEGER ? GL_INT : GL_UNSIGNED_BYTE;
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format,
-                 GL_UNSIGNED_BYTE, nullptr);
+                 type, nullptr);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -70,10 +71,11 @@ static bool IsDepthFormat(FramebufferTextureFormat format) {
   return false;
 }
 
-static GLenum MochiiFBTextureFormatToGL(FramebufferTextureFormat format) {
+static GLenum MochiiFBTextureFormatToGLClearFormat(
+    FramebufferTextureFormat format) {
   switch (format) {
     case FramebufferTextureFormat::RGBA8:
-      return GL_RGBA8;
+      return GL_RGBA;
     case FramebufferTextureFormat::RED_INTEGER:
       return GL_RED_INTEGER;
   }
@@ -184,7 +186,7 @@ void OpenGLFramebuffer::Unbind() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
 void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height) {
   if (width == 0 || height == 0 || width > s_MaxFramebufferSize ||
       height > s_MaxFramebufferSize) {
-    MI_CORE_WARN("Attempted to rezize framebuffer to {0}, {1}", width, height);
+    MI_CORE_WARN("Attempted to resize framebuffer to {0}, {1}", width, height);
     return;
   }
   m_Specification.Width = width;
@@ -206,8 +208,9 @@ void OpenGLFramebuffer::ClearAttachment(uint32_t attachmentIndex, int value) {
   MI_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size());
 
   auto& spec = m_ColorAttachmentSpecifications[attachmentIndex];
-  glClearTexImage(m_ColorAttachments[attachmentIndex], 0,
-                  Utils::MochiiFBTextureFormatToGL(spec.TextureFormat), GL_INT,
-                  &value);
+  glClearTexImage(
+      m_ColorAttachments[attachmentIndex], 0,
+      Utils::MochiiFBTextureFormatToGLClearFormat(spec.TextureFormat), GL_INT,
+      &value);
 }
 }  // namespace Mochii
