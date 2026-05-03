@@ -1,9 +1,9 @@
-#include "mzpch.h"
 #include "SceneSerializer.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include "Components.h"
 #include "Entity.h"
+#include "mzpch.h"
 
 namespace YAML {
 template <>
@@ -173,7 +173,14 @@ bool SceneSerializer::Deserialize(const std::string& filepath) {
   std::stringstream strStream;
   strStream << stream.rdbuf();
 
-  YAML::Node data = YAML::Load(strStream.str());
+  YAML::Node data;
+  try {
+    data = YAML::Load(strStream.str());
+  } catch (const YAML::ParserException& e) {
+    MI_CORE_ERROR("Failed to parse scene file '{0}': {1}", filepath, e.what());
+    return false;
+  }
+
   if (!data["Scene"]) return false;
 
   std::string sceneName = data["Scene"].as<std::string>();
@@ -183,7 +190,13 @@ bool SceneSerializer::Deserialize(const std::string& filepath) {
   auto entities = data["Entities"];
   if (entities) {
     for (auto entity : entities) {
-      uint64_t uuid = entity["Entity"].as<uint64_t>();  // TODO
+      auto entityID = entity["Entity"];
+      if (!entityID) {
+        MI_CORE_WARN("Skipping scene entity without an Entity ID");
+        continue;
+      }
+
+      uint64_t uuid = entityID.as<uint64_t>();
 
       std::string name;
       auto tagComponent = entity["TagComponent"];

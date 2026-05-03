@@ -1,10 +1,10 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <random>
 #include "SceneCamera.h"
 #include "ScriptableEntity.h"
-#include <glm/gtx/quaternion.hpp>
 
 namespace Mochii {
 static uint64_t GenerateUUID() {
@@ -66,8 +66,8 @@ struct SpriteRendererComponent {
 struct NativeScriptComponent {
   ScriptableEntity* Instance = nullptr;
 
-  ScriptableEntity* (*InstantiateScript)();
-  void (*DestroyScript)(NativeScriptComponent*);
+  ScriptableEntity* (*InstantiateScript)() = nullptr;
+  void (*DestroyScript)(NativeScriptComponent*) = nullptr;
 
   ~NativeScriptComponent() {
     if (Instance && DestroyScript) DestroyScript(this);

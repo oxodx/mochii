@@ -1,11 +1,16 @@
-#include "mzpch.h"
 #include "Scene.h"
 #include <glm/glm.hpp>
 #include "Components.h"
 #include "Entity.h"
 #include "Mochii/Renderer/Renderer2D.h"
+#include "mzpch.h"
 
 namespace Mochii {
+namespace {
+template <typename>
+constexpr bool kAlwaysFalse = false;
+}
+
 Scene::Scene() : m_ViewportWidth(1280), m_ViewportHeight(720) {}
 
 Scene::~Scene() {}
@@ -19,7 +24,16 @@ Entity Scene::CreateEntity(const std::string& name) {
   return entity;
 }
 
-void Scene::DestroyEntity(Entity entity) { m_Registry.destroy(entity); }
+void Scene::DestroyEntity(Entity entity) {
+  if (!entity) return;
+
+  if (entity.HasComponent<NativeScriptComponent>()) {
+    auto& script = entity.GetComponent<NativeScriptComponent>();
+    if (script.Instance) script.Instance->OnDestroy();
+  }
+
+  m_Registry.destroy(entity);
+}
 
 void Scene::OnUpdateRuntime(Timestep ts) {
   // Update scripts
@@ -108,7 +122,7 @@ Entity Scene::GetPrimaryCameraEntity() {
 
 template <typename T>
 void Scene::OnComponentAdded(Entity entity, T& component) {
-  static_assert(false);
+  static_assert(kAlwaysFalse<T>, "Unsupported component type!");
 }
 
 template <>
