@@ -1,4 +1,5 @@
 #pragma once
+#include "Mochii/Core/Assert.h"
 #include "Mochii/Core/Base.h"
 #include "Mochii/Core/LayerStack.h"
 #include "Mochii/Core/Timestep.h"
@@ -10,9 +11,20 @@
 int main(int argc, char** argv);
 
 namespace Mochii {
+struct ApplicationCommandLineArgs {
+  int Count = 0;
+  char** Args = nullptr;
+
+  const char* operator[](int index) const {
+    MI_CORE_ASSERT(index < Count);
+    return Args[index];
+  }
+};
+
 class Application {
  public:
-  Application(const std::string& name = "Mochii App");
+  Application(const std::string& name = "Mochii App",
+              ApplicationCommandLineArgs args = ApplicationCommandLineArgs());
   virtual ~Application();
 
   void OnEvent(Event& e);
@@ -37,11 +49,14 @@ class Application {
     return *_Instance;
   }
 
+  ApplicationCommandLineArgs GetCommandLineArgs() const { return m_CommandLineArgs; }
+
  private:
   void Run();
   bool OnWindowClose(WindowCloseEvent& e);
   bool OnWindowResize(WindowResizeEvent& e);
 
+  ApplicationCommandLineArgs m_CommandLineArgs;
   std::unique_ptr<Window> _Window;
   ImGuiLayer* _ImGuiLayer;
   bool _Running = true;
@@ -54,5 +69,5 @@ class Application {
   friend int ::main(int argc, char** argv);
 };
 
-Application* CreateApplication();
+Application* CreateApplication(ApplicationCommandLineArgs args);
 }  // namespace Mochii

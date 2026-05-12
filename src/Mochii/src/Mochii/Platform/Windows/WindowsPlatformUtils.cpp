@@ -1,5 +1,6 @@
 #include <GLFW/glfw3.h>
 #include <commdlg.h>
+#include <optional>
 #include <sstream>
 #include "Mochii/Utils/PlatformUtils.h"
 #include "mzpch.h"
@@ -9,7 +10,7 @@
 #include "Mochii/Core/Application.h"
 
 namespace Mochii {
-std::string FileDialogs::OpenFile(const char* filter) {
+std::optional<std::string> FileDialogs::OpenFile(const char* filter) {
   OPENFILENAMEA ofn;
   CHAR szFile[260] = {0};
   ZeroMemory(&ofn, sizeof(OPENFILENAME));
@@ -24,14 +25,12 @@ std::string FileDialogs::OpenFile(const char* filter) {
   // Sets the default extension by extracting it from the filter
   ofn.lpstrDefExt = strchr(filter, '\0') + 1;
 
-  ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
-  if (GetOpenFileNameA(&ofn) == TRUE) {
-    return ofn.lpstrFile;
-  }
-  return std::string();
+  ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
+  if (GetOpenFileNameA(&ofn) == TRUE) return ofn.lpstrFile;
+  return std::nullopt;
 }
 
-std::string FileDialogs::SaveFile(const char* filter) {
+std::optional<std::string> FileDialogs::SaveFile(const char* filter) {
   OPENFILENAMEA ofn;
   CHAR szFile[260] = {0};
   ZeroMemory(&ofn, sizeof(OPENFILENAME));
@@ -43,9 +42,11 @@ std::string FileDialogs::SaveFile(const char* filter) {
   ofn.lpstrFilter = filter;
   ofn.nFilterIndex = 1;
   ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
-  if (GetSaveFileNameA(&ofn) == TRUE) {
-    return ofn.lpstrFile;
-  }
-  return std::string();
+
+  // Sets the default extension by extracting it from the filter
+  ofn.lpstrDefExt = strchr(filter, '\0') + 1;
+
+  if (GetSaveFileNameA(&ofn) == TRUE) return ofn.lpstrFile;
+  return std::nullopt;
 }
 }  // namespace Mochii

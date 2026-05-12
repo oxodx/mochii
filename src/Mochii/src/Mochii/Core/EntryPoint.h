@@ -4,13 +4,12 @@
 #include "Mochii/Core/Log.h"
 
 #ifdef MI_PLATFORM_WINDOWS
-
-extern Mochii::Application* Mochii::CreateApplication();
+extern Mochii::Application* Mochii::CreateApplication(ApplicationCommandLineArgs args);
 
 int main(int argc, char** argv) {
   Mochii::Log::Init();
   MI_PROFILE_BEGIN_SESSION("Startup", "MochiiProfile-Startup.json");
-  std::unique_ptr<Mochii::Application> app{Mochii::CreateApplication()};
+  std::unique_ptr<Mochii::Application> app{Mochii::CreateApplication({ argc, argv })};
   if (!app) {
     MI_CORE_ERROR("Failed to create application!");
     return 1;

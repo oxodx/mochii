@@ -9,7 +9,8 @@
 namespace Mochii {
 Application* Application::_Instance = nullptr;
 
-Application::Application(const std::string& name) {
+Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+    : m_CommandLineArgs(args) {
   MI_PROFILE_FUNCTION();
 
   MI_CORE_ASSERT(!_Instance, "Application already exists!");

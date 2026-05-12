@@ -5,7 +5,8 @@
 namespace Mochii {
 class MochiiEditor : public Application {
  public:
-  MochiiEditor() : Application("Mochii Editor") {
+  MochiiEditor(ApplicationCommandLineArgs args)
+      : Application("Mochii Editor", args) {
     PushLayer(new EditorLayer());
   }
 
@@ -24,7 +25,9 @@ class MochiiEditor : public Application {
   }
 };
 
-Application* CreateApplication() { return new MochiiEditor(); }
+Application* CreateApplication(ApplicationCommandLineArgs args) {
+  return new MochiiEditor(args);
+}
 
 void MochiiEditor::OnMenuNewScene() {
   if (auto* el = GetEditorLayer()) el->NewScene();

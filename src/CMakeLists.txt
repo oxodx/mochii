@@ -56,4 +56,3 @@ endif()
 # Add projects
 add_subdirectory(Mochii)
 add_subdirectory(MochiiEditor)
-add_subdirectory(Sandbox)

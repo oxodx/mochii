@@ -4,6 +4,7 @@
 #include "Components.h"
 #include "Entity.h"
 #include "mzpch.h"
+#include "yaml-cpp/emitterstyle.h"
 
 namespace YAML {
 template <>
@@ -13,6 +14,7 @@ struct convert<glm::vec3> {
     node.push_back(rhs.x);
     node.push_back(rhs.y);
     node.push_back(rhs.z);
+    node.SetStyle(EmitterStyle::Flow);
     return node;
   }
 
@@ -34,6 +36,7 @@ struct convert<glm::vec4> {
     node.push_back(rhs.y);
     node.push_back(rhs.z);
     node.push_back(rhs.w);
+    node.SetStyle(EmitterStyle::Flow);
     return node;
   }
 
@@ -165,17 +168,9 @@ void SceneSerializer::SerializeRuntime(const std::string& filepath) {
 }
 
 bool SceneSerializer::Deserialize(const std::string& filepath) {
-  std::ifstream stream(filepath);
-  if (!stream) {
-    MI_CORE_ERROR("Failed to open file for deserialization: {0}", filepath);
-    return false;
-  }
-  std::stringstream strStream;
-  strStream << stream.rdbuf();
-
   YAML::Node data;
   try {
-    data = YAML::Load(strStream.str());
+    data = YAML::LoadFile(filepath);
   } catch (const YAML::ParserException& e) {
     MI_CORE_ERROR("Failed to parse scene file '{0}': {1}", filepath, e.what());
     return false;
