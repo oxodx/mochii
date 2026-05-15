@@ -1,9 +1,12 @@
 #include "Mochii/Renderer/Renderer2D.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
+#include "Mochii/Core/Base.h"
 #include "Mochii/Renderer/RenderCommand.h"
 #include "Mochii/Renderer/Shader.h"
 #include "Mochii/Renderer/VertexArray.h"
+#include "UniformBuffer.h"
+#include "glm/ext/matrix_float4x4.hpp"
 #include "mzpch.h"
 
 namespace Mochii {
@@ -39,6 +42,12 @@ struct Renderer2DData {
   glm::vec4 QuadVertexPositions[4];
 
   Renderer2D::Statistics Stats;
+
+  struct CameraData {
+    glm::mat4 ViewProjection;
+  };
+  CameraData CameraBuffer;
+  Ref<UniformBuffer> CameraUniformBuffer;
 };
 
 static Renderer2DData s_Data;
